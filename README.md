@@ -1,3 +1,3 @@
-custom plugin to install ai college assists api to your website
+A custom plugin to install ai college assists api to your website
 
-test
+Co-Authored by Clarissa Chen and Gordon Yee
