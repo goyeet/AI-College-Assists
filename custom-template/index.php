@@ -7,9 +7,12 @@ Version: 0.1
 */
 
 ?>
-<h1>Hello Everyone </h1>
 
-<?php get_template_part( 'header' ); ?>
-<?php 
-get_footer();
-?>
+
+<?php get_header(); ?>
+<h1> CV Form </h1>
+<?php get_template_part('navigation'); ?>
+<?php get_footer(); ?>
+
+
+

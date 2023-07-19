@@ -6,3 +6,9 @@ Author URI: https://dev-ai-college-assists.pantheonsite.io/
 Description: A custom theme made for GIG Essay Writer
 */
 
+h1 {
+    padding-top: 1250px;
+    padding-right: 30px;
+    padding-bottom: 50px;
+    padding-left: 80px;
+}
