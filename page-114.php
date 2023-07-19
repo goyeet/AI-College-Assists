@@ -127,6 +127,39 @@ get_header();
                 }
             ?>
 
+
+            <h1>
+                GIGCollegeEssayPromptGenerator
+            </h1>
+           
+            <?php
+                // Arguments to pass with GET request
+                $args = array(
+                    'body' => array(
+                        'wp_user_id'  => $gig_user_id,
+                        'wp_user_key' => $gig_user_key,
+                        'essay prompt'  => 'Describe an example of your leadership experience in which you have positively influenced others, helped resolve disputes or contributed to group efforts over time.',
+                    ),
+                );
+
+                try {
+                    $response = wp_remote_post('https://haily.aiexosphere.com/GIGCollegeEssayPromptGenerator/', $args );
+                    // if POST request is successful
+                    if (( !is_wp_error($response) ) && (200 === wp_remote_retrieve_response_code($response))) {
+                        $responseBody = json_decode($response['body']);
+                        // if JSON decode is successful
+                        if( json_last_error() === JSON_ERROR_NONE ) {
+                            echo '<pre>';
+                            print_r($responseBody);
+                            echo '</pre>';
+                        }
+                    }
+                } catch( Exception $ex ) {
+                    //Handle Exception.
+                    print_r($ex);
+                }
+            ?>
+
 		</main><!-- #main -->
 	</section><!-- #primary -->
 
