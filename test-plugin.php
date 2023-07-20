@@ -52,7 +52,7 @@ function gig_settings_page() {
 }
 
 // Get User Credits
-function gig_get_user_credits() {
+function gig_get_user_credits($gig_user_id, $gig_user_key) {
     // Arguments to pass with GET request
     $args = array(
         'headers' => array(
@@ -62,11 +62,14 @@ function gig_get_user_credits() {
 
     try {
         $response = wp_remote_get("https://haily.aiexosphere.com/get_user_credits/?wp_user_id={$gig_user_id}&wp_user_key={$gig_user_key}", $args );
+        print_r(' TEST 2');
         // if GET request is successful
         if (( !is_wp_error($response) ) && (200 === wp_remote_retrieve_response_code($response))) {
             $responseBody = json_decode($response['body']);
+            print_r(' TEST 3');
             // if JSON decode is successful
             if( json_last_error() === JSON_ERROR_NONE ) {
+                print_r(' TEST 4');
                 echo '<pre>';
                 print_r($responseBody);
                 echo '</pre>';
@@ -77,10 +80,11 @@ function gig_get_user_credits() {
         print_r($ex);
     }
 }
-// add_action( '', 'gig_get_user_credits' );
+// add_action({action_name}, {function_name}, priority, num of args)
+add_action('get_user_credits', 'gig_get_user_credits', 10, 2);
 
 // Generate Essay
-function gig_generate_essay() {
+function gig_generate_essay($gig_user_id, $gig_user_key) {
     // Arguments to pass with GET request
     $args = array(
         'body' => array(
@@ -111,10 +115,10 @@ function gig_generate_essay() {
         print_r($ex);
     }
 }
-// add_action( '', 'gig_generate_essay' );
+add_action('generate_essay', 'gig_generate_essay', 10, 2);
 
 // Generate Prompt
-function gig_generate_prompt() {
+function gig_generate_prompt($gig_user_id, $gig_user_key) {
     // Arguments to pass with GET request
     $args = array(
         'body' => array(
@@ -148,10 +152,10 @@ Though I never would have guessed this at the outset of my training, synchronize
         print_r($ex);
     }
 }
-// add_action( '', 'gig_generate_prompt' );
+add_action('generate_prompt', 'gig_generate_prompt', 10, 2);
 
 // Get Skills API
-function gig_get_skills_api() {
+function gig_get_skills_api($gig_user_id, $gig_user_key) {
     // Arguments to pass with GET request
     $args = array(
         'headers' => array(
@@ -176,4 +180,4 @@ function gig_get_skills_api() {
         print_r($ex);
     }
 }
-// add_action( '', 'gig_get_skills_api' );
+add_action('get_skills_api', 'gig_get_skills_api', 10, 2);
