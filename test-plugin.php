@@ -62,14 +62,11 @@ function gig_get_user_credits($gig_user_id, $gig_user_key) {
 
     try {
         $response = wp_remote_get("https://haily.aiexosphere.com/get_user_credits/?wp_user_id={$gig_user_id}&wp_user_key={$gig_user_key}", $args );
-        print_r(' TEST 2');
         // if GET request is successful
         if (( !is_wp_error($response) ) && (200 === wp_remote_retrieve_response_code($response))) {
             $responseBody = json_decode($response['body']);
-            print_r(' TEST 3');
             // if JSON decode is successful
             if( json_last_error() === JSON_ERROR_NONE ) {
-                print_r(' TEST 4');
                 echo '<pre>';
                 print_r($responseBody);
                 echo '</pre>';
