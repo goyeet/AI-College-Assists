@@ -81,14 +81,14 @@ function gig_get_user_credits($gig_user_id, $gig_user_key) {
 add_action('get_user_credits', 'gig_get_user_credits', 10, 2);
 
 // Generate Essay
-function gig_generate_essay($gig_user_id, $gig_user_key) {
+function gig_generate_essay($gig_user_id, $gig_user_key, $prompt) {
     // Arguments to pass with GET request
     $args = array(
         'body' => array(
             'wp_user_id'  => $gig_user_id,
             'wp_user_key' => $gig_user_key,
             'skill_name'  => 'GIGCollegeEssaySkill',
-            'cue'         => 'Discuss an accomplishment, event, or realization that sparked a period of personal growth and a new understanding of yourself or others.',
+            'cue'         => $prompt,
         ),
         'headers' => array(
             'Content-Type' => 'application/x-www-form-urlencoded',
@@ -112,7 +112,7 @@ function gig_generate_essay($gig_user_id, $gig_user_key) {
         print_r($ex);
     }
 }
-add_action('generate_essay', 'gig_generate_essay', 10, 2);
+add_action('generate_essay', 'gig_generate_essay', 10, 3);
 
 // Generate Prompt
 function gig_generate_prompt($gig_user_id, $gig_user_key) {
