@@ -1,4 +1,4 @@
-<script>
+<!-- <script>
     function triggerAPIActionHook(package) {
         // console.log('id: ' + id + 'key: ' + key  + 'prompt: ' + prompt);
         console.log(package);
@@ -15,7 +15,7 @@
         // do_action('generate_essay', $gig_user_id, $gig_user_key, prompt);
         
     }
-</script>
+</script> -->
 
 <?php
 /*
@@ -60,10 +60,10 @@ function get_prompt_table_data() {
     return $wpdb->get_results($query, ARRAY_A);
 }
 
-/* function enqueue_custom_scripts() {
-    wp_enqueue_script('custom-script', get_template_directory_uri() . '/js/custom-script.js', array('jquery'), '1.0', true);
+function enqueue_custom_scripts() {
+    wp_enqueue_script('custom-script', str_replace("code/", "", plugin_dir_path(__FILE__)) . '/js/custom-script.js', array('jquery'), '1.0', true);
 }
-add_action('wp_enqueue_scripts', 'enqueue_custom_scripts'); */
+add_action('wp_enqueue_scripts', 'enqueue_custom_scripts');
 
 // Shortcode that formats data into 3 column table
 function prompt_table_shortcode() {
@@ -77,43 +77,17 @@ function prompt_table_shortcode() {
         return '<p>No data available.</p>';
     }
 
-    $output = '<table>';
+    $output = '<table id="prompt-table">';
     $output .= '<tr><th>Prompt ID</th><th>Prompt Type</th><th>Prompt</th></tr>';
-
-	// Calls API Action hook with prompt as parameter
-	/* <script>
-        function triggerAPIActionHook() {
-            // console.log('id: ' + id + 'key: ' + key + 'prompt: ' + prompt);
-
-            // alert('in action hook');
-
-            // Use jQuery or fetch API to make an AJAX request to the server
-            // and trigger the action hook.
-            jQuery.post('<?php echo admin_url('admin-ajax.php'); ?>', {
-                'action': 'generate_essay';
-                'user_id': id;
-                'user_key': key;
-                'prompt': prompt;
-            });
-            // do_action('generate_essay', $gig_user_id, $gig_user_key, prompt);
-            
-            
-        
-        }
-    </script> */
 
     foreach ($table_data as $row) {
         $output .= '<tr>';
-        $output .= '<td>' . esc_html($row['prompt_id']) . '</td>';
-        $output .= '<td>' . esc_html($row['prompt_type']) . '</td>';
-        $output .= '<td>' . esc_html($row['prompt']) . '</td>';
-        $group = array($row['prompt_id'], $row['prompt_type'], $row['prompt']);
-        $package = json_encode($group);
+        $output .= '<td class="prompt-id">' . esc_html($row['prompt_id']) . '</td>';
+        $output .= '<td class="prompt-type">' . esc_html($row['prompt_type']) . '</td>';
+        $output .= '<td class="prompt">' . esc_html($row['prompt']) . '</td>';
         
 		// Add button
-		// $output .= '<td>' . '<button id="generate-button" onclick="triggerAPIActionHook()">Generate</button>' . '</td>';
-        $output .= '<td>' . '<button onclick="triggerAPIActionHook()">Generate</button>' . '</td>';
-        // $output .= '<td>' . '<button>Generate</button>' . '</td>';
+        $output .= '<td>' . '<button class="generate-button">Generate</button>' . '</td>';
         $output .= '</tr>';
     }
 
