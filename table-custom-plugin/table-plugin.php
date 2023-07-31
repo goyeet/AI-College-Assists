@@ -1,3 +1,22 @@
+<script>
+    function triggerAPIActionHook(package) {
+        // console.log('id: ' + id + 'key: ' + key  + 'prompt: ' + prompt);
+        console.log(package);
+        // console.log('id: ' + id);
+
+        // Use jQuery or fetch API to make an AJAX request to the server
+        // and trigger the action hook.
+        /* jQuery.post('', {
+            'action': 'generate_essay';
+            'user_id': id;
+            'user_key': key;
+            'prompt': prompt;
+        }); */
+        // do_action('generate_essay', $gig_user_id, $gig_user_key, prompt);
+        
+    }
+</script>
+
 <?php
 /*
 * Plugin Name: Table Custom Plugin
@@ -9,7 +28,6 @@
 **/
 
 // Function to create custom table on plugin activation
-
 function plugin_create_prompt_table() {
     global $wpdb;
     $table_name = $wpdb->prefix . 'prompts'; // This will automatically add the WP prefix to your table name for security.
@@ -42,12 +60,17 @@ function get_prompt_table_data() {
     return $wpdb->get_results($query, ARRAY_A);
 }
 
+/* function enqueue_custom_scripts() {
+    wp_enqueue_script('custom-script', get_template_directory_uri() . '/js/custom-script.js', array('jquery'), '1.0', true);
+}
+add_action('wp_enqueue_scripts', 'enqueue_custom_scripts'); */
+
 // Shortcode that formats data into 3 column table
 function prompt_table_shortcode() {
 
     $gig_user_id = get_option('gig_user_id');
     $gig_user_key = get_option('gig_user_key');
-    print_r("User ID: " . $gig_user_id . ", User Key: " . $gig_user_key);
+    // print_r("User ID: " . $gig_user_id . ", User Key: " . $gig_user_key);
 
     $table_data = get_prompt_table_data();
     if (empty($table_data)) {
@@ -62,7 +85,7 @@ function prompt_table_shortcode() {
         function triggerAPIActionHook() {
             // console.log('id: ' + id + 'key: ' + key + 'prompt: ' + prompt);
 
-            console.log('in action hook');
+            // alert('in action hook');
 
             // Use jQuery or fetch API to make an AJAX request to the server
             // and trigger the action hook.
@@ -73,6 +96,9 @@ function prompt_table_shortcode() {
                 'prompt': prompt;
             });
             // do_action('generate_essay', $gig_user_id, $gig_user_key, prompt);
+            
+            
+        
         }
     </script> */
 
@@ -81,9 +107,12 @@ function prompt_table_shortcode() {
         $output .= '<td>' . esc_html($row['prompt_id']) . '</td>';
         $output .= '<td>' . esc_html($row['prompt_type']) . '</td>';
         $output .= '<td>' . esc_html($row['prompt']) . '</td>';
+        $group = array($row['prompt_id'], $row['prompt_type'], $row['prompt']);
+        $package = json_encode($group);
+        
 		// Add button
-		$output .= '<td>' . '<button onclick="triggerAPIActionHook()">Generate</button>' . '</td>';
-        // $output .= '<td>' . '<button onclick="triggerAPIActionHook($gig_user_id, $gig_user_key, $row['prompt'])">Generate</button>' . '</td>';
+		// $output .= '<td>' . '<button id="generate-button" onclick="triggerAPIActionHook()">Generate</button>' . '</td>';
+        $output .= '<td>' . '<button onclick="triggerAPIActionHook()">Generate</button>' . '</td>';
         // $output .= '<td>' . '<button>Generate</button>' . '</td>';
         $output .= '</tr>';
     }
@@ -93,6 +122,7 @@ function prompt_table_shortcode() {
 	print_r($output);
 }
 add_shortcode('prompt_table', 'prompt_table_shortcode');
+
 
 ////////////////////////////////////////
 
@@ -154,3 +184,5 @@ add_shortcode('prompt_table', 'prompt_table_shortcode');
 // }
 
 // $conn->close();
+
+?>
