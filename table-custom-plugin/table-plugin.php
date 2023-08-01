@@ -18,7 +18,7 @@ function plugin_create_prompt_table() {
         $charset = $wpdb->get_charset_collate();
         // SQL query to create the table
         $sql = "CREATE TABLE ".$table_name." (
-            prompt_id INT(11) NOT NULL AUTO_INCREMENT,
+            prompt_id INT(23) NOT NULL AUTO_INCREMENT,
             prompt_type VARCHAR(255) NOT NULL,
             prompt VARCHAR(400) NOT NULL,
             PRIMARY KEY (prompt_id)
