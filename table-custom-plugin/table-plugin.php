@@ -1,22 +1,3 @@
-<!-- <script>
-    function triggerAPIActionHook(package) {
-        // console.log('id: ' + id + 'key: ' + key  + 'prompt: ' + prompt);
-        console.log(package);
-        // console.log('id: ' + id);
-
-        // Use jQuery or fetch API to make an AJAX request to the server
-        // and trigger the action hook.
-        /* jQuery.post('', {
-            'action': 'generate_essay';
-            'user_id': id;
-            'user_key': key;
-            'prompt': prompt;
-        }); */
-        // do_action('generate_essay', $gig_user_id, $gig_user_key, prompt);
-        
-    }
-</script> -->
-
 <?php
 /*
 * Plugin Name: Table Custom Plugin
@@ -61,7 +42,8 @@ function get_prompt_table_data() {
 }
 
 function enqueue_custom_scripts() {
-    wp_enqueue_script('custom-script', str_replace("code/", "", plugin_dir_path(__FILE__)) . '/js/custom-script.js', array('jquery'), '1.0', true);
+    wp_enqueue_script('gig-custom-script', str_replace("code/", "", plugin_dir_path(__FILE__)) . '/js/custom-script.js', array('jquery'), '1.0', true);
+    wp_localize_script('gig-custom-script', 'my_ajax_object', array('ajaxurl' => admin_url('admin-ajax.php')));
 }
 add_action('wp_enqueue_scripts', 'enqueue_custom_scripts');
 
@@ -84,8 +66,7 @@ function prompt_table_shortcode() {
         $output .= '<tr>';
         $output .= '<td class="prompt-id">' . esc_html($row['prompt_id']) . '</td>';
         $output .= '<td class="prompt-type">' . esc_html($row['prompt_type']) . '</td>';
-        $output .= '<td class="prompt">' . esc_html($row['prompt']) . '</td>';
-        
+        $output .= '<td class="prompt"><span>' . esc_html($row['prompt']) . '</span><div class="generated-response"> </div></td>';
 		// Add button
         $output .= '<td>' . '<button class="generate-button">Generate</button>' . '</td>';
         $output .= '</tr>';

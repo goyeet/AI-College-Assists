@@ -52,7 +52,9 @@ function gig_settings_page() {
 }
 
 // Get User Credits
-function gig_get_user_credits($gig_user_id, $gig_user_key) {
+function gig_get_user_credits() {
+    $gig_user_key = get_option('gig_user_key');
+    $gig_user_id = get_option('gig_user_id');
     // Arguments to pass with GET request
     $args = array(
         'headers' => array(
@@ -77,16 +79,14 @@ function gig_get_user_credits($gig_user_id, $gig_user_key) {
         print_r($ex);
     }
 }
-// add_action({action_name}, {function_name}, priority, num of args)
-add_action('get_user_credits', 'gig_get_user_credits', 10, 2);
 
 // Generate Essay
-function gig_generate_essay($gig_user_id, $gig_user_key, $prompt) {
+function gig_generate_essay($prompt) {
     // Arguments to pass with GET request
     $args = array(
         'body' => array(
-            'wp_user_id'  => $gig_user_id,
-            'wp_user_key' => $gig_user_key,
+            'wp_user_id'  => get_option('gig_user_id'),
+            'wp_user_key' => get_option('gig_user_key'),
             'skill_name'  => 'GIGCollegeEssaySkill',
             'cue'         => $prompt,
         ),
@@ -99,20 +99,29 @@ function gig_generate_essay($gig_user_id, $gig_user_key, $prompt) {
         $response = wp_remote_post('https://haily.aiexosphere.com/run_skill/', $args );
         // if POST request is successful
         if (( !is_wp_error($response) ) && (200 === wp_remote_retrieve_response_code($response))) {
-            $responseBody = json_decode($response['body']);
-            // if JSON decode is successful
+            // $responseBody = json_decode($response['body']);
+            wp_send_json(json_decode($response['body']));
+            /* // if JSON decode is successful
             if( json_last_error() === JSON_ERROR_NONE ) {
                 echo '<pre>';
                 print_r($responseBody);
                 echo '</pre>';
-            }
+            } */
         }
     } catch( Exception $ex ) {
-        //Handle Exception.
+        // Handle Exception.
         print_r($ex);
     }
 }
-add_action('generate_essay', 'gig_generate_essay', 10, 3);
+
+function generateEssayAjax() {
+    $prompt = $_POST['prompt'];
+    /* TODO: Make sure to validate and sanitize those values. */
+
+    gig_generate_essay($prompt);
+}
+add_action('wp_ajax_nopriv_generateEssayAjax', 'generateEssayAjax'); // for non-logged in user
+add_action('wp_ajax_generateEssayAjax', 'generateEssayAjax');
 
 // Generate Prompt
 function gig_generate_prompt($gig_user_id, $gig_user_key) {

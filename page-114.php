@@ -39,7 +39,7 @@ get_header();
             </h1>
             <?php 
                 // calling the get_user_credits action hook
-                // do_action('get_user_credits', $gig_user_id, $gig_user_key);
+                gig_get_user_credits();
             ?>
             
             <h1>
