@@ -80,36 +80,7 @@ function prompt_table_shortcode() {
 add_shortcode('prompt_table', 'prompt_table_shortcode');
 
 
-////////////////////////////////////////
-
-// global $wpdb;
-// $table_name = $wpdb->prefix . 'prompts_table';
-
-// $sql = "CREATE TABLE $prompts_table (
-//     id INT NOT NULL AUTO_INCREMENT, 
-//     column1 VARCHAR(15), 
-//     column2 VARCHAR(400),
-//     PRIMARY KEY (id)
-// )"; //column1 is application type, column2 is the application prompt
-
-// if ($sql !== NULL) {
-//     echo "Not NULL";
-// }
-
-// $hostname = '35.225.163.97';
-// $database_name = 'pantheon';
-// $username = 'pantheon';
-// $password = 'pOhItKUvlO9mzqR6YnWhYGRMXTAu9UCJ';
-
-// $conn = new mysqli($hostname, $username, $password, $database_name);
-
-// if ($conn->query($sql) === TRUE) {
-//     echo "Table created successfully";
-// } else {
-//     echo "Error creating table: " . $conn->error;
-// }
-
-// $sql = "INSERT INTO prompts (prompt_type, prompt) VALUES
+//Prompts for reference:
 //     ('UC', 'Describe an example of your leadership experience in which you have positively influenced others, helped resolve disputes or contributed to group efforts over time.'),
 //     ('UC', 'Every person has a creative side, and it can be expressed in many ways: problem solving, original and innovative thinking, and artistically, to name a few. Describe how you express your creative side. '),
 //     ('UC', 'What would you say is your greatest talent or skill? How have you developed and demonstrated that talent over time?  '),
@@ -131,14 +102,6 @@ add_shortcode('prompt_table', 'prompt_table_shortcode');
 //     ('Coalition', 'Has there been a time when an idea or belief of yours was questioned? How did you respond? What did you learn?'),
 //     ('Coalition', 'What success have you achieved or obstacle have you faced? What advice would you give a sibling or friend going through a similar experience?'),
 //     ('Coalition', 'Submit an essay on a topic of your choice.'),
-//     ";
 
-// if ($conn->query($sql) === TRUE) {
-//     echo "Data inserted successfully";
-// } else {
-//     echo "Error inserting data: " . $conn->error;
-// }
-
-// $conn->close();
 
 ?>
