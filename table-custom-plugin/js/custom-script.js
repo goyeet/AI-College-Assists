@@ -20,13 +20,18 @@ jQuery(document).ready(function ($) {
                 // Additional data to send to the server if needed.
                 prompt: promptText
             },
+            // Handle the response from the server.
             success: function(response) {
-                // Handle the response from the server.
+                // If response is undefined, handle error
+                if (response === undefined) {
+                    console.log('API returned undefined');
+                }
                 console.log(response);
                 // call function to display the generated content
                 // take response, iterate over content obj, and use JS to create HTML DOM elements to put them on page
                 generatedResponseWrapper.html('<hr><p>' + response.content.join('</p><hr><p>') + '</p>');
             },
+          
             error: function(xhr, textStatus, errorThrown) {
                 console.log('AJAX request failed: ' + textStatus + ', ' + errorThrown);
             }

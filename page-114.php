@@ -38,7 +38,6 @@ get_header();
                 Get User Credits
             </h1>
             <?php 
-                // calling the get_user_credits action hook
                 gig_get_user_credits();
             ?>
             
@@ -46,21 +45,18 @@ get_header();
                 Essay Generation
             </h1>
             <?php
-                // do_action('generate_essay', $gig_user_id, $gig_user_key);
             ?>
 
             <h1>
                 Prompt Generation
             </h1>
             <?php
-                // do_action('generate_prompt', $gig_user_id, $gig_user_key);
             ?>
             
             <h1>
                 Get Skills API
             </h1>
             <?php
-                // do_action('get_skills_api', $gig_user_id, $gig_user_key);
             ?>
            
             <?php
