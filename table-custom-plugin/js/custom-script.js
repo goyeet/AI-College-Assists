@@ -2,6 +2,7 @@
 jQuery(document).ready(function ($) {
     $('.generate-button').on('click', function (e) {
         // console.log('button clicked');
+        // this refers to button in this case
         let prompt = $( this ).closest("tr").find( ".prompt" );
         let promptText = prompt.find("span").text();
         let generatedResponseWrapper = prompt.find("div");

@@ -67,6 +67,7 @@ function prompt_table_shortcode() {
         $output .= '<td class="prompt-id">' . esc_html($row['prompt_id']) . '</td>';
         $output .= '<td class="prompt-type">' . esc_html($row['prompt_type']) . '</td>';
         $output .= '<td class="prompt"><span>' . esc_html($row['prompt']) . '</span><div class="generated-response"> </div></td>';
+        
 		// Add button
         $output .= '<td>' . '<button class="generate-button">Generate</button>' . '</td>';
         $output .= '</tr>';

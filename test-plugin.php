@@ -82,7 +82,7 @@ function gig_get_user_credits() {
 
 // Generate Essay
 function gig_generate_essay($prompt) {
-    // Arguments to pass with GET request
+    // Arguments to pass with POST request
     $args = array(
         'body' => array(
             'wp_user_id'  => get_option('gig_user_id'),
