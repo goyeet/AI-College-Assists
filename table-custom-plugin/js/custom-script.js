@@ -9,8 +9,10 @@ jQuery(document).ready(function ($) {
 
         // this refers to button in this case
         let prompt = $( this ).closest("tr").find( ".prompt" );
+       // let promptResponse = $( this ).closest("tr").find(".prompt_response");
         let promptText = prompt.find("span").text();
         let generatedResponseWrapper = prompt.find("div");
+        
         console.log(promptText);
 
         // Make the API call using AJAX
@@ -36,6 +38,7 @@ jQuery(document).ready(function ($) {
                     generatedResponseWrapper.html('<hr><p>Unfortunately, there was an error on our end. Please try again.</p>');
                 }
                
+                
                 console.log(response);
                 // call function to display the generated content
                 // take response, iterate over content obj, and use JS to create HTML DOM elements to put them on page

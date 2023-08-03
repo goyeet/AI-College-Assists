@@ -30,6 +30,7 @@
             <th>Prompt ID</th>
             <th>Prompt Type</th>
             <th>Prompt</th>
+            <th>Prompt Response</th>
         </tr>
 
         <?php foreach ($table_data as $row) : ?>
@@ -42,12 +43,17 @@
                     </span>
                     <div class="generated-response"></div>
                 </td>
+
+                <td class="prompt-response">
+                    <div class="generated-response"></div>
+                 </td>
                 <td>
                     <button class="generate-button">Generate</button>
                     <div id="loading-spinner" class="hidden">
                         <div class="loader"></div>
                     </div>
                 </td>
+               
             </tr>
         <?php endforeach; ?>
     </table>
