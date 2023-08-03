@@ -24,12 +24,20 @@
         }
     </style>
 
-    <table id="prompt-table">
+    <table id="cv-table">
         <tr>
-            <th>Prompt ID</th>
-            <th>Prompt Type</th>
-            <th>Prompt</th>
-            <th>Prompt Response</th>
+            <th>Date of Entry</th>
+            <th>Introduction</th>
+            <th>Area of Interest</th>
+            <th>Favorite High School Subject</th>
+            <th>Favorite High School Teacher</th>
+            <th>Favorite Teacher and Why</th>
+            <th>Academic Accomplishments</th>
+            <th>Athletic Accomplishments</th>
+            <th>Non-school Accomplishments</th>
+            <th>Passions</th>
+            <th>Life Changing Moments</th>
+          
         </tr>
 
         <?php foreach ($table_data as $row) : ?> 

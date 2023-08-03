@@ -4,14 +4,15 @@ jQuery(document).ready(function ($) {
     $('.generate-button').on('click', function (e) {
         // console.log('button clicked');
         
-        // Show loading spinner
-        showLoading();
-
         // this refers to button in this case
         let prompt = $( this ).closest("tr").find( ".prompt" );
-       // let promptResponse = $( this ).closest("tr").find(".prompt_response");
+        let promptResponseBox = $( this ).closest("tr").find(".prompt-response-box");
         let promptText = prompt.find("span").text();
-        let generatedResponseWrapper = prompt.find("div");
+        let generatedResponseWrapper = promptResponseBox.find(".generated-response");
+        // let loadingSpinnerBox = $( this ).closest("tr").find(".button-cell").find(".loading-spinner"); //defines which row we want the loader spinner to show in
+        
+        // Show loading spinner
+        showLoading();
         
         console.log(promptText);
 
@@ -37,7 +38,6 @@ jQuery(document).ready(function ($) {
                     console.log('API returned undefined');
                     generatedResponseWrapper.html('<hr><p>Unfortunately, there was an error on our end. Please try again.</p>');
                 }
-               
                 
                 console.log(response);
                 // call function to display the generated content
@@ -57,7 +57,12 @@ jQuery(document).ready(function ($) {
 function showLoading() {
     // Show the loading animation and hide the button
     console.log('show loader');
-    document.getElementById("loading-spinner").classList.remove("hidden");
+    let spinners = document.getElementsByClassName("loading-spinner");
+    if (spinners.length > 0) {
+        for (i = 0; i < spinners.length; i++) {
+            spinners[i].classList.remove("hidden");
+        }
+    }
     let buttons = document.getElementsByClassName("generate-button");
     if (buttons.length > 0) {
         for (i = 0; i < buttons.length; i++) {
@@ -69,7 +74,12 @@ function showLoading() {
 function hideLoading() {
     // Hide the loading animation and show the button
     console.log('hide loader');
-    document.getElementById("loading-spinner").classList.add("hidden");
+    let spinners = document.getElementsByClassName("loading-spinner");
+    if (spinners.length > 0) {
+        for (i = 0; i < spinners.length; i++) {
+            spinners[i].classList.add("hidden");
+        }
+    }
     let buttons = document.getElementsByClassName("generate-button");
     if (buttons.length > 0) {
         for (i = 0; i < buttons.length; i++) {

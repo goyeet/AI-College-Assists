@@ -30,9 +30,7 @@ get_header();
 			endwhile; // End of the loop.
 			?>
            
-            <?php
-                echo do_shortcode('[prompt_table]');
-            ?>
+            
 
 		</main><!-- #main -->
 	</section><!-- #primary -->

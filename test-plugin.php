@@ -67,13 +67,7 @@ function gig_get_user_credits() {
         $response = wp_remote_get("https://haily.aiexosphere.com/get_user_credits/?wp_user_id={$gig_user_id}&wp_user_key={$gig_user_key}", $args );
         // if GET request is successful
         if (( !is_wp_error($response) ) && (200 === wp_remote_retrieve_response_code($response))) {
-            $responseBody = json_decode($response['body']);
-            // if JSON decode is successful
-            if( json_last_error() === JSON_ERROR_NONE ) {
-                echo '<pre>';
-                print_r($responseBody);
-                echo '</pre>';
-            }
+            wp_send_json(json_decode($response['body']));
         }
     } catch( Exception $ex ) {
         //Handle Exception.
@@ -100,14 +94,7 @@ function gig_generate_essay($prompt) {
         $response = wp_remote_post('https://haily.aiexosphere.com/run_skill/', $args );
         // if POST request is successful
         if (( !is_wp_error($response) ) && (200 === wp_remote_retrieve_response_code($response))) {
-            // $responseBody = json_decode($response['body']);
             wp_send_json(json_decode($response['body']));
-            /* // if JSON decode is successful
-            if( json_last_error() === JSON_ERROR_NONE ) {
-                echo '<pre>';
-                print_r($responseBody);
-                echo '</pre>';
-            } */
         }
     } catch( Exception $ex ) {
         // Handle Exception.
@@ -147,13 +134,7 @@ Though I never would have guessed this at the outset of my training, synchronize
         $response = wp_remote_post('https://haily.aiexosphere.com/run_skill/', $args );
         // if POST request is successful
         if (( !is_wp_error($response) ) && (200 === wp_remote_retrieve_response_code($response))) {
-            $responseBody = json_decode($response['body']);
-            // if JSON decode is successful
-            if( json_last_error() === JSON_ERROR_NONE ) {
-                echo '<pre>';
-                print_r($responseBody);
-                echo '</pre>';
-            }
+            wp_send_json(json_decode($response['body']));
         }
     } catch( Exception $ex ) {
         // Handle Exception.
@@ -177,13 +158,7 @@ function gig_get_skills_api() {
         $response = wp_remote_get("https://haily.aiexosphere.com/get_skills_api/?wp_user_id={$gig_user_id}&wp_user_key={$gig_user_key}&user_skills_only=0", $args );
         // if GET request is successful
         if (( !is_wp_error($response) ) && (200 === wp_remote_retrieve_response_code($response))) {
-            $responseBody = json_decode($response['body']);
-            // if JSON decode is successful
-            if( json_last_error() === JSON_ERROR_NONE ) {
-                echo '<pre>';
-                print_r($responseBody);
-                echo '</pre>';
-            }
+            wp_send_json(json_decode($response['body']));
         }
     } catch( Exception $ex ) {
         // Handle Exception.

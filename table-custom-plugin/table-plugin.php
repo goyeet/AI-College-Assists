@@ -1,12 +1,14 @@
 <?php
 /*
-* Plugin Name: Table Custom Plugin
+* Plugin Name: GIG Table Custom Plugin
 * Plugin URI: https://dev-ai-college-assists.pantheonsite.io/
-* Description: Contains calls to create custom table in database and display them
+* Description: Contains calls to create custom tables and display them
 * Version: 0.1
 * Author: Gordon and Clarissa
 * Author URI: https://dev-ai-college-assists.pantheonsite.io/
 **/
+
+/** Prompt Table */
 
 // Function to create custom table on plugin activation
 function plugin_create_prompt_table() {
@@ -62,6 +64,36 @@ function prompt_table_shortcode() {
 }
 add_shortcode('prompt_table', 'prompt_table_shortcode');
 
+/** CV Table */
+
+// Gets data from prompt table
+function get_cv_table_data() {
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'wpforms_entry_fields';
+    $query = "SELECT 'id', entry_id, form_id, field_id, 'value', 'date' FROM $table_name";
+    return $wpdb->get_results($query, ARRAY_A);
+}
+
+/* function enqueue_custom_scripts() {
+    wp_enqueue_script('gig-custom-script', str_replace("code/", "", plugin_dir_path(__FILE__)) . '/js/custom-script.js', array('jquery'), '1.0', true);
+    wp_localize_script('gig-custom-script', 'my_ajax_object', array('ajaxurl' => admin_url('admin-ajax.php')));
+}
+add_action('wp_enqueue_scripts', 'enqueue_custom_scripts'); */
+
+// Shortcode that formats data into 3 column table
+function cv_table_shortcode() {
+
+    $gig_user_id = get_option('gig_user_id');
+    $gig_user_key = get_option('gig_user_key');
+    // print_r("User ID: " . $gig_user_id . ", User Key: " . $gig_user_key);
+
+    $table_data = get_cv_table_data();
+
+    ob_start();
+    include('cv-table.php');
+    return ob_get_clean();
+}
+add_shortcode('cv_table', 'cv_table_shortcode');
 
 //Prompts for reference:
 //     ('UC', 'Describe an example of your leadership experience in which you have positively influenced others, helped resolve disputes or contributed to group efforts over time.'),
