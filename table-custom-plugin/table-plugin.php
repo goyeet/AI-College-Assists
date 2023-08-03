@@ -55,27 +55,10 @@ function prompt_table_shortcode() {
     // print_r("User ID: " . $gig_user_id . ", User Key: " . $gig_user_key);
 
     $table_data = get_prompt_table_data();
-    if (empty($table_data)) {
-        return '<p>No data available.</p>';
-    }
 
-    $output = '<table id="prompt-table">';
-    $output .= '<tr><th>Prompt ID</th><th>Prompt Type</th><th>Prompt</th></tr>';
-
-    foreach ($table_data as $row) {
-        $output .= '<tr>';
-        $output .= '<td class="prompt-id">' . esc_html($row['prompt_id']) . '</td>';
-        $output .= '<td class="prompt-type">' . esc_html($row['prompt_type']) . '</td>';
-        $output .= '<td class="prompt"><span>' . esc_html($row['prompt']) . '</span><div class="generated-response"> </div></td>';
-        
-		// Add button
-        $output .= '<td>' . '<button class="generate-button">Generate</button>' . '</td>';
-        $output .= '</tr>';
-    }
-
-    $output .= '</table>';
-	// Prints Output
-	print_r($output);
+    ob_start();
+    include('prompt-table.php');
+    return ob_get_clean();
 }
 add_shortcode('prompt_table', 'prompt_table_shortcode');
 
