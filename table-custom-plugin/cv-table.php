@@ -42,8 +42,8 @@
 
         <?php foreach ($table_data as $row) : ?> 
             <tr>
-                <td class="prompt-id"><?php echo esc_html($row['prompt_id']);?></td>
-                <td class="prompt-type"><?php echo esc_html($row['prompt_type']);?></td>
+                <td class="date"><?php echo esc_html($row['date']);?></td>
+                <td class="value"><?php echo esc_html($row['value']);?></td>
                 <td class="prompt">
                     <span>
                         <?php echo esc_html($row['prompt']);?>
