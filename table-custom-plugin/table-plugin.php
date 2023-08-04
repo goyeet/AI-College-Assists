@@ -67,10 +67,10 @@ add_shortcode('prompt_table', 'prompt_table_shortcode');
 /** CV Table */
 
 // Gets data from prompt table
-function get_cv_table_data() {
+function get_cv_form_entry_data() {
     global $wpdb;
     $table_name = $wpdb->prefix . 'wpforms_entry_fields';
-    $query = "SELECT 'id', entry_id, form_id, field_id, 'value', 'date' FROM $table_name";
+    $query = "SELECT `id`, entry_id, form_id, field_id, `value`, `date` FROM $table_name";
     return $wpdb->get_results($query, ARRAY_A);
 }
 
@@ -87,8 +87,9 @@ function cv_table_shortcode() {
     $gig_user_key = get_option('gig_user_key');
     // print_r("User ID: " . $gig_user_id . ", User Key: " . $gig_user_key);
 
-    $table_data = get_cv_table_data();
+    $cv_form_entry_data = get_cv_form_entry_data(); // get all data from cv form entries
 
+    ob_end_clean();
     ob_start();
     include('cv-table.php');
     return ob_get_clean();

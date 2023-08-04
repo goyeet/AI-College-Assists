@@ -29,9 +29,8 @@
             <th>Date of Entry</th>
             <th>Introduction</th>
             <th>Area of Interest</th>
-            <th>Favorite High School Subject</th>
-            <th>Favorite High School Teacher</th>
-            <th>Favorite Teacher and Why</th>
+            <th>Favorite High School Subject and Why</th>
+            <th>Favorite High School Teacher and Why</th>
             <th>Academic Accomplishments</th>
             <th>Athletic Accomplishments</th>
             <th>Non-school Accomplishments</th>
@@ -77,6 +76,20 @@
                         <td class="value"><?php echo esc_html($row['value']);?></td>
                     </tr>
                 
+                    <tr>
+                        <td class="date-of-entry"><?php echo esc_html($row['date']);?></td>
+                        <td class="introduction"><?php echo esc_html($row['introduction']);?></td>
+                        <td class="area-of-interest"><?php echo esc_html($row['area of interest']);?></td>
+                        <td class="fav-subject"><?php echo esc_html($row['date']);?></td>
+                        <td class="fav-teacher"><?php echo esc_html($row['date']);?></td>
+                        <td class="date-of-entry"><?php echo esc_html($row['date']);?></td>
+                        <td class="date-of-entry"><?php echo esc_html($row['date']);?></td>
+                        <td class="date-of-entry"><?php echo esc_html($row['date']);?></td>
+                        <td class="date-of-entry"><?php echo esc_html($row['date']);?></td>
+
+                    <!--find field id, use it to find field name, match field name to column name, insert value into associated column/row -->
+                    </tr>
+
                     <?php
                     //create new table row
                     //delete entry id from entry ids array
