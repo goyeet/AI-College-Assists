@@ -1,13 +1,14 @@
 <?php
 /**
-* Plugin Name: GIG Essay Writer Plugin
+* Plugin Name: GIG API Plugin
 * Plugin URI: https://dev-ai-college-assists.pantheonsite.io/
-* Description: Creates plugin settings menu in WP Dashboard and contains API Calls
+* Description: Creates User ID and Key settings menu in WP Dashboard and contains API Calls to HaileyAI
 * Version: 0.1
 * Author: Gordon and Clarissa
 * Author URI: https://dev-ai-college-assists.pantheonsite.io/
 **/
 
+include('ajax.php');
 
 // Register the plugin settings
 function gig_register_settings() {
@@ -52,6 +53,42 @@ function gig_settings_page() {
     <?php
 }
 
+// increment api call counter in wp_usermeta
+function incrementAPICallCounter() {
+    echo "<h1>In Function</h1>";
+    $user_id = wp_get_current_user()->ID;
+    $meta_key = 'api_call_counter';
+
+    // Check if the user has the specified meta key
+    $meta_value = get_user_meta( $user_id, $meta_key, true );
+
+    if ( $meta_value !== '' ) { // The user has the specified meta key
+        
+        // Get the current value of the user meta
+        $current_value = get_user_meta( $user_id, $meta_key, true );
+        echo "<script>console.log('user has counter already. current value: ' . $current_value)</script>";
+        // print_r('user has counter already. current value: ' . $current_value);
+
+        // Increment the value
+        $incremented_value = intval( $current_value ) + 1;
+
+        // Update the user meta with the new value
+        update_user_meta( $user_id, $meta_key, $incremented_value );
+
+        $current_value = get_user_meta( $user_id, $meta_key, true );
+        echo "<script>console.log('updated value: ' . $current_value)</script>";
+        // print_r('updated value: ' . $current_value);
+
+    } else { // The user does not have the specified meta key
+        // print_r('user does not have key already. initializing');
+        echo "<script>console.log('user does not have key already. initializing')</script>";
+        $meta_value = 1; // Initial counter value
+        add_user_meta( $user_id, $meta_key, $meta_value );  // Add the user meta key with intital counter value
+    }
+}
+
+// API calls ------------------------------------------------------------------
+
 // Get User Credits
 function gig_get_user_credits() {
     $gig_user_key = get_option('gig_user_key');
@@ -95,23 +132,15 @@ function gig_generate_essay($prompt) {
         // if POST request is successful
         if (( !is_wp_error($response) ) && (200 === wp_remote_retrieve_response_code($response))) {
             wp_send_json(json_decode($response['body']));
+            // call the function
+            incrementAPICallCounter();
+
         }
     } catch( Exception $ex ) {
         // Handle Exception.
         print_r($ex);
     }
 }
-
-function generateEssayAjax() {
-    $prompt = $_POST['prompt'];
-    /* TODO: Make sure to validate and sanitize those values. */
-    // filter_var();
-    gig_generate_essay($prompt);
-    // increment user's API call counter in wp_usermeta
-    
-}
-add_action('wp_ajax_nopriv_generateEssayAjax', 'generateEssayAjax'); // for non-logged in user
-add_action('wp_ajax_generateEssayAjax', 'generateEssayAjax');
 
 // Generate Prompt
 function gig_generate_prompt() {
