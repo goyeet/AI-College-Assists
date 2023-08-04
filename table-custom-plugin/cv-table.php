@@ -28,14 +28,14 @@
         <tr>
             <?php 
 
-            $cv_fields = array(); 
-            foreach ($cv_form_entry_data as $row) 
-                if (in_array($row['field_id'], $cv_fields)) {
-                    break;
-                }
-                else {
+            // $cv_fields = array(); 
+            // foreach ($cv_form_entry_data as $row) 
+                // if (in_array($row['field_id'], $cv_fields)) {
+                //     break;
+                // }
+                // else {
 
-                }
+                // }
 
                 ?>
             <th>Entry ID</th>
@@ -67,7 +67,6 @@
                 // print_r('value: '.$row['value']);
                 if ($row['value'] == $entered_user_email) { //if entered email equals value for that row
                     // store entry id in array
-                    
                     array_push($users_entry_ids, $row['entry_id']);
                     // print_r('pushing '.$row['entry_id'].' to array');
                 }
@@ -117,7 +116,7 @@
             <?php foreach ($userInputHolder as $entryID => $inputStr) : ?>
                 <tr>
                     <td class="entry-id"><?php echo esc_html($entryID);?></td>
-                    <td class="user-input">
+                    <td class="input">
                         <span>
                             <?php echo esc_html($inputStr);?>
                         </span>

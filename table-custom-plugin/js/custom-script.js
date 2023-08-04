@@ -6,7 +6,7 @@ jQuery(document).ready(function ($) {
 
         // //if the prompt button 
         // // this refers to button in this case
-        let userInput = $( this ).closest("tr").find( ".user-input" );
+        let userInput = $( this ).closest("tr").find( ".input" );
         let responseBox = $( this ).closest("tr").find(".response-box");
         let aiInput = userInput.find("span").text();
         let generatedResponseWrapper = responseBox.find(".generated-response");
@@ -35,7 +35,7 @@ jQuery(document).ready(function ($) {
             data: {
                 action: 'generateEssayAjax',
                 // Additional data to send to the server if needed.
-                ai_input: aiInput // material to feed AI for essay generation
+                prompt: aiInput // material to feed AI for essay generation
             },
             // Handle the response from the server.
             success: function(response) {

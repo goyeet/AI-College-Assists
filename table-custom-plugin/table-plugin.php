@@ -89,7 +89,6 @@ function cv_table_shortcode() {
 
     $cv_form_entry_data = get_cv_form_entry_data(); // get all data from cv form entries
 
-    ob_end_clean();
     ob_start();
     include('cv-table.php');
     return ob_get_clean();

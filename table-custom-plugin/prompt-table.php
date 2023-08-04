@@ -36,7 +36,8 @@
             <tr>
                 <td class="prompt-id"><?php echo esc_html($row['prompt_id']);?></td>
                 <td class="prompt-type"><?php echo esc_html($row['prompt_type']);?></td>
-                <td class="prompt">
+                <!-- prompt -->
+                <td class="input">
                     <span>
                         <?php echo esc_html($row['prompt']);?>
                     </span>
