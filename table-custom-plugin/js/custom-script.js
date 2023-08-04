@@ -2,23 +2,14 @@
 jQuery(document).ready(function ($) {
     $('.generate-button').on('click', function (e) {
 
-        console.log('cv button clicked');
+        console.log('button clicked');
 
-        // //if the prompt button 
-        // // this refers to button in this case
+        // if the prompt button 
+        // this refers to button in this case
         let userInput = $( this ).closest("tr").find( ".input" );
         let responseBox = $( this ).closest("tr").find(".response-box");
         let aiInput = userInput.find("span").text();
         let generatedResponseWrapper = responseBox.find(".generated-response");
-
-        // console.log('prompt button clicked');
-
-        // this refers to button in this case
-        // let prompt = $( this ).closest("tr").find( ".prompt" );
-        // let responseBox = $( this ).closest("tr").find(".response-box");
-        // let aiInput = prompt.find("span").text();
-        // let generatedResponseWrapper = responseBox.find(".generated-response");
-        // let loadingSpinnerBox = $( this ).closest("tr").find(".button-cell").find(".loading-spinner"); //defines which row we want the loader spinner to show in
         
         // Show loading spinner
         showLoading();

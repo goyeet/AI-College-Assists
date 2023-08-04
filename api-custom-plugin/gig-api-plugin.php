@@ -107,6 +107,8 @@ function generateEssayAjax() {
     /* TODO: Make sure to validate and sanitize those values. */
     // filter_var();
     gig_generate_essay($prompt);
+    // increment user's API call counter in wp_usermeta
+    
 }
 add_action('wp_ajax_nopriv_generateEssayAjax', 'generateEssayAjax'); // for non-logged in user
 add_action('wp_ajax_generateEssayAjax', 'generateEssayAjax');

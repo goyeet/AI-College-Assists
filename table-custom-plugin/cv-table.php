@@ -57,7 +57,7 @@
         <?php
             // filter out all results that aren't associated with user email
             $entered_user_email = wp_get_current_user()->user_email; // get user email
-            print_r($entered_user_email);
+            // print_r($entered_user_email);
 
             $users_entry_ids = array();
             $users_cv_field_ids = array();
@@ -80,7 +80,7 @@
                 die;
             }
 
-            print_r($users_entry_ids); // debugging purposes
+            // print_r($users_entry_ids); // debugging purposes
 
             // $rows_in_table = array();
         ?>
@@ -95,7 +95,7 @@
             foreach ($users_entry_ids as $entryId) {
                 $userInputHolder[$entryId] = "";
             }
-            print_r($userInputHolder);
+            // print_r($userInputHolder);
 
             // loop through data table and find all rows that are associated with user's entry ids
             foreach ($cv_form_entry_data as $row) {
