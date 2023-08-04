@@ -29,7 +29,7 @@
             <th>Prompt ID</th>
             <th>Prompt Type</th>
             <th>Prompt</th>
-            <th>Prompt Response</th>
+            <th>Generated Response</th>
         </tr>
 
         <?php foreach ($table_data as $row) : ?> 
@@ -46,7 +46,7 @@
                     <div class="generated-response"></div>
                 </td>
                 <td class="button-cell">
-                    <button class="generate-button">Generate</button>
+                    <button class="generate-button prompt-button">Generate</button>
                     <div class="loading-spinner hidden">
                         <div class="loader"></div>
                     </div>

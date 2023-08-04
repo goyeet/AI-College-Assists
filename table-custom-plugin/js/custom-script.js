@@ -1,19 +1,29 @@
 // Detects click on button and grabs prompt from the corresponding table row
 jQuery(document).ready(function ($) {
     $('.generate-button').on('click', function (e) {
-        // console.log('button clicked');
-        
-        // this refers to button in this case
-        let prompt = $( this ).closest("tr").find( ".prompt" );
+
+        console.log('cv button clicked');
+
+        // //if the prompt button 
+        // // this refers to button in this case
+        let userInput = $( this ).closest("tr").find( ".user-input" );
         let responseBox = $( this ).closest("tr").find(".response-box");
-        let promptText = prompt.find("span").text();
+        let aiInput = userInput.find("span").text();
         let generatedResponseWrapper = responseBox.find(".generated-response");
+
+        // console.log('prompt button clicked');
+
+        // this refers to button in this case
+        // let prompt = $( this ).closest("tr").find( ".prompt" );
+        // let responseBox = $( this ).closest("tr").find(".response-box");
+        // let aiInput = prompt.find("span").text();
+        // let generatedResponseWrapper = responseBox.find(".generated-response");
         // let loadingSpinnerBox = $( this ).closest("tr").find(".button-cell").find(".loading-spinner"); //defines which row we want the loader spinner to show in
         
         // Show loading spinner
         showLoading();
         
-        console.log(promptText);
+        console.log('feeding AI: ' + aiInput);
 
         // Make the API call using AJAX
         e.preventDefault();
@@ -25,13 +35,13 @@ jQuery(document).ready(function ($) {
             data: {
                 action: 'generateEssayAjax',
                 // Additional data to send to the server if needed.
-                prompt: promptText
+                ai_input: aiInput // material to feed AI for essay generation
             },
             // Handle the response from the server.
             success: function(response) {
                 // hides loading page
                 hideLoading();
-
+    
                 // If response is undefined, handle error
                 if (response.content === undefined) {
                     console.log('API returned undefined');
@@ -50,8 +60,10 @@ jQuery(document).ready(function ($) {
                 console.log('AJAX request failed: ' + textStatus + ', ' + errorThrown);
             }
         });
+
     });
 });
+
 
 function showLoading() {
     // Show the loading animation and hide the button

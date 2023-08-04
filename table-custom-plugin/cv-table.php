@@ -26,7 +26,22 @@
 
     <table id="cv-table">
         <tr>
-            <th>Date of Entry</th>
+            <?php 
+
+            $cv_fields = array(); 
+            foreach ($cv_form_entry_data as $row) 
+                if (in_array($row['field_id'], $cv_fields)) {
+                    break;
+                }
+                else {
+
+                }
+
+                ?>
+            <th>Entry ID</th>
+            <th>User Input</th>
+            <th>Generated Response</th>
+            <!-- <th>Date of Entry</th>
             <th>Introduction</th>
             <th>Area of Interest</th>
             <th>Favorite High School Subject and Why</th>
@@ -35,7 +50,8 @@
             <th>Athletic Accomplishments</th>
             <th>Non-school Accomplishments</th>
             <th>Passions</th>
-            <th>Life Changing Moments</th>
+            <th>Life Changing Moments</th> -->
+            <?php ?>
         </tr>
 
         <?php
@@ -44,16 +60,19 @@
             print_r($entered_user_email);
 
             $users_entry_ids = array();
+            $users_cv_field_ids = array();
 
             // loop through data table and gather all entry ids associated with user email
             foreach ($cv_form_entry_data as $row) {
-                print_r('value: '.$row['value']);
+                // print_r('value: '.$row['value']);
                 if ($row['value'] == $entered_user_email) { //if entered email equals value for that row
                     // store entry id in array
                     
                     array_push($users_entry_ids, $row['entry_id']);
-                    print_r('pushing '.$row['entry_id'].' to array');
+                    // print_r('pushing '.$row['entry_id'].' to array');
                 }
+                
+                
             }
 
             // user did not have any entries in data table
@@ -67,28 +86,77 @@
             // $rows_in_table = array();
         ?>
         <?php
+            // Associative Array that holds user input
+            // $userInputHolder = array(
+            //      'entryID' => "{user input}",
+            //      'entryID' => "{user input}"
+            // );
+
+            $userInputHolder = array();
+            foreach ($users_entry_ids as $entryId) {
+                $userInputHolder[$entryId] = "";
+            }
+            print_r($userInputHolder);
+
             // loop through data table and find all rows that are associated with user's entry ids
             foreach ($cv_form_entry_data as $row) {
-                if (in_array($row['entry_id'], $users_entry_ids)) {?>
-                    <tr>
-                        <td class="entry-id"><?php echo esc_html($row['entry_id']);?></td>
-                        <td class="date"><?php echo esc_html($row['date']);?></td>
-                        <td class="value"><?php echo esc_html($row['value']);?></td>
-                    </tr>
-                
-                    <tr>
-                        <td class="date-of-entry"><?php echo esc_html($row['date']);?></td>
-                        <td class="introduction"><?php echo esc_html($row['introduction']);?></td>
-                        <td class="area-of-interest"><?php echo esc_html($row['area of interest']);?></td>
-                        <td class="fav-subject"><?php echo esc_html($row['date']);?></td>
-                        <td class="fav-teacher"><?php echo esc_html($row['date']);?></td>
-                        <td class="date-of-entry"><?php echo esc_html($row['date']);?></td>
-                        <td class="date-of-entry"><?php echo esc_html($row['date']);?></td>
-                        <td class="date-of-entry"><?php echo esc_html($row['date']);?></td>
-                        <td class="date-of-entry"><?php echo esc_html($row['date']);?></td>
+                // if row belongs to user
+                if (in_array($row['entry_id'], $users_entry_ids)) {
+                    $userInputHolder[$row['entry_id']] .= $row['value'] . "\n";
+                    
+                    // if field isn't already a part of displayed table
+                    /* if (!in_array($row['field_id'], $users_cv_field_ids)) {
+                        array_push($users_cv_field_ids, $row['field_id']); // push field_id to array that tracks field_id's
+                    } */
+                    //2d array 
+                    //all rows with the same entry id will have their field ids stored in the same array within the 2d array
+                    //with values
+                }
+            }
+        ?>
+            <?php foreach ($userInputHolder as $entryID => $inputStr) : ?>
+                <tr>
+                    <td class="entry-id"><?php echo esc_html($entryID);?></td>
+                    <td class="user-input">
+                        <span>
+                            <?php echo esc_html($inputStr);?>
+                        </span>
+                    </td>
+                    <td class="response-box">
+                        <div class="generated-response"></div>
+                    </td>
+                    <td class="button-cell">
+                        <button class="generate-button cv-button">Generate</button>
+                        <div class="loading-spinner hidden">
+                            <div class="loader"></div>
+                        </div>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
 
+        <?php     
+            //2nd for loop
+                //3rd for loop
+                    //for every field id in the 2d array
+                    //fill in table with value, verifying that the field_id of the column name matches the field id
+                
+                    ?>
+                    
+
+                
+                    <!-- <tr>
+                        <td class="date-of-entry"></td>
+                        <td class="introduction"></td>
+                        <td class="area-of-interest"></td>
+                        <td class="fav-subject"></td>
+                        <td class="fav-teacher"></td>
+                        <td class="date-of-entry"></td>
+                        <td class="date-of-entry"></td>
+                        <td class="date-of-entry"></td>
+                        <td class="date-of-entry"></td>
+                    </tr> -->
                     <!--find field id, use it to find field name, match field name to column name, insert value into associated column/row -->
-                    </tr>
+
 
                     <?php
                     //create new table row
@@ -103,8 +171,7 @@
                     } */
                 
                 //else (entry id is not in the array so it already has a row from the table)
-                }
-            }
+            
         ?>
     </table>
 <?php endif; ?>
