@@ -42,7 +42,7 @@
                     </span>
                     
                 </td>
-                <td class="prompt-response-box">
+                <td class="response-box">
                     <div class="generated-response"></div>
                 </td>
                 <td class="button-cell">

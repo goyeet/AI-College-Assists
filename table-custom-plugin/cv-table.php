@@ -44,13 +44,7 @@
             <tr>
                 <td class="date"><?php echo esc_html($row['date']);?></td>
                 <td class="value"><?php echo esc_html($row['value']);?></td>
-                <td class="prompt">
-                    <span>
-                        <?php echo esc_html($row['prompt']);?>
-                    </span>
-                    
-                </td>
-                <td class="prompt-response-box">
+                <td class="response-box">
                     <div class="generated-response"></div>
                 </td>
                 <td class="button-cell">

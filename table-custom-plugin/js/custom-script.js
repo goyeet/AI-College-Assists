@@ -1,14 +1,13 @@
 // Detects click on button and grabs prompt from the corresponding table row
-
 jQuery(document).ready(function ($) {
     $('.generate-button').on('click', function (e) {
         // console.log('button clicked');
         
         // this refers to button in this case
         let prompt = $( this ).closest("tr").find( ".prompt" );
-        let promptResponseBox = $( this ).closest("tr").find(".prompt-response-box");
+        let responseBox = $( this ).closest("tr").find(".response-box");
         let promptText = prompt.find("span").text();
-        let generatedResponseWrapper = promptResponseBox.find(".generated-response");
+        let generatedResponseWrapper = responseBox.find(".generated-response");
         // let loadingSpinnerBox = $( this ).closest("tr").find(".button-cell").find(".loading-spinner"); //defines which row we want the loader spinner to show in
         
         // Show loading spinner
