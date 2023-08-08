@@ -101,6 +101,9 @@
             foreach ($cv_form_entry_data as $row) {
                 // if row belongs to user
                 if (in_array($row['entry_id'], $users_entry_ids)) {
+                    // if entry is one of the 4 CV inputs
+                        // create row in checklist for CV Input
+
                     $userInputHolder[$row['entry_id']] .= $row['value'] . "\n";
                     
                     // if field isn't already a part of displayed table
