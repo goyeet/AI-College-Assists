@@ -26,20 +26,9 @@
 
     <table id="cv-table">
         <tr>
-            <?php 
-
-            // $cv_fields = array(); 
-            // foreach ($cv_form_entry_data as $row) 
-                // if (in_array($row['field_id'], $cv_fields)) {
-                //     break;
-                // }
-                // else {
-
-                // }
-
-                ?>
             <th>Entry ID</th>
             <th>User Input</th>
+            <th>Section Selection</th>
             <th>Generated Response</th>
             <!-- <th>Date of Entry</th>
             <th>Introduction</th>
@@ -64,11 +53,9 @@
 
             // loop through data table and gather all entry ids associated with user email
             foreach ($cv_form_entry_data as $row) {
-                // print_r('value: '.$row['value']);
                 if ($row['value'] == $entered_user_email) { //if entered email equals value for that row
                     // store entry id in array
                     array_push($users_entry_ids, $row['entry_id']);
-                    // print_r('pushing '.$row['entry_id'].' to array');
                 }
                 
                 
@@ -80,9 +67,6 @@
                 die;
             }
 
-            // print_r($users_entry_ids); // debugging purposes
-
-            // $rows_in_table = array();
         ?>
         <?php
             // Associative Array that holds user input
@@ -90,90 +74,43 @@
             //      'entryID' => "{user input}",
             //      'entryID' => "{user input}"
             // );
-
             $userInputHolder = array();
             foreach ($users_entry_ids as $entryId) {
                 $userInputHolder[$entryId] = "";
             }
-            // print_r($userInputHolder);
 
             // loop through data table and find all rows that are associated with user's entry ids
             foreach ($cv_form_entry_data as $row) {
                 // if row belongs to user
                 if (in_array($row['entry_id'], $users_entry_ids)) {
-                    // if entry is one of the 4 CV inputs
-                        // create row in checklist for CV Input
-
                     $userInputHolder[$row['entry_id']] .= $row['value'] . "\n";
-                    
-                    // if field isn't already a part of displayed table
-                    /* if (!in_array($row['field_id'], $users_cv_field_ids)) {
-                        array_push($users_cv_field_ids, $row['field_id']); // push field_id to array that tracks field_id's
-                    } */
-                    //2d array 
-                    //all rows with the same entry id will have their field ids stored in the same array within the 2d array
-                    //with values
                 }
             }
         ?>
-            <?php foreach ($userInputHolder as $entryID => $inputStr) : ?>
-                <tr>
-                    <td class="entry-id"><?php echo esc_html($entryID);?></td>
-                    <td class="input">
-                        <span>
-                            <?php echo esc_html($inputStr);?>
-                        </span>
-                    </td>
-                    <td class="response-box">
-                        <div class="generated-response"></div>
-                    </td>
-                    <td class="button-cell">
-                        <button class="generate-button cv-button">Generate</button>
-                        <div class="loading-spinner hidden">
-                            <div class="loader"></div>
-                        </div>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-
-        <?php     
-            //2nd for loop
-                //3rd for loop
-                    //for every field id in the 2d array
-                    //fill in table with value, verifying that the field_id of the column name matches the field id
-                
-                    ?>
-                    
-
-                
-                    <!-- <tr>
-                        <td class="date-of-entry"></td>
-                        <td class="introduction"></td>
-                        <td class="area-of-interest"></td>
-                        <td class="fav-subject"></td>
-                        <td class="fav-teacher"></td>
-                        <td class="date-of-entry"></td>
-                        <td class="date-of-entry"></td>
-                        <td class="date-of-entry"></td>
-                        <td class="date-of-entry"></td>
-                    </tr> -->
-                    <!--find field id, use it to find field name, match field name to column name, insert value into associated column/row -->
-
-
-                    <?php
-                    //create new table row
-                    //delete entry id from entry ids array
-                    /* $field_id = $row['field_id'];
-                    $field_value = $row['value'];
-                    $field_name = wpforms()->get('field', $field_id)->name; */
-
-                    
-                    /* if (in_array($row['entry_id']), $rows_in_table) {
-                        //add value to table
-                    } */
-                
-                //else (entry id is not in the array so it already has a row from the table)
-            
-        ?>
+        <?php foreach ($userInputHolder as $entryID => $inputStr) : ?>
+            <tr>
+                <td class="entry-id"><?php echo esc_html($entryID);?></td>
+                <td class="input">
+                    <span>
+                        <?php echo esc_html($inputStr);?>
+                    </span>
+                </td>
+                <td class="cv-selection">
+                    <input type="checkbox" class="cv-checkbox" value="academics">Academics<br>
+                    <input type="checkbox" class="cv-checkbox" value="school_accomplishments">School Accomplishments<br>
+                    <input type="checkbox" class="cv-checkbox" value="non_school_accomplishments">Non-School Accomplishments<br>
+                    <input type="checkbox" class="cv-checkbox" value="passions">Passions<br>
+                </td>
+                <td class="response-box">
+                    <div class="generated-response"></div>
+                </td>
+                <td class="button-cell">
+                    <button class="generate-button cv-button">Generate</button>
+                    <div class="loading-spinner hidden">
+                        <div class="loader"></div>
+                    </div>
+                </td>
+            </tr>
+        <?php endforeach; ?>
     </table>
 <?php endif; ?>

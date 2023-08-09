@@ -1,3 +1,8 @@
+// Global variable that tracks what is passed into API call
+var cueString = "";
+
+var selectedPromptText = "";
+
 // Detects click on button and grabs prompt from the corresponding table row
 jQuery(document).ready(function ($) {
     $('.generate-button').on('click', function (e) {
@@ -9,11 +14,15 @@ jQuery(document).ready(function ($) {
         let userInput = $( this ).closest("tr").find( ".input" );
         let responseBox = $( this ).closest("tr").find(".response-box");
         let aiInput = userInput.find("span").text();
-        let generatedResponseWrapper = responseBox.find(".generated-response");
+        let generatedResponseWrapper = responseBox.find(".generated-response"); // Eventually move response box
         
         // Show loading spinner
         showLoading();
         
+        // TODO: make the cue string using selected prompt and selected cv inputs
+        cueString = selectedPromptText; /* + academic + athletic + school + passion + misc; */
+
+
         console.log('feeding AI: ' + aiInput);
 
         // Make the API call using AJAX
@@ -55,7 +64,6 @@ jQuery(document).ready(function ($) {
     });
 });
 
-
 function showLoading() {
     // Show the loading animation and hide the button
     console.log('show loader');
@@ -89,3 +97,37 @@ function hideLoading() {
         }
     }
 }
+
+// -------------------------------------------------------------------------------------
+
+// Detects click on PROMPT checkboxes
+jQuery(document).ready(function ($) {
+    $('.prompt-checkbox').on('change', function (e) {
+
+        // console.log('prompt-checkbox clicked');
+
+        // Uncheck other checkboxes with class "prompt-checkbox" if not the selected one
+        $('.prompt-checkbox').not(this).prop('checked', false);
+ 
+        // grabs prompt text in row
+        let promptBox = $( this ).closest("tr").find( ".input" );
+        selectedPromptText = "Addressing this prompt: " + promptBox.find("span").text();
+        
+        console.log('selected prompt: ' + selectedPromptText);
+    });
+});
+
+// Detects click on CV INPUT checkboxes
+jQuery(document).ready(function ($) {
+    $('.cv-checkbox').on('change', function (e) {
+
+        // console.log('cv-checkbox clicked');
+
+        // Uncheck other checkboxes with class "cv-checkbox" if not the selected one
+        let currentCheckboxes = $(this).closest("td").find( ".cv-checkbox" );
+        console.log(currentCheckboxes);
+
+        $('.cv-checkbox').not(currentCheckboxes).prop('checked', false);
+  
+    });
+});

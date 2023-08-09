@@ -41,16 +41,9 @@
                     <span>
                         <?php echo esc_html($row['prompt']);?>
                     </span>
-                    
                 </td>
-                <td class="response-box">
-                    <div class="generated-response"></div>
-                </td>
-                <td class="button-cell">
-                    <button class="generate-button prompt-button">Generate</button>
-                    <div class="loading-spinner hidden">
-                        <div class="loader"></div>
-                    </div>
+                <td>
+                    <input type="checkbox" class="prompt-checkbox"><br>
                 </td>
             </tr>
         <?php endforeach; ?>
