@@ -7,13 +7,45 @@ var selectedPromptText = "";
 jQuery(document).ready(function ($) {
     $('.generate-button').on('click', function (e) {
 
-        console.log('button clicked');
+        console.log('generate button clicked');
 
-        // if the prompt button 
-        // this refers to button in this case
-        let userInput = $( this ).closest("tr").find( ".input" );
+        // array to hold selected inputs that are checked
+        const selectedInputs = [];
+
+        // selects all cv checkboxes on the page
+        var cvCheckboxes = $('.cv-checkbox');
+
+        console.log('cv checkboxes on page: ' + cvCheckboxes.length);
+
+        // Filter and get only the checked checkboxes
+        var checkedCheckboxes = cvCheckboxes.filter(function() {
+            return $(this).prop('checked');
+        });
+
+        console.log('SELECTED cv checkboxes on page: ' + checkedCheckboxes.length);
+
+        console.log('checked boxes array: ' + checkedCheckboxes);
+
+        // console.log('checked boxes: ' + checkedCheckboxes)
+
+        // for (let input in checkedCheckboxes) {
+        //     // Push selected input to array
+        //     selectedInputs.push(input.value);
+        // }
+
+        console.log(selectedInputs);
+
+        // Grab entire str from user input box to prepare for string parsing
+        // let userInput = $( this ).closest("tr").find( ".input" );
+        // let inputStr = userInput.find("span").text();
+
+        // let start = "Non-school Accomplishments:";
+        // let startIndex = str.indexOf(start);
+        // let endIndex = str.indexOf("|", startIndex + start.length);
+        // let result = str.slice(startIndex + start.length, endIndex);
+
+
         let responseBox = $( this ).closest("tr").find(".response-box");
-        let aiInput = userInput.find("span").text();
         let generatedResponseWrapper = responseBox.find(".generated-response"); // Eventually move response box
         
         // Show loading spinner
@@ -23,7 +55,7 @@ jQuery(document).ready(function ($) {
         cueString = selectedPromptText; /* + academic + athletic + school + passion + misc; */
 
 
-        console.log('feeding AI: ' + aiInput);
+        console.log('cue: ' + cueString);
 
         // Make the API call using AJAX
         e.preventDefault();
@@ -35,7 +67,7 @@ jQuery(document).ready(function ($) {
             data: {
                 action: 'generateEssayAjax',
                 // Additional data to send to the server if needed.
-                prompt: aiInput // material to feed AI for essay generation
+                prompt: cueString // material to feed AI for essay generation
             },
             // Handle the response from the server.
             success: function(response) {
@@ -125,9 +157,6 @@ jQuery(document).ready(function ($) {
 
         // Uncheck other checkboxes with class "cv-checkbox" if not the selected one
         let currentCheckboxes = $(this).closest("td").find( ".cv-checkbox" );
-        console.log(currentCheckboxes);
-
         $('.cv-checkbox').not(currentCheckboxes).prop('checked', false);
-  
     });
 });
