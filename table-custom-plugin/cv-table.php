@@ -69,25 +69,42 @@
 
         ?>
         <?php
-            // Associative Array that holds user input
-            // $userInputHolder = array(
-            //      'entryID' => "{user input}",
-            //      'entryID' => "{user input}"
+            // Associative Array that holds user's entries
+            // $userEntryHolder = array(
+            //      'entry_1' => "{blah blah blah}",
+            //      'entry_2' => "{blah blah blah}"
             // );
-            $userInputHolder = array();
+            $userEntryHolder = array();
             foreach ($users_entry_ids as $entryId) {
-                $userInputHolder[$entryId] = "";
+                $userEntryHolder[$entryId] = "";
             }
 
+            $form = wpforms()->form->get(11);
+            if ($form) {
+                $post_content = json_decode($form->post_content, true); // decoded JSON object into php array
+                $existing_fieldIDs = array_keys($post_content['fields']); // array to track what field IDs are used in form
+            }
+            
             // loop through data table and find all rows that are associated with user's entry ids
             foreach ($cv_form_entry_data as $row) {
                 // if row belongs to user
                 if (in_array($row['entry_id'], $users_entry_ids)) {
-                    $userInputHolder[$row['entry_id']] .= $row['value'] . "\n";
+                    // if row's field ID is NOT in the existing field ID array (deprecated or never existed)
+                    $search_result = array_search($row['field_id'], $existing_fieldIDs);
+                    if ($search_result !== 0 && $search_result === false) {
+                        $userEntryHolder[$row['entry_id']] .= "(DEPRECATED): " . $row['value'] . "\n";
+                    }
+                    // if row's field ID IS in existing field ID array
+                    else {
+                        $field_name = $post_content['fields'][$row['field_id']]['label'];
+                        if ($field_name) {
+                            $userEntryHolder[$row['entry_id']] .= $field_name . ": " . $row['value'] . "\n";
+                        }
+                    }
                 }
             }
         ?>
-        <?php foreach ($userInputHolder as $entryID => $inputStr) : ?>
+        <?php foreach ($userEntryHolder as $entryID => $inputStr) : ?>
             <tr>
                 <td class="entry-id"><?php echo esc_html($entryID);?></td>
                 <td class="input">
