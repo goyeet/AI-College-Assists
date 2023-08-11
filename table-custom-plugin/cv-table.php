@@ -22,6 +22,15 @@
         .hidden {
             display: none; /** Loading Spinner hidden by default */
         }
+
+        .response-box {
+            border: .5px solid #000000;
+            border-radius: 5px;
+            width: 1000px;
+            height: 500px;
+            padding: 10px;
+        }
+        
     </style>
 
     <table id="cv-table">
@@ -29,7 +38,7 @@
             <th>Entry ID</th>
             <th>User Input</th>
             <th>Section Selection</th>
-            <th>Generated Response</th>
+            
             <!-- <th>Date of Entry</th>
             <th>Introduction</th>
             <th>Area of Interest</th>
@@ -118,9 +127,6 @@
                     <input type="checkbox" class="cv-checkbox" value="Non-school Accomplishments:">Non-School Accomplishments<br>
                     <input type="checkbox" class="cv-checkbox" value="Passions:">Passions<br>
                 </td>
-                <td class="response-box">
-                    <div class="generated-response"></div>
-                </td>
                 <td class="button-cell">
                     <button class="generate-button cv-button">Generate</button>
                     <div class="loading-spinner hidden">
@@ -130,4 +136,10 @@
             </tr>
         <?php endforeach; ?>
     </table>
+    
+    <h2>Response</h2>
+    <div class="response-box">
+        <span class="generated-response"></span>
+    </div>
+    
 <?php endif; ?>

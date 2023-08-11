@@ -61,9 +61,7 @@ jQuery(document).ready(function ($) {
         // })
 
         // console.log('stored cv inputs for generation: ' + elements);
-
-        let responseBox = $( this ).closest("tr").find(".response-box");
-        let generatedResponseWrapper = responseBox.find(".generated-response"); // Eventually move response box
+        let generatedResponseWrapper = $(".generated-response"); // Eventually move response box
         
         // Show loading spinner
         showLoading();
