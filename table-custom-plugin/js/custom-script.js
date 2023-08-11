@@ -13,25 +13,25 @@ jQuery(document).ready(function ($) {
         const selectedInputs = [];
 
         // selects all cv checkboxes on the page
-        var cvCheckboxes = $('.cv-checkbox');
+        var cvCheckboxes = jQuery.makeArray($('.cv-checkbox'));
 
-        console.log('cv checkboxes on page: ' + cvCheckboxes.length);
+        // console.log('cv checkboxes: ' + cvCheckboxes);
+        // console.log('cv checkboxes on page: ' + cvCheckboxes.length);
 
         // Filter and get only the checked checkboxes
-        var checkedCheckboxes = cvCheckboxes.filter(function() {
-            return $(this).prop('checked');
+        var checkedCheckboxes = cvCheckboxes.filter((checkbox) => {
+            console.log('current item in iteration: ' + checkbox);
+            return checkbox.checked;
         });
 
-        console.log('SELECTED cv checkboxes on page: ' + checkedCheckboxes.length);
+        // console.log('SELECTED cv checkboxes on page: ' + checkedCheckboxes.length);
 
-        console.log('checked boxes array: ' + checkedCheckboxes);
+        // console.log('checked boxes array: ' + checkedCheckboxes);
 
-        // console.log('checked boxes: ' + checkedCheckboxes)
-
-        // for (let input in checkedCheckboxes) {
-        //     // Push selected input to array
-        //     selectedInputs.push(input.value);
-        // }
+        // loop through all checkboxes that are checked
+        checkedCheckboxes.forEach(checkbox => {
+            selectedInputs.push(checkbox.value);
+        });
 
         console.log(selectedInputs);
 
