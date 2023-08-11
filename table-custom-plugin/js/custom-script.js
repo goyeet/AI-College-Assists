@@ -36,14 +36,31 @@ jQuery(document).ready(function ($) {
         console.log(selectedInputs);
 
         // Grab entire str from user input box to prepare for string parsing
-        // let userInput = $( this ).closest("tr").find( ".input" );
-        // let inputStr = userInput.find("span").text();
+        let userInput = $( this ).closest("tr").find( ".input" );
+        let inputStr = userInput.find("span").text();
+        console.log('grabbed text: ' + inputStr);
 
-        // let start = "Non-school Accomplishments:";
-        // let startIndex = str.indexOf(start);
-        // let endIndex = str.indexOf("|", startIndex + start.length);
-        // let result = str.slice(startIndex + start.length, endIndex);
+        // Associative array that stores pairs of "sectionName" = sectionData
+        // Ex. "Academic Accomplishments: " = 4.0
+        let chosenCVFields = {};
 
+        selectedInputs.forEach(sectionName => {
+            //sectionName is the section names like "Academic Accomplishments: "
+            let start = sectionName;
+            console.log('section Name: ' + sectionName);
+            let startIndex = inputStr.indexOf(start);
+            let endIndex = inputStr.indexOf(" | ", startIndex + start.length);
+            let sectionData = inputStr.slice(startIndex + start.length, endIndex); // Data associated with current section
+            console.log('section data: ' + sectionData);
+            
+            chosenCVFields[sectionName] = sectionData; //adds checkedbox's section name and section data to chosenCVFields associative array
+        });
+
+        // var elements = Object.keys(chosenCVFields).map(function(k) {
+        //     return chosenCVFields[k];
+        // })
+
+        // console.log('stored cv inputs for generation: ' + elements);
 
         let responseBox = $( this ).closest("tr").find(".response-box");
         let generatedResponseWrapper = responseBox.find(".generated-response"); // Eventually move response box
@@ -51,8 +68,16 @@ jQuery(document).ready(function ($) {
         // Show loading spinner
         showLoading();
         
+        let cvInputString = "";
+
+        for (const cvInput in chosenCVFields) {
+            if (chosenCVFields.hasOwnProperty(cvInput)) {
+                cvInputString = cvInputString + cvInput + " " + chosenCVFields[cvInput] + ", ";
+            }
+        }
+
         // TODO: make the cue string using selected prompt and selected cv inputs
-        cueString = selectedPromptText; /* + academic + athletic + school + passion + misc; */
+        cueString = selectedPromptText + ' write an essay response including the following information: ' + cvInputString; /* + academic + athletic + school + passion + misc; */
 
 
         console.log('cue: ' + cueString);
@@ -67,7 +92,7 @@ jQuery(document).ready(function ($) {
             data: {
                 action: 'generateEssayAjax',
                 // Additional data to send to the server if needed.
-                prompt: cueString // material to feed AI for essay generation
+                cue: cueString // material to feed AI for essay generation
             },
             // Handle the response from the server.
             success: function(response) {
@@ -145,7 +170,7 @@ jQuery(document).ready(function ($) {
         let promptBox = $( this ).closest("tr").find( ".input" );
         selectedPromptText = "Addressing this prompt: " + promptBox.find("span").text();
         
-        console.log('selected prompt: ' + selectedPromptText);
+        console.log('selected prompt: ' + promptBox.find("span").text());
     });
 });
 

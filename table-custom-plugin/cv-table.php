@@ -92,13 +92,13 @@
                     // if row's field ID is NOT in the existing field ID array (deprecated or never existed)
                     $search_result = array_search($row['field_id'], $existing_fieldIDs);
                     if ($search_result !== 0 && $search_result === false) {
-                        $userEntryHolder[$row['entry_id']] .= "(DEPRECATED): " . $row['value'] . ", ";
+                        $userEntryHolder[$row['entry_id']] .= "(DEPRECATED): " . $row['value'] . " | ";
                     }
                     // if row's field ID IS in existing field ID array
                     else {
                         $field_name = $post_content['fields'][$row['field_id']]['label'];
                         if ($field_name) {
-                            $userEntryHolder[$row['entry_id']] .= $field_name . ": " . $row['value'] . ", ";
+                            $userEntryHolder[$row['entry_id']] .= $field_name . ": " . $row['value'] . " | ";
                         }
                     }
                 }
@@ -115,7 +115,7 @@
                 <td class="cv-selection">
                     <input type="checkbox" class="cv-checkbox" value="Academic Accomplishments:">Academics<br>
                     <input type="checkbox" class="cv-checkbox" value="Athletic Accomplishments:">Athletic Accomplishments<br>
-                    <input type="checkbox" class="cv-checkbox" value="Non-School Accomplishments:">Non-School Accomplishments<br>
+                    <input type="checkbox" class="cv-checkbox" value="Non-school Accomplishments:">Non-School Accomplishments<br>
                     <input type="checkbox" class="cv-checkbox" value="Passions:">Passions<br>
                 </td>
                 <td class="response-box">

@@ -113,14 +113,14 @@ function gig_get_user_credits() {
 }
 
 // Generate Essay
-function gig_generate_essay($prompt) {
+function gig_generate_essay($cue) {
     // Arguments to pass with POST request
     $args = array(
         'body' => array(
             'wp_user_id'  => get_option('gig_user_id'),
             'wp_user_key' => get_option('gig_user_key'),
             'skill_name'  => 'GIGCollegeEssaySkill',
-            'cue'         => $prompt,
+            'cue'         => $cue,
         ),
         'headers' => array(
             'Content-Type' => 'application/x-www-form-urlencoded',
