@@ -1,67 +1,71 @@
-<?php if (empty($cv_form_entry_data)) : ?>
-    <p>No data available.</p>
+<?php
+$cv_form_entries_data = get_cv_form_entries_data();
+if (empty($cv_form_entries_data)) : ?>
+    <p>No entries available.</p>
 <?php else : ?>
-    
-    <!-- style sheet for spinner -->
-    <style>
-        /** Actual Spinner */
-        .loader {
-            border: 8px solid #f3f3f3;
-            border-top: 8px solid #3498db;
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            animation: spin 2s linear infinite;
-        }
+    <?php if (empty($cv_form_entry_fields_data)) : ?>
+        <p>No data available.</p>
+    <?php else : ?>
+        
+        <!-- style sheet for spinner -->
+        <style>
+            /** Actual Spinner */
+            .loader {
+                border: 8px solid #f3f3f3;
+                border-top: 8px solid #3498db;
+                border-radius: 50%;
+                width: 60px;
+                height: 60px;
+                animation: spin 2s linear infinite;
+            }
 
             @keyframes spin {
                 0% { transform: rotate(0deg); }
                 100% { transform: rotate(360deg); }
             }
 
-        .hidden {
-            display: none; /** Loading Spinner hidden by default */
-        }
+            .hidden {
+                display: none; /** Loading Spinner hidden by default */
+            }
 
-        .response-box {
-            border: .5px solid #000000;
-            border-radius: 5px;
-            width: 1000px;
-            height: 500px;
-            padding: 10px;
-        }
-        
-    </style>
-
-    <table id="cv-table">
-        <tr>
-            <th>Entry ID</th>
-            <th>User Input</th>
-            <th>Section Selection</th>
+            .response-box {
+                border: .5px solid #000000;
+                border-radius: 5px;
+                width: 1000px;
+                height: 500px;
+                padding: 10px;
+            }
             
-            <!-- <th>Date of Entry</th>
-            <th>Introduction</th>
-            <th>Area of Interest</th>
-            <th>Favorite High School Subject and Why</th>
-            <th>Favorite High School Teacher and Why</th>
-            <th>Academic Accomplishments</th>
-            <th>Athletic Accomplishments</th>
-            <th>Non-school Accomplishments</th>
-            <th>Passions</th>
-            <th>Life Changing Moments</th> -->
-            <?php ?>
-        </tr>
+        </style>
+
+        <table id="cv-table">
+            <tr>
+                <th>Entry ID</th>
+                <th>User Input</th>
+                <th>Section Selection</th>
+                
+                <!-- <th>Date of Entry</th>
+                <th>Introduction</th>
+                <th>Area of Interest</th>
+                <th>Favorite High School Subject and Why</th>
+                <th>Favorite High School Teacher and Why</th>
+                <th>Academic Accomplishments</th>
+                <th>Athletic Accomplishments</th>
+                <th>Non-school Accomplishments</th>
+                <th>Passions</th>
+                <th>Life Changing Moments</th> -->
+            </tr>
 
             <?php
-                // filter out all results that aren't associated with user email
+                // filter out all results that aren't associated with user id
                 $entered_user_id = get_current_user_id();
 
                 $users_entry_ids = array();
 
-                // loop through data table and gather all entry ids associated with user email
+                // loop through data table and gather all entry ids associated with user id
                 foreach ($cv_form_entries_data as $row) {
-                    if ($row['user_id'] == $entered_user_id) { //if entered email equals value for that row
-                        // store entry id in array
+                    if ($row['user_id'] == $entered_user_id) { // if user id equals user id for that row
+                        // store row's entry id in array
                         array_push($users_entry_ids, $row['entry_id']);
                     }
                 }
@@ -144,6 +148,5 @@
                 <div class="loader"></div>
             </div>
         </div>
-
     <?php endif; ?>
 <?php endif; ?>
