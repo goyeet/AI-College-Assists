@@ -15,9 +15,6 @@ jQuery(document).ready(function ($) {
         // selects all cv checkboxes on the page
         var cvCheckboxes = jQuery.makeArray($('.cv-checkbox'));
 
-        // console.log('cv checkboxes: ' + cvCheckboxes);
-        // console.log('cv checkboxes on page: ' + cvCheckboxes.length);
-
         let userInput = null;
 
         // Filter and get only the checked checkboxes
@@ -30,14 +27,16 @@ jQuery(document).ready(function ($) {
             return checkbox.checked;
         });
 
-        // console.log('SELECTED cv checkboxes on page: ' + checkedCheckboxes.length);
-
-        // console.log('checked boxes array: ' + checkedCheckboxes);
+        // Hardcoded other CV inputs
+        selectedInputs.push("Introduction:");
 
         // loop through all checkboxes that are checked
         checkedCheckboxes.forEach(checkbox => {
             selectedInputs.push(checkbox.value);
         });
+
+        selectedInputs.push("Key Moments:");
+        selectedInputs.push("Challenges Overcome:");
 
         console.log(selectedInputs);
 
@@ -75,13 +74,12 @@ jQuery(document).ready(function ($) {
 
         for (const cvInput in chosenCVFields) {
             if (chosenCVFields.hasOwnProperty(cvInput)) {
-                cvInputString = cvInputString + cvInput + " " + chosenCVFields[cvInput] + ", ";
+                cvInputString = cvInputString + cvInput + " " + chosenCVFields[cvInput] + "\n"; // double newline breaks AI for some reason
             }
         }
 
         // TODO: make the cue string using selected prompt and selected cv inputs
-        cueString = selectedPromptText + ' write an essay response including the following information: ' + cvInputString; /* + academic + athletic + school + passion + misc; */
-
+        cueString = selectedPromptText + ' \nWrite me an essay response using the information provided below, no more than 300 words please.\n' + cvInputString; /* + academic + athletic + school + passion + misc; */
 
         console.log('cue: ' + cueString);
 
@@ -171,7 +169,7 @@ jQuery(document).ready(function ($) {
  
         // grabs prompt text in row
         let promptBox = $( this ).closest("tr").find( ".input" );
-        selectedPromptText = "Addressing this prompt: " + promptBox.find("span").text();
+        selectedPromptText = "I am a college applicant writing an essay trying to address the prompt: \"" + promptBox.find("span").text() + "\"";
         
         console.log('selected prompt: ' + promptBox.find("span").text());
     });

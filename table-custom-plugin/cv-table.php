@@ -32,7 +32,8 @@ if (empty($cv_form_entries_data)) : ?>
                 border: .5px solid #000000;
                 border-radius: 5px;
                 width: 1000px;
-                height: 500px;
+                min-height: 500px;
+                height: auto;
                 padding: 10px;
             }
             
@@ -139,6 +140,7 @@ if (empty($cv_form_entries_data)) : ?>
                 </tr>
             <?php endforeach; ?>
         </table>
+        <h1>Generated Response</h1>
         <div class="response-box">
             <div class="generated-response"></div>
         </div>
