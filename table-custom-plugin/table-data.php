@@ -37,11 +37,19 @@ function get_prompt_table_data() {
 
 // CV Table ------------------------------------------------------
 
-// Gets data from CV Input table
-function get_cv_form_entry_data() {
+// Gets data from wpforms_entry_fields table
+function get_cv_form_entry_fields_data() {
     global $wpdb;
     $table_name = $wpdb->prefix . 'wpforms_entry_fields';
     $query = "SELECT `id`, entry_id, form_id, field_id, `value`, `date` FROM $table_name";
+    return $wpdb->get_results($query, ARRAY_A);
+}
+
+// Gets data from wpforms_entries table
+function get_cv_form_entries_data() {
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'wpforms_entries';
+    $query = "SELECT entry_id, form_id, `user_id` FROM $table_name";
     return $wpdb->get_results($query, ARRAY_A);
 }
 

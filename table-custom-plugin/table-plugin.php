@@ -40,7 +40,7 @@ function cv_table_shortcode() {
     $gig_user_id = get_option('gig_user_id');
     $gig_user_key = get_option('gig_user_key');
 
-    $cv_form_entry_data = get_cv_form_entry_data(); // get all data from cv form entries
+    $cv_form_entry_fields_data = get_cv_form_entry_fields_data(); // get all data from cv form entries
 
     ob_start();
     include('cv-table.php');

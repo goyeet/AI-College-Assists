@@ -18,9 +18,15 @@ jQuery(document).ready(function ($) {
         // console.log('cv checkboxes: ' + cvCheckboxes);
         // console.log('cv checkboxes on page: ' + cvCheckboxes.length);
 
+        let userInput = null;
+
         // Filter and get only the checked checkboxes
         var checkedCheckboxes = cvCheckboxes.filter((checkbox) => {
             console.log('current item in iteration: ' + checkbox);
+            // if userInput hasn't already been set
+            if (checkbox.checked && (userInput == null)) {
+                userInput = $(checkbox).closest("tr").find( ".input" );
+            }
             return checkbox.checked;
         });
 
@@ -36,7 +42,6 @@ jQuery(document).ready(function ($) {
         console.log(selectedInputs);
 
         // Grab entire str from user input box to prepare for string parsing
-        let userInput = $( this ).closest("tr").find( ".input" );
         let inputStr = userInput.find("span").text();
         console.log('grabbed text: ' + inputStr);
 
