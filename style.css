@@ -3404,19 +3404,19 @@ body.page .main-navigation {
   max-width: 100%;
 }
 
-@media only screen and (min-width: 768px) {
+/* @media only screen and (min-width: 768px) {
   .entry .entry-content > *,
   .entry .entry-summary > * {
     max-width: calc(8 * (100vw / 12) - 28px);
   }
-}
+} */
 
-@media only screen and (min-width: 1168px) {
+/* @media only screen and (min-width: 1168px) {
   .entry .entry-content > *,
   .entry .entry-summary > * {
     max-width: calc(6 * (100vw / 12) - 28px);
   }
-}
+} */
 
 @media only screen and (min-width: 768px) {
   .entry .entry-content > *,

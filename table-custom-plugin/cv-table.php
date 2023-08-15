@@ -7,8 +7,8 @@ if (empty($cv_form_entries_data)) : ?>
         <p>No data available.</p>
     <?php else : ?>
         
-        <!-- style sheet for spinner -->
         <style>
+
             /** Actual Spinner */
             .loader {
                 border: 8px solid #f3f3f3;
@@ -29,12 +29,29 @@ if (empty($cv_form_entries_data)) : ?>
             }
 
             .response-box {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .text-box {
                 border: .5px solid #000000;
                 border-radius: 5px;
                 width: 1000px;
                 min-height: 500px;
                 height: auto;
                 padding: 10px;
+            }
+
+            .cv-checkbox {
+                width: 20px;
+                height: 20px;
+                border-radius: 8px;
+                margin-right: 5px;
+            }
+
+            .cv-selection {
+                text-align: left;
             }
             
         </style>
@@ -118,7 +135,7 @@ if (empty($cv_form_entries_data)) : ?>
                 <tr>
                     <td class="entry-id"><?php echo esc_html($entryID);?></td>
                     <td class="input">
-                        <span>
+                        <span class="inputText">
                             <?php echo esc_html($inputStr);?>
                         </span>
                     </td>
@@ -142,12 +159,14 @@ if (empty($cv_form_entries_data)) : ?>
         </table>
         <h1>Generated Response</h1>
         <div class="response-box">
-            <div class="generated-response"></div>
-        </div>
-        <div class="button-cell">
-            <button class="generate-button cv-button">Generate</button>
-            <div class="loading-spinner hidden">
-                <div class="loader"></div>
+            <div class="text-box">
+                <div class="generated-response"></div>
+            </div>
+            <div class="button-cell">
+                <button class="generate-button cv-button">Generate</button>
+                <div class="loading-spinner hidden">
+                    <div class="loader"></div>
+                </div>
             </div>
         </div>
     <?php endif; ?>

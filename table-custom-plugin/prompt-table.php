@@ -22,6 +22,23 @@
         .hidden {
             display: none; /** Loading Spinner hidden by default */
         }
+
+        td {
+            text-align: center;
+        }
+
+        .input {
+            text-align: left;
+        }
+
+        .prompt-checkbox {
+            width: 20px;
+            height: 20px;
+            border-radius: 8px;
+        }
+
+
+        
     </style>
 
     <table id="prompt-table">
