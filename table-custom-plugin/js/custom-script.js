@@ -169,10 +169,31 @@ jQuery(document).ready(function ($) {
  
         // grabs prompt text in row
         let promptBox = $( this ).closest("tr").find( ".input" );
+
+        if (this.id == "input_own_prompt") {
+            selectedPromptText = "I am a college apllicant writng an essay trying to address the prompt: \"" + $(this).find("input").text() + "\"";
+            console.log('entered prompt: ' + $(this).find("input").text());
+        }
+
+        else {
+        
+        
+        
         selectedPromptText = "I am a college applicant writing an essay trying to address the prompt: \"" + promptBox.find("span").text() + "\"";
         
         console.log('selected prompt: ' + promptBox.find("span").text());
-    });
+
+        // $('#input_own_prompt').click(function() {
+        //     let isChecked = $(this).prop('checked');
+        //     if (isChecked) {
+        //         console.log('custom input Checkbox is checked.');
+        //     } else {
+        //         console.log('custom input Checkbox is not checked.');
+        //     }
+        // }
+    //);
+    }
+});
 });
 
 // Detects click on CV INPUT checkboxes

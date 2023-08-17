@@ -60,9 +60,21 @@
                     </span>
                 </td>
                 <td>
-                    <input type="checkbox" class="prompt-checkbox"><br>
+                    <input type="checkbox" id="selected_prompt" class="prompt-checkbox"><br>
                 </td>
             </tr>
+            
         <?php endforeach; ?>
+        
     </table>
+     <!--Under table box for user to input their own prompt-->
+       
+        
+            <form> 
+                <input type="text" name="input_custom_prompt" maxlength="300" /> 
+            </form>
+         
+        <input type="checkbox" id="input_own_prompt" class="prompt-checkbox"><br>
+            
+       
 <?php endif; ?>
