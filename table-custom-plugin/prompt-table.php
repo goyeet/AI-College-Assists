@@ -65,16 +65,25 @@
             </tr>
             
         <?php endforeach; ?>
+
+        <tr>
+            <!--last table row for user to input their own prompt-->
+            <td class="prompt-id">Custom</td>
+            <td class="prompt-type">Custom Input Prompt</td>
+                <!-- prompt -->
+            <td class="input">
+                
+                <form> 
+                    <span><input type="text" id="input_custom_prompt_text" name="input_custom_prompt" maxlength="300" /></span>
+                </form>
+                
+            </td>
+            <td>
+                <input type="checkbox" id="input_own_prompt_checkbox" class="prompt-checkbox"><br>
+            </td>
+        </tr>
         
     </table>
-     <!--Under table box for user to input their own prompt-->
-       
-        
-            <form> 
-                <input type="text" name="input_custom_prompt" maxlength="300" /> 
-            </form>
-         
-        <input type="checkbox" id="input_own_prompt" class="prompt-checkbox"><br>
-            
+     
        
 <?php endif; ?>

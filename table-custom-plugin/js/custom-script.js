@@ -9,6 +9,9 @@ jQuery(document).ready(function ($) {
 
         console.log('generate button clicked');
 
+        let customPrompt = $('#input_custom_prompt_text').val();
+        console.log('custom prompt entered: ' + customPrompt);
+
         // array to hold selected inputs that are checked
         const selectedInputs = [];
 
@@ -170,12 +173,15 @@ jQuery(document).ready(function ($) {
         // grabs prompt text in row
         let promptBox = $( this ).closest("tr").find( ".input" );
 
-        if (this.id == "input_own_prompt") {
-            selectedPromptText = "I am a college apllicant writng an essay trying to address the prompt: \"" + $(this).find("input").text() + "\"";
-            console.log('entered prompt: ' + $(this).find("input").text());
-        }
+        // if (document.getElementByID('input_own_prompt').prop(checked)) {
+        //     selectedPromptText = "I am a college apllicant writng an essay trying to address the prompt: \"" + $(this).find("input").text() + "\"";
+        //     console.log('entered prompt: ' + document.getElementById('input_own_prompt').value);
+        // }
 
-        else {
+        // else {
+        
+        // let customPrompt = $('#input_custom_prompt_text').val();
+        // console.log('custom prompt entered: ' + customPrompt);
         
         
         
@@ -192,7 +198,7 @@ jQuery(document).ready(function ($) {
         //     }
         // }
     //);
-    }
+  //  }
 });
 });
 
