@@ -202,6 +202,14 @@ jQuery(document).ready(function ($) {
 });
 });
 
+jQuery(document).ready(function($) {
+    $('#formButton').click(function() {
+        let userInput = $('#input_custom_prompt_text').val();
+        selectedPromptText = userInput;
+        console.log('selected prompt: ' + selectedPromptText);
+    });
+});
+
 // Detects click on CV INPUT checkboxes
 jQuery(document).ready(function ($) {
     $('.cv-checkbox').on('change', function (e) {

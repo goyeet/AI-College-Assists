@@ -1,7 +1,6 @@
 <?php if (empty($table_data)) : ?>
     <p>No data available.</p>
 <?php else : ?>
-    
     <!-- style sheet for spinner -->
     <style>
         /** Actual Spinner */
@@ -75,6 +74,7 @@
                 
                 <form> 
                     <span><input type="text" id="input_custom_prompt_text" name="input_custom_prompt" maxlength="300" /></span>
+                    <button type="button" id="formButton">Use this prompt</button>;
                 </form>
                 
             </td>
