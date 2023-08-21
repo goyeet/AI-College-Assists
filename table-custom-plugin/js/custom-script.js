@@ -163,16 +163,14 @@ function hideLoading() {
 
 // Detects click on PROMPT checkboxes
 jQuery(document).ready(function ($) {
+    //$('.prompt-checkbox').on('change', function (e) {
     $('.prompt-checkbox').on('change', function (e) {
-
         // console.log('prompt-checkbox clicked');
 
         // Uncheck other checkboxes with class "prompt-checkbox" if not the selected one
         $('.prompt-checkbox').not(this).prop('checked', false);
  
-        // grabs prompt text in row
-        let promptBox = $( this ).closest("tr").find( ".input" );
-
+        
         // if (document.getElementByID('input_own_prompt').prop(checked)) {
         //     selectedPromptText = "I am a college apllicant writng an essay trying to address the prompt: \"" + $(this).find("input").text() + "\"";
         //     console.log('entered prompt: ' + document.getElementById('input_own_prompt').value);
@@ -182,12 +180,46 @@ jQuery(document).ready(function ($) {
         
         // let customPrompt = $('#input_custom_prompt_text').val();
         // console.log('custom prompt entered: ' + customPrompt);
+        // let promptBox = $( this ).closest("tr").find( ".input" );
+
+        // selectedPromptText = "I am a college applicant writing an essay trying to address the prompt: \"" + promptBox.find("span").text();
+        // console.log('selected prompt: ' + selectedPromptText);
+        
+        // $('#input_own_prompt_checkbox').change(function () {
+        //     if (this.checked) {
+        //         console.log('checkbox is checked');
+        //         let userInput = $('#input_custom_prompt_text').val(); 
+        //         selectedPromptText = "I am a college applicant writing an essay trying to address the prompt: \"" + userInput + "\"";
+        //     }
+        //     // else{
+        //     //     let promptBox = $( this ).closest("tr").find( ".input" );
+
+        //     //     selectedPromptText = "I am a college applicant writing an essay trying to address the prompt: \"" + promptBox.find("span").text();
+        //     //     console.log('selected prompt: ' + selectedPromptText);
+        //     // }
+        // });
         
         
+        //need a way to find out if this checkbox is the custom prompt checkbox
+
+        //  if ($('#input_custom_prompt_text').val()) { //checks if the user entered text into a custom prompt
+        //     let userInput = $('#input_custom_prompt_text').val(); 
+        //     selectedPromptText = "I am a college applicant writing an essay trying to address the prompt: \"" + userInput + "\"";
+        //  }
+        //  else {
+             // grabs prompt text in row
+            let promptBox = $( this ).closest("tr").find( ".input" );
+
+            selectedPromptText = "I am a college applicant writing an essay trying to address the prompt: \"" + promptBox.find("span").text();
+           //}
+             console.log('selected prompt: ' + selectedPromptText);
+                
+        //}
+
         
-        selectedPromptText = "I am a college applicant writing an essay trying to address the prompt: \"" + promptBox.find("span").text() + "\"";
-        
-        console.log('selected prompt: ' + promptBox.find("span").text());
+
+
+        //console.log('selected prompt: ' + promptBox.find("span").text());
 
         // $('#input_own_prompt').click(function() {
         //     let isChecked = $(this).prop('checked');
@@ -199,16 +231,35 @@ jQuery(document).ready(function ($) {
         // }
     //);
   //  }
+         
 });
 });
 
 jQuery(document).ready(function($) {
-    $('#formButton').click(function() {
-        let userInput = $('#input_custom_prompt_text').val();
-        selectedPromptText = userInput;
-        console.log('selected prompt: ' + selectedPromptText);
-    });
+    $('#input_own_prompt_checkbox').change(function () {
+            if (this.checked) {
+                $('.prompt-checkbox').not(this).prop('checked', false);
+                console.log('checkbox is checked');
+                let userInput = $('#input_custom_prompt_text').val(); 
+                selectedPromptText = "I am a college applicant writing an essay trying to address the prompt: \"" + userInput + "\"";
+                console.log('selected prompt: ' + selectedPromptText);
+            }
+            // else{
+            //     let promptBox = $( this ).closest("tr").find( ".input" );
+
+            //     selectedPromptText = "I am a college applicant writing an essay trying to address the prompt: \"" + promptBox.find("span").text();
+            //     console.log('selected prompt: ' + selectedPromptText);
+            // }
 });
+});
+
+// jQuery(document).ready(function($) {
+//     $('#formButton').click(function() {
+//         let userInput = $('#input_custom_prompt_text').val();
+//         selectedPromptText = userInput;
+//         console.log('selected prompt: ' + selectedPromptText);
+//     });
+// });
 
 // Detects click on CV INPUT checkboxes
 jQuery(document).ready(function ($) {
