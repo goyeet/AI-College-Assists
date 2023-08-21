@@ -87,6 +87,9 @@ jQuery(document).ready(function ($) {
             }
         }
 
+        let additionalCVInfo = $('#additional_cv_input').val(); 
+        cvInputString = cvInputString + "Additional Information: " + additionalCVInfo;
+
         // TODO: make the cue string using selected prompt and selected cv inputs
         cueString = selectedPromptText + ' \nWrite me an essay response using the information provided below, no more than 300 words please.\n' + cvInputString; /* + academic + athletic + school + passion + misc; */
 

@@ -156,7 +156,21 @@ if (empty($cv_form_entries_data)) : ?>
                     </td> -->
                 </tr>
             <?php endforeach; ?>
+
+                
+                
+            </tr>
         </table>
+
+        <h3>Additional Input</h3>
+        <h4>Add any prompt specific or additional information you'd like to include in this generation below:</h4>
+
+        <form> 
+            <span><input type="text" id="additional_cv_input" name="additional_cv_input" maxlength="300" /></span>
+        </form>
+            
+                  
+
         <h1>Generated Response</h1>
         <div class="response-box">
             <div class="text-box">
@@ -170,4 +184,5 @@ if (empty($cv_form_entries_data)) : ?>
             </div>
         </div>
     <?php endif; ?>
+
 <?php endif; ?>
