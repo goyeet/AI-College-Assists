@@ -3,7 +3,9 @@ var cueString = "";
 
 var selectedPromptText = "";
 //var userCustomFormInput = "";
-var useUserInputPrompt = false; //will be used to store whether the user wants to use the custom prompt 
+var useUserInputPrompt = false; //will be used to store whether the user wants to use the custom prompt
+
+var generatedResponse = "";
 
 // Detects click on button and grabs prompt from the corresponding table row
 jQuery(document).ready(function ($) {
@@ -13,7 +15,7 @@ jQuery(document).ready(function ($) {
 
         if (useUserInputPrompt) { //if using the user's inputted prompt, aka custom prompt is selected by user
             let userCustomFormInput = $('#input_custom_prompt_text').val(); 
-            selectedPromptText = "I am a college applicant writing an essay trying to address the prompt: \"" + userCustomFormInput + "\"";
+            selectedPromptText = userCustomFormInput;
             console.log('custom prompt post generate: ' + selectedPromptText);
             console.log('if ran' + useUserInputPrompt);
         }
@@ -91,7 +93,7 @@ jQuery(document).ready(function ($) {
         cvInputString = cvInputString + "Additional Information: " + additionalCVInfo;
 
         // TODO: make the cue string using selected prompt and selected cv inputs
-        cueString = selectedPromptText + ' \nWrite me an essay response using the information provided below, no more than 300 words please.\n' + cvInputString; /* + academic + athletic + school + passion + misc; */
+        cueString = "I am a college applicant writing an essay trying to address the prompt: \"" + selectedPromptText  + "\"" + ' \nWrite me an essay response using the information provided below, no more than 300 words please.\n' + cvInputString; /* + academic + athletic + school + passion + misc; */
 
         console.log('cue: ' + cueString);
 
@@ -118,6 +120,9 @@ jQuery(document).ready(function ($) {
                     generatedResponseWrapper.html('<hr><p>Unfortunately, there was an error on our end. Please try again.</p>');
                 }
                 
+                // Store api call response in global var
+                generatedResponse = response.content;
+                
                 console.log(response);
                 // call function to display the generated content
                 // take response, iterate over content obj, and use JS to create HTML DOM elements to put them on page
@@ -131,6 +136,32 @@ jQuery(document).ready(function ($) {
             }
         });
 
+        // Second Ajax call:
+        // Pass in prompt (either custom or sample one)
+        // Pass in generated response var: generatedResponse (response.content from previous ajax call)
+        /* $.ajax({
+            type: 'POST',
+            url: my_ajax_object.ajaxurl, // WordPress AJAX URL.
+            dataType: 'json',
+            data: {
+                action: 'generateEssayAjax',
+                // Additional data to send to the server if needed.
+                prompt: cueString, // material to feed AI for essay generation
+                generatedResponse: 
+            },
+            // Handle the response from the server.
+            success: function(response) {
+                // If response is undefined, handle error
+                if (response.content !== undefined) {
+                    console.log('Database updated')
+                }
+               
+            },
+          
+            error: function(xhr, textStatus, errorThrown) {
+                console.log('AJAX request failed: ' + textStatus + ', ' + errorThrown);
+            }
+        }); */
     });
 });
 
@@ -189,7 +220,7 @@ jQuery(document).ready(function ($) {
         //finds selected prompt
         let promptBox = $( this ).closest("tr").find( ".input" );
 
-        selectedPromptText = "I am a college applicant writing an essay trying to address the prompt: \"" + promptBox.find("span").text() + "\"";
+        selectedPromptText = promptBox.find("span").text();
 
         console.log('selected prompt: ' + selectedPromptText);
         
@@ -207,7 +238,7 @@ jQuery(document).ready(function($) {
                 $('.prompt-checkbox').not(this).prop('checked', false);
                 console.log('checkbox is checked');
                 let userCustomFormInput = $('#input_custom_prompt_text').val(); //sends user's inputted prompt
-                selectedPromptText = "I am a college applicant writing an essay trying to address the prompt: \"" + userCustomFormInput + "\"";
+                selectedPromptText = userCustomFormInput;
                 console.log('custom prompt: ' + selectedPromptText);
                 useUserInputPrompt = true; //prompts cue to use this prompt
             }
