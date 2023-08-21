@@ -11,18 +11,12 @@ jQuery(document).ready(function ($) {
 
         console.log('generate button clicked');
 
-        if (useUserInputPrompt) {
+        if (useUserInputPrompt) { //if using the user's inputted prompt, aka custom prompt is selected by user
             let userCustomFormInput = $('#input_custom_prompt_text').val(); 
             selectedPromptText = "I am a college applicant writing an essay trying to address the prompt: \"" + userCustomFormInput + "\"";
             console.log('custom prompt post generate: ' + selectedPromptText);
             console.log('if ran' + useUserInputPrompt);
         }
-
-        // let customPrompt = $('#input_custom_prompt_text').val();
-        // console.log('custom prompt entered: ' + customPrompt);
-        //let uInput = $('#input_custom_prompt_text').val(); 
-       // selectedPromptText = "I am a college applicant writing an essay trying to address the prompt: \"" + uInput + "\"";
-        //console.log('selected prompt: ' + selectedPromptText);
 
         // array to hold selected inputs that are checked
         const selectedInputs = [];
@@ -181,60 +175,21 @@ jQuery(document).ready(function ($) {
 
         // Uncheck other checkboxes with class "prompt-checkbox" if not the selected one
         $('.prompt-checkbox').not(this).prop('checked', false);
- 
+
+        if ($( this ).is('[id="input_own_prompt_checkbox"]')) {
+            useUserInputPrompt = true;
+        }
+        else {
+            useUserInputPrompt = false; //ensures selected prompt gets used
+        }
         
-        // if (document.getElementByID('input_own_prompt').prop(checked)) {
-        //     selectedPromptText = "I am a college apllicant writng an essay trying to address the prompt: \"" + $(this).find("input").text() + "\"";
-        //     console.log('entered prompt: ' + document.getElementById('input_own_prompt').value);
-        // }
+        //finds selected prompt
+        let promptBox = $( this ).closest("tr").find( ".input" );
 
-        // else {
+        selectedPromptText = "I am a college applicant writing an essay trying to address the prompt: \"" + promptBox.find("span").text() + "\"";
+
+        console.log('selected prompt: ' + selectedPromptText);
         
-        // let customPrompt = $('#input_custom_prompt_text').val();
-        // console.log('custom prompt entered: ' + customPrompt);
-        // let promptBox = $( this ).closest("tr").find( ".input" );
-
-        // selectedPromptText = "I am a college applicant writing an essay trying to address the prompt: \"" + promptBox.find("span").text();
-        // console.log('selected prompt: ' + selectedPromptText);
-        
-        // $('#input_own_prompt_checkbox').change(function () {
-        //     if (this.checked) {
-        //         console.log('checkbox is checked');
-        //         let userInput = $('#input_custom_prompt_text').val(); 
-        //         selectedPromptText = "I am a college applicant writing an essay trying to address the prompt: \"" + userInput + "\"";
-        //     }
-        //     // else{
-        //     //     let promptBox = $( this ).closest("tr").find( ".input" );
-
-        //     //     selectedPromptText = "I am a college applicant writing an essay trying to address the prompt: \"" + promptBox.find("span").text();
-        //     //     console.log('selected prompt: ' + selectedPromptText);
-        //     // }
-        // });
-        
-        
-        //need a way to find out if this checkbox is the custom prompt checkbox
-
-        //  if ($('#input_custom_prompt_text').val()) { //checks if the user entered text into a custom prompt
-        //     let userInput = $('#input_custom_prompt_text').val(); 
-        //     selectedPromptText = "I am a college applicant writing an essay trying to address the prompt: \"" + userInput + "\"";
-        //  }
-        //  else {
-             // grabs prompt text in row
-             console.log('ran');
-
-             if ($( this ).is('[id="input_own_prompt_checkbox"]')) {
-                useUserInputPrompt = true;
-             }
-             else {
-                useUserInputPrompt = false;
-             }
-             
-                let promptBox = $( this ).closest("tr").find( ".input" );
-
-                selectedPromptText = "I am a college applicant writing an essay trying to address the prompt: \"" + promptBox.find("span").text() + "\"";
-    
-                console.log('selected prompt: ' + selectedPromptText);
-                
 
              
 
@@ -248,7 +203,7 @@ jQuery(document).ready(function($) {
             if (this.checked) {
                 $('.prompt-checkbox').not(this).prop('checked', false);
                 console.log('checkbox is checked');
-                let userCustomFormInput = $('#input_custom_prompt_text').val(); 
+                let userCustomFormInput = $('#input_custom_prompt_text').val(); //sends user's inputted prompt
                 selectedPromptText = "I am a college applicant writing an essay trying to address the prompt: \"" + userCustomFormInput + "\"";
                 console.log('custom prompt: ' + selectedPromptText);
                 useUserInputPrompt = true; //prompts cue to use this prompt
@@ -257,23 +212,9 @@ jQuery(document).ready(function($) {
                 useUserInputPrompt = false;
                 console.log("changed to false");
             }
-            // else{
-            //     let promptBox = $( this ).closest("tr").find( ".input" );
-
-            //     selectedPromptText = "I am a college applicant writing an essay trying to address the prompt: \"" + promptBox.find("span").text();
-            //     console.log('selected prompt: ' + selectedPromptText);
-            // }
+           
 });
 });
-
-
-// jQuery(document).ready(function($) {
-//     $('#formButton').click(function() {
-//         userCustomFormInput = $('#input_custom_prompt_text').val();
-//         //selectedPromptText = userCustomFormInput;
-//         console.log('selected prompt: ' + selectedPromptText);
-//     });
-// });
 
 // Detects click on CV INPUT checkboxes
 jQuery(document).ready(function ($) {
