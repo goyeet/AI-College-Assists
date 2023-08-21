@@ -2,6 +2,8 @@
 var cueString = "";
 
 var selectedPromptText = "";
+//var userCustomFormInput = "";
+var useUserInputPrompt = false; //will be used to store whether the user wants to use the custom prompt 
 
 // Detects click on button and grabs prompt from the corresponding table row
 jQuery(document).ready(function ($) {
@@ -9,8 +11,18 @@ jQuery(document).ready(function ($) {
 
         console.log('generate button clicked');
 
-        let customPrompt = $('#input_custom_prompt_text').val();
-        console.log('custom prompt entered: ' + customPrompt);
+        if (useUserInputPrompt) {
+            let userCustomFormInput = $('#input_custom_prompt_text').val(); 
+            selectedPromptText = "I am a college applicant writing an essay trying to address the prompt: \"" + userCustomFormInput + "\"";
+            console.log('custom prompt post generate: ' + selectedPromptText);
+            console.log('if ran' + useUserInputPrompt);
+        }
+
+        // let customPrompt = $('#input_custom_prompt_text').val();
+        // console.log('custom prompt entered: ' + customPrompt);
+        //let uInput = $('#input_custom_prompt_text').val(); 
+       // selectedPromptText = "I am a college applicant writing an essay trying to address the prompt: \"" + uInput + "\"";
+        //console.log('selected prompt: ' + selectedPromptText);
 
         // array to hold selected inputs that are checked
         const selectedInputs = [];
@@ -208,41 +220,42 @@ jQuery(document).ready(function ($) {
         //  }
         //  else {
              // grabs prompt text in row
-            let promptBox = $( this ).closest("tr").find( ".input" );
+             console.log('ran');
 
-            selectedPromptText = "I am a college applicant writing an essay trying to address the prompt: \"" + promptBox.find("span").text();
-           //}
-             console.log('selected prompt: ' + selectedPromptText);
+             if ($( this ).is('[id="input_own_prompt_checkbox"]')) {
+                useUserInputPrompt = true;
+             }
+             else {
+                useUserInputPrompt = false;
+             }
+             
+                let promptBox = $( this ).closest("tr").find( ".input" );
+
+                selectedPromptText = "I am a college applicant writing an essay trying to address the prompt: \"" + promptBox.find("span").text() + "\"";
+    
+                console.log('selected prompt: ' + selectedPromptText);
                 
-        //}
 
-        
+             
 
-
-        //console.log('selected prompt: ' + promptBox.find("span").text());
-
-        // $('#input_own_prompt').click(function() {
-        //     let isChecked = $(this).prop('checked');
-        //     if (isChecked) {
-        //         console.log('custom input Checkbox is checked.');
-        //     } else {
-        //         console.log('custom input Checkbox is not checked.');
-        //     }
-        // }
-    //);
-  //  }
          
 });
 });
 
+//----------------------------------------------------------------------------
 jQuery(document).ready(function($) {
     $('#input_own_prompt_checkbox').change(function () {
             if (this.checked) {
                 $('.prompt-checkbox').not(this).prop('checked', false);
                 console.log('checkbox is checked');
-                let userInput = $('#input_custom_prompt_text').val(); 
-                selectedPromptText = "I am a college applicant writing an essay trying to address the prompt: \"" + userInput + "\"";
-                console.log('selected prompt: ' + selectedPromptText);
+                let userCustomFormInput = $('#input_custom_prompt_text').val(); 
+                selectedPromptText = "I am a college applicant writing an essay trying to address the prompt: \"" + userCustomFormInput + "\"";
+                console.log('custom prompt: ' + selectedPromptText);
+                useUserInputPrompt = true; //prompts cue to use this prompt
+            }
+            else {
+                useUserInputPrompt = false;
+                console.log("changed to false");
             }
             // else{
             //     let promptBox = $( this ).closest("tr").find( ".input" );
@@ -253,10 +266,11 @@ jQuery(document).ready(function($) {
 });
 });
 
+
 // jQuery(document).ready(function($) {
 //     $('#formButton').click(function() {
-//         let userInput = $('#input_custom_prompt_text').val();
-//         selectedPromptText = userInput;
+//         userCustomFormInput = $('#input_custom_prompt_text').val();
+//         //selectedPromptText = userCustomFormInput;
 //         console.log('selected prompt: ' + selectedPromptText);
 //     });
 // });
