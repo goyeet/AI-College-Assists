@@ -36,8 +36,6 @@
             border-radius: 8px;
         }
 
-
-        
     </style>
 
     <table id="prompt-table">
@@ -69,7 +67,7 @@
             <!--last table row for user to input their own prompt-->
             <td class="prompt-id">Custom</td>
             <td class="prompt-type">Custom Input Prompt</td>
-                <!-- prompt -->
+            <!-- prompt -->
             <td class="input">
                 
                 <form> 
