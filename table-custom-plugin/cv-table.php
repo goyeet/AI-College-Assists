@@ -53,6 +53,10 @@ if (empty($cv_form_entries_data)) : ?>
             .cv-selection {
                 text-align: left;
             }
+
+            .button-cell {
+                margin-left: 10px;
+            }
             
         </style>
 

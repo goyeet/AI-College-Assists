@@ -39,8 +39,16 @@ function get_user_history_table_data() {
 }
 
 // Stores generation results in user_history table
-function set_user_history_table_data($prompt/* , $promptId, $promptType, $generatedResponse, $cvInput, $isCustom */) {
-    print_r("prompt: " . $prompt/*  . " promptID: " . $promptId . " promptType: " . $promptType . " generated response: " . $generatedResponse . " cvInput: " . $cvInput . " isCustom: " .  $isCustom */);
+function set_user_history_table_data($prompt, $promptId, $promptType, $generatedResponse, $cvInput, $isCustom) {
+    $return = array(
+        'prompt'   => $prompt,
+        'promptID' => $promptId,
+        'promptType' => $promptType,
+        'generatedResponse' => $generatedResponse,
+        'cvInput' => $cvInput,
+        'isCustom' => $isCustom,
+    );
+    wp_send_json($return);
     // if prompt is custom, store that custom prompt in wp_prompts data table
     // else prompt is one of the sample ones
 }

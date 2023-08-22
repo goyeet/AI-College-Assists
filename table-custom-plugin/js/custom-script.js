@@ -128,7 +128,8 @@ jQuery(document).ready(function ($) {
                 // Store api call response in global var
                 generatedResponse = response.content;
                 
-                console.log(response);
+                // console.log(response);
+
                 // call function to display the generated content
                 // take response, iterate over content obj, and use JS to create HTML DOM elements to put them on page
                 generatedResponseWrapper.html('<hr><p>' + response.content.join('</p><hr><p>') + '</p>');
@@ -147,23 +148,26 @@ jQuery(document).ready(function ($) {
         // Pass in user's selected cv inputs
         $.ajax({
             type: 'POST',
-            url: my_ajax_object_two.ajaxurl, // WordPress AJAX URL.
+            url: my_ajax_object.ajaxurl, // WordPress AJAX URL.
             dataType: 'json',
             data: {
                 action: 'updateUserHistoryAjax',
-                prompt: selectedPromptText
-                /* promptId: prompt_id,
+                prompt: selectedPromptText,
+                promptId: prompt_id,
                 promptType: prompt_type,
                 generatedResponse: generatedResponse,
                 cvInput: cvInputString,
-                isCustom: useUserInputPrompt */
+                isCustom: useUserInputPrompt
             },
             // Handle the response from the server.
             success: function(response) {
-                // If response is undefined, handle error
-                if (response.content !== undefined) {
-                    console.log('Database updated')
-                }
+                /* try {
+                    var plainTextResponse = JSON.parse(response);
+                    console.log('Decoded plain text:', plainTextResponse);
+                } catch (error) {
+                    console.error('Parsing JSON failed:', error);
+                } */
+                console.log('response: ' + JSON.stringify(response));
             },
           
             error: function(xhr, textStatus, errorThrown) {
