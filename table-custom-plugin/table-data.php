@@ -46,15 +46,39 @@ function get_user_history_table_data() {
 // Stores generation results in user_history table
 function set_user_history_table_data($promptId, $custom_prompt, $cvInput, $generatedResponse) {
     
-    // TODO: sql INSERT data
+    // print_r($generated_response);
 
-    $return = array(
-        'Status'  => 'Success', // return success or failure
-        'promptID' => $promptId,
-        'customPrompt' => $custom_prompt,
-        'cvInput' => $cvInput,
-        'generatedResponse' => $generatedResponse
+    // TODO: sql INSERT data
+    global $wpdb;
+
+    // $table_name = $wpdb->prefix . 'gig_user_history'; // Prefix your table name with the WordPress database prefix
+    
+    // $data_array = array(
+    //     //id auto increments
+    //    // 'user_id' => get_current_user_id(),
+    //     'prompt_id' => $promptId,
+    //     'custom_prompt' => $custom_prompt,
+    //     'cv_inputs' => $cvInput,
+    //     'generated_response' => $generatedReponse,
+    //   //  'created' => date("Y-m-d H:i:s")
+    // );
+    
+    // $result = $wpdb->insert($table_name, $data_array);
+    
+    // (condition) ? (logic if true) : (logic if false)
+    $data_array = array(
+        //'Status'  => 'success',//$result ?  : false, // return success or failure
+        'user_id' => get_current_user_id(),
+        'prompt_id' => $promptId,
+        'custom_prompt' => $custom_prompt,
+        'cv_inputs' => $cvInput,
+        'generated_response' => $generatedResponse
     );
+    
+    $result = $wpdb->insert('wp_gig_user_history', $data_array);
+   
+    $return = $data_array;//json_encode($data_array);
+    
     
     wp_send_json($return);
 }
