@@ -21,9 +21,6 @@ add_action('wp_enqueue_scripts', 'enqueue_custom_scripts');
 // Shortcode that formats data into prompt table
 function prompt_table_shortcode() {
 
-    $gig_user_id = get_option('gig_user_id');
-    $gig_user_key = get_option('gig_user_key');
-
     $table_data = get_prompt_table_data();
 
     ob_start();
@@ -36,11 +33,6 @@ add_shortcode('prompt_table', 'prompt_table_shortcode');
 
 // Shortcode that formats data into cv input table
 function cv_table_shortcode() {
-
-    $gig_user_id = get_option('gig_user_id');
-    $gig_user_key = get_option('gig_user_key');
-
-    $cv_form_entry_fields_data = get_cv_form_entry_fields_data(); // get all data from cv form entries
 
     ob_start();
     include('cv-table.php');
