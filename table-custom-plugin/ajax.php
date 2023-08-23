@@ -1,19 +1,17 @@
 <?php
     function updateUserHistoryAjax() {
-        if (isset($_POST['prompt']) && isset($_POST['promptId']) && isset($_POST['promptType'])
-            && isset($_POST['generatedResponse']) && isset($_POST['cvInput']) && isset($_POST['isCustom'])) {
-
-            $prompt = $_POST['prompt'];
-            $promptId = $_POST['promptId'];
-            $promptType = $_POST['promptType'];
-            $generatedResponse = $_POST['generatedResponse'];
-            $cvInput = $_POST['cvInput'];
-            $isCustom = $_POST['isCustom'];
+        if ((isset($_POST['promptId']) || isset($_POST['customPrompt'])) && isset($_POST['cvInput']) && isset($_POST['response'])) {
+            $promptId = is_null($_POST['promptId']) ? null : (int) $_POST['promptId'];
+            $customPrompt = is_null($_POST['customPrompt']) ? null : sanitize_text_field($_POST['customPrompt']);
+            $cvInput = sanitize_text_field($_POST['cvInput']);
+            $generatedResponse = "";
+            foreach ($_POST['response'] as $response) {
+                $generatedResponse = $generatedResponse . sanitize_text_field($response) . ' ';
+            }
         }
-        /* TODO: Make sure to validate and sanitize those values. */
-        // filter_var();
+
         // Function call that sets table data
-        set_user_history_table_data($prompt, $promptId, $promptType, $generatedResponse, $cvInput, $isCustom);
+        set_user_history_table_data($promptId, $customPrompt, $cvInput, $generatedResponse);
     }
     add_action('wp_ajax_nopriv_updateUserHistoryAjax', 'updateUserHistoryAjax'); // for non-logged in user
     add_action('wp_ajax_updateUserHistoryAjax', 'updateUserHistoryAjax');

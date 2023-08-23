@@ -43,7 +43,6 @@
             <th>Prompt ID</th>
             <th>Prompt Type</th>
             <th>Prompt</th>
-            <th>Generated Response</th>
         </tr>
 
         <?php foreach ($table_data as $row) : ?> 
