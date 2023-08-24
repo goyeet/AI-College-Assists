@@ -221,7 +221,7 @@ jQuery(document).ready(function ($) {
 
 // Custom prompt input
 jQuery(document).ready(function ($) {
-    $("#input_own_prompt_checkbox").change(function () {
+    $("#input_own_prompt_checkbox").on("change", function (e) {
         if (this.checked) {
             $(".prompt-checkbox").not(this).prop("checked", false)
             console.log("checkbox is checked")
@@ -246,3 +246,63 @@ jQuery(document).ready(function ($) {
         $(".cv-checkbox").not(currentCheckboxes).prop("checked", false)
     })
 })
+
+// Display "hidden" editing row underneath the clicked row
+jQuery(document).ready(function($) { //changes text to be an editable form
+    $(".edit-button").on("click", function (e) {
+        let editRow = $(this).closest("tr").next();
+        editRow.css("display", "table-row");
+    });
+});
+
+// Hide editing row when save button is clicked
+jQuery(document).ready(function($) { //changes text to be an editable form
+    $(".save-button").on("click", function (e) {
+        let editRow = $(this).closest("tr");
+        editRow.css("display", "none");
+    });
+});
+
+
+// JQuery(document).ready(function ($) {
+//     $(".edit-button").on("click", function (e) {
+//         const newRow = `
+//             <tr>
+//                 <td class="date-created">
+               
+//                 </td>
+//                 <td class="prompt-used">
+//                     <form class="edit-prompt-form" data-text-id="<?php echo $text_id; ?>" method="post" style="display: none;">
+//                     <?php wp_nonce_field('update_text_action', 'update_text_nonce'); ?>
+//                     <textarea name="updated_text"><?php echo esc_textarea($text); ?></textarea>
+//                     <input type="submit" name="submit" value="Update Text">
+//                     </form>
+                
+//                 </td>
+//                 <td class="cv-inputs-used">
+//                     <form class="edit-cv-form" data-text-id="<?php echo $text_id; ?>" method="post" style="display: none;">
+//                     <?php wp_nonce_field('update_text_action', 'update_text_nonce'); ?>
+//                     <textarea name="updated_text"><?php echo esc_textarea($text); ?></textarea>
+//                     <input type="submit" name="submit" value="Update Text">
+//                     </form>
+            
+//                 </td>
+//                 <td class="generated-response">
+            
+//                 </td>
+       
+//             </tr>
+//         `;
+        
+//         const currentRow = $(this).closest("tr");
+//         $(newRow).insertAfter(currentRow);
+
+//         $(".save-button").on("click", function () {
+//             // Handle saving the new data to the server using AJAX or form submission
+//             // Update the table with the saved data
+//             // Remove the temporary row
+//             $(this).closest("tr").remove();
+//         });
+//     });
+//});
+

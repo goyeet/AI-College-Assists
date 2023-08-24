@@ -1,23 +1,5 @@
 <style>
 
-    .loader {
-        border: 8px solid #f3f3f3;
-        border-top: 8px solid #3498db;
-        border-radius: 50%;
-        width: 60px;
-        height: 60px;
-        animation: spin 2s linear infinite;
-    }
-
-    @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
-
-    .hidden {
-        display: none; /** Loading Spinner hidden by default */
-    }
-
     .response-box {
         display: flex;
         justify-content: space-between;
@@ -126,17 +108,6 @@ if (empty($user_form_entries)) : ?>
             <span><input type="text" id="additional_cv_input" name="additional_cv_input" maxlength="300" /></span>
         </form>    
 
-        <h1>Generated Response</h1>
-        <div class="response-box">
-            <div class="text-box">
-                <div class="generated-response"></div>
-            </div>
-            <div class="button-cell">
-                <button class="generate-button cv-button">Generate</button>
-                <div class="loading-spinner hidden">
-                    <div class="loader"></div>
-                </div>
-            </div>
-        </div>
+        
     <?php endif; ?>
 <?php endif; ?>

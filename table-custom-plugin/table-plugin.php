@@ -17,7 +17,6 @@ function enqueue_custom_scripts() {
 add_action('wp_enqueue_scripts', 'enqueue_custom_scripts');
 
 /** Prompt Table */
-
 // Shortcode that formats data into prompt table
 function prompt_table_shortcode() {
 
@@ -30,7 +29,6 @@ function prompt_table_shortcode() {
 add_shortcode('prompt_table', 'prompt_table_shortcode');
 
 /** CV Table */
-
 // Shortcode that formats data into cv input table
 function cv_table_shortcode() {
 
@@ -39,5 +37,15 @@ function cv_table_shortcode() {
     return ob_get_clean();
 }
 add_shortcode('cv_table', 'cv_table_shortcode');
+
+/** User History Table */
+// Shortcode that formats data into user history table
+function user_history_table_shortcode() {
+
+    ob_start();
+    include('user-history-table.php');
+    return ob_get_clean();
+}
+add_shortcode('user_history_table', 'user_history_table_shortcode');
 
 ?>

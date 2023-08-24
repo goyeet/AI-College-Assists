@@ -43,8 +43,8 @@ function get_prompt_table_data() {
 // Return: array contains all entry_id's that belong to logged in user
 function get_user_cv_form_entries() {
 
-    // $current_user_id = get_current_user_id();
-    $current_user_id = 5;
+    $current_user_id = get_current_user_id();
+    // $current_user_id = 5;
 
     global $wpdb;
     $table_name = $wpdb->prefix . 'gf_entry';
@@ -61,7 +61,8 @@ function get_user_cv_form_entries() {
         foreach ($result as $row) {
             array_push($user_entry_ids, $row['id']);
         }
-    } else {
+    }
+    else {
         echo "No results found.";
     }
 
@@ -136,19 +137,25 @@ function plugin_create_user_history_table() { //creates a table for storing prev
 }
 register_activation_hook(__DIR__.'/table-plugin.php', 'plugin_create_user_history_table');
 
-// Gets data from user_history table
+// Gets data from user_history table for logged in user
 function get_user_history_table_data() {
+
+    $current_user_id = get_current_user_id();
+
     global $wpdb;
-    $table_name = $wpdb->prefix . 'gig_user_history';
-    $query = "SELECT `id`, date_time, prompt_id, prompt_type, `user_id`, response_essay, prompt FROM $table_name";
+    $history_table = $wpdb->prefix . 'gig_user_history';
+    $prompt_table = $wpdb->prefix . 'gig_prompts';
+    $query = "SELECT h.`prompt_id`, p.`prompt_type`, p.`prompt`, h.`custom_prompt`, h.`cv_inputs`, h.`generated_response`, h.`created`
+              FROM $history_table AS h
+              LEFT JOIN $prompt_table AS p ON h.`prompt_id` = p.`prompt_id`
+              WHERE h.`user_id` = '$current_user_id'";
     return $wpdb->get_results($query, ARRAY_A);
 }
 
-// Stores generation results in user_history table
+// Stores generation results in gig_user_history table
 function set_user_history_table_data($promptId, $custom_prompt, $cvInput, $generatedResponse) {
 
     global $wpdb;
-
     $data = array(
         'user_id' => get_current_user_id(),
         'prompt_id' => $promptId,
@@ -156,7 +163,6 @@ function set_user_history_table_data($promptId, $custom_prompt, $cvInput, $gener
         'cv_inputs' => $cvInput,
         'generated_response' => $generatedResponse
     );
-    
     $result = $wpdb->insert('wp_gig_user_history', $data);
    
     $return = array(
