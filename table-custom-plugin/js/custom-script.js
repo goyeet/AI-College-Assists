@@ -38,63 +38,36 @@ jQuery(document).ready(function ($) {
             if (checkbox.checked && userInput == null) {
                 userInput = $(checkbox).closest("tr").find(".input")
             }
-            return checkbox.checked
+            return checkbox.checked;
         })
 
         // Hardcoded other CV inputs
-        selectedInputs.push("Introduction:")
+        selectedInputs.push("Introduction")
 
         // loop through all checkboxes that are checked
         checkedCheckboxes.forEach((checkbox) => {
             selectedInputs.push(checkbox.value)
-        })
+        });
 
-        selectedInputs.push("Key Moments:")
-        selectedInputs.push("Challenges Overcome:")
+        selectedInputs.push("Key Moments")
+        selectedInputs.push("Challenges Overcome")
 
         console.log(selectedInputs)
 
-        // Grab entire str from user input box to prepare for string parsing
-        let inputStr = userInput.find("span").text()
-
-        // Associative array that stores pairs of "sectionName" = sectionData
-        // Ex. "Academic Accomplishments: " = 4.0
-        let chosenCVFields = {}
+        let cvInputString = ""
 
         selectedInputs.forEach((sectionName) => {
-            //sectionName is the section names like "Academic Accomplishments: "
-            let start = sectionName
-            // console.log('section Name: ' + sectionName);
-            let startIndex = inputStr.indexOf(start)
-            let endIndex = inputStr.indexOf(" | ", startIndex + start.length)
-            let sectionData = inputStr.slice(startIndex + start.length,endIndex) // Data associated with current section
-            // console.log('section data: ' + sectionData);
+            let inputStr = userInput.find("[data-label='" + sectionName + "']").text();
+            cvInputString = cvInputString + sectionName + ": " + inputStr;
+        });
 
-            chosenCVFields[sectionName] = sectionData //adds checkedbox's section name and section data to chosenCVFields associative array
-        })
-
-        // var elements = Object.keys(chosenCVFields).map(function(k) {
-        //     return chosenCVFields[k];
-        // })
+        console.log('cvInputString: ' + cvInputString);
 
         // console.log('stored cv inputs for generation: ' + elements);
         let generatedResponseWrapper = $(".generated-response") // Eventually move response box
 
         // Show loading spinner
         showLoading()
-
-        let cvInputString = ""
-
-        for (const cvInput in chosenCVFields) {
-            if (chosenCVFields.hasOwnProperty(cvInput)) {
-                cvInputString =
-                    cvInputString +
-                    cvInput +
-                    " " +
-                    chosenCVFields[cvInput] +
-                    "\n" // double newline breaks AI for some reason
-            }
-        }
 
         let additionalCVInfo = $("#additional_cv_input").val()
         cvInputString = cvInputString + "Additional Information: " + additionalCVInfo;
