@@ -5,16 +5,16 @@ var selectedPromptText = ""
 
 var prompt_id = ""
 
-var prompt_type = ""
+var generatedResponse = ""
+
+var cvInputString = ""
 
 var useCustomPrompt = false //will be used to store whether the user wants to use the custom prompt
-
-var generatedResponse = ""
 
 // Detects click on button and grabs prompt from the corresponding table row
 jQuery(document).ready(function ($) {
     $(".generate-button").on("click", function (e) {
-        // console.log('generate button clicked');
+        console.log('regular generate button clicked');
 
         if (useCustomPrompt) {
             //if using the user's inputted prompt, aka custom prompt is selected by user
@@ -22,7 +22,7 @@ jQuery(document).ready(function ($) {
             // console.log('custom prompt post generate: ' + selectedPromptText);
             // console.log('if ran' + useCustomPrompt);
         }
-
+    
         // array to hold selected inputs that are checked
         const selectedInputs = []
 
@@ -54,7 +54,7 @@ jQuery(document).ready(function ($) {
 
         console.log(selectedInputs)
 
-        let cvInputString = ""
+        cvInputString = ""
 
         selectedInputs.forEach((sectionName) => {
             let inputStr = userInput.find("[data-label='" + sectionName + "']").text();
@@ -64,15 +64,16 @@ jQuery(document).ready(function ($) {
         console.log('cvInputString: ' + cvInputString);
 
         // console.log('stored cv inputs for generation: ' + elements);
-        let generatedResponseWrapper = $(".generated-response") // Eventually move response box
 
         // Show loading spinner
         showLoading()
-
+    
+        // Check if user had any additional input
+        // TODO: make this conditional
         let additionalCVInfo = $("#additional_cv_input").val()
         cvInputString = cvInputString + "Additional Information: " + additionalCVInfo;
 
-        // TODO: make the cue string using selected prompt and selected cv inputs
+        // Make the cue string using selected prompt and selected cv inputs
         cueString =
             'I am a college applicant writing an essay trying to address the prompt: "' +
             selectedPromptText +
@@ -81,6 +82,9 @@ jQuery(document).ready(function ($) {
             cvInputString;
 
         console.log("cue: " + cueString);
+
+        // Target response box
+        let generatedResponseWrapper = $(".generated-response")
 
         // Make the API call using AJAX
         e.preventDefault()
@@ -98,7 +102,7 @@ jQuery(document).ready(function ($) {
             success: function (response) {
                 // hides loading page
                 hideLoading()
-
+    
                 // If response is undefined, handle error
                 if (response.content === undefined) {
                     console.log("API returned undefined")
@@ -106,17 +110,17 @@ jQuery(document).ready(function ($) {
                         "<hr><p>Unfortunately, there was an error on our end. Please try again.</p>"
                     )
                 }
-
+    
                 // Store api call response in global var
                 generatedResponse = response.content
                 console.log("generated response: " + generatedResponse)
-
+    
                 // call function to display the generated content
                 // take response, iterate over content obj, and use JS to create HTML DOM elements to put them on page
                 generatedResponseWrapper.html(
                     "<hr><p>" + response.content.join("</p><hr><p>") + "</p>"
                 )
-
+    
                 // Second Ajax call:
                 // Pass in prompt (either custom or sample one)
                 // Pass in generated response var: generatedResponse (response.content from previous ajax call)
@@ -136,7 +140,7 @@ jQuery(document).ready(function ($) {
                     success: function (response) {
                         console.log("response: " + JSON.stringify(response))
                     },
-
+    
                     error: function (xhr, textStatus, errorThrown) {
                         console.log(
                             "AJAX request failed: " + textStatus + ", " + errorThrown
@@ -144,7 +148,7 @@ jQuery(document).ready(function ($) {
                     },
                 })
             },
-
+    
             error: function (xhr, textStatus, errorThrown) {
                 // hides loading page
                 hideLoading()
@@ -155,6 +159,7 @@ jQuery(document).ready(function ($) {
         })
     })
 })
+
 
 function showLoading() {
     // Show the loading animation and hide the button
@@ -252,6 +257,7 @@ jQuery(document).ready(function($) { //changes text to be an editable form
     $(".edit-button").on("click", function (e) {
         let editRow = $(this).closest("tr").next();
         editRow.css("display", "table-row");
+        useAlteredPrompt = true;
     });
 });
 
@@ -263,46 +269,104 @@ jQuery(document).ready(function($) { //changes text to be an editable form
     });
 });
 
+// Regenerate or new generation button
+jQuery(document).ready(function ($) {
+    $(".new-generate-button").on("click", function (e) {
 
-// JQuery(document).ready(function ($) {
-//     $(".edit-button").on("click", function (e) {
-//         const newRow = `
-//             <tr>
-//                 <td class="date-created">
-               
-//                 </td>
-//                 <td class="prompt-used">
-//                     <form class="edit-prompt-form" data-text-id="<?php echo $text_id; ?>" method="post" style="display: none;">
-//                     <?php wp_nonce_field('update_text_action', 'update_text_nonce'); ?>
-//                     <textarea name="updated_text"><?php echo esc_textarea($text); ?></textarea>
-//                     <input type="submit" name="submit" value="Update Text">
-//                     </form>
-                
-//                 </td>
-//                 <td class="cv-inputs-used">
-//                     <form class="edit-cv-form" data-text-id="<?php echo $text_id; ?>" method="post" style="display: none;">
-//                     <?php wp_nonce_field('update_text_action', 'update_text_nonce'); ?>
-//                     <textarea name="updated_text"><?php echo esc_textarea($text); ?></textarea>
-//                     <input type="submit" name="submit" value="Update Text">
-//                     </form>
-            
-//                 </td>
-//                 <td class="generated-response">
-            
-//                 </td>
-       
-//             </tr>
-//         `;
+        console.log('New generation button clicked')
+
+        // Show loading spinner
+        showLoading()
         
-//         const currentRow = $(this).closest("tr");
-//         $(newRow).insertAfter(currentRow);
+        selectedPromptText = $(this).closest("tr").find(".altered_prompt_text").val();
+        console.log('edited prompt text: ' + selectedPromptText);
+        cvInputString = $(this).closest("tr").find(".altered_cv_text").val();
+        console.log('edited input text: ' + cvInputString);
+        
+        // TODO: make the cue string using selected prompt and selected cv inputs
+        cueString =
+            'I am a college applicant writing an essay trying to address the prompt: "' +
+            selectedPromptText +
+            '"' +
+            " \nWrite me an essay response using the information provided below, no more than 300 words please.\n" +
+            cvInputString;
 
-//         $(".save-button").on("click", function () {
-//             // Handle saving the new data to the server using AJAX or form submission
-//             // Update the table with the saved data
-//             // Remove the temporary row
-//             $(this).closest("tr").remove();
-//         });
-//     });
-//});
+        console.log("cue: " + cueString);
 
+        // Target response box
+        let generatedResponseWrapper = $(".generated-response")
+
+        // Make the API call using AJAX
+        e.preventDefault()
+
+        $.ajax({
+            type: "POST",
+            url: my_ajax_object.ajaxurl, // WordPress AJAX URL.
+            dataType: "json",
+            data: {
+                action: "generateEssayAjax",
+                // Additional data to send to the server if needed.
+                cue: cueString, // material to feed AI for essay generation
+            },
+            // Handle the response from the server.
+            success: function (response) {
+                // hides loading page
+                hideLoading()
+    
+                // If response is undefined, handle error
+                if (response.content === undefined) {
+                    console.log("API returned undefined")
+                    generatedResponseWrapper.html(
+                        "<hr><p>Unfortunately, there was an error on our end. Please try again.</p>"
+                    )
+                }
+    
+                // Store api call response in global var
+                generatedResponse = response.content
+                console.log("generated response: " + generatedResponse)
+    
+                // call function to display the generated content
+                // take response, iterate over content obj, and use JS to create HTML DOM elements to put them on page
+                generatedResponseWrapper.html(
+                    "<hr><p>" + response.content.join("</p><hr><p>") + "</p>"
+                )
+    
+                // Second Ajax call:
+                // Pass in prompt (either custom or sample one)
+                // Pass in generated response var: generatedResponse (response.content from previous ajax call)
+                // Pass in user's selected cv inputs
+                $.ajax({
+                    type: "POST",
+                    url: my_ajax_object.ajaxurl, // WordPress AJAX URL.
+                    dataType: "json",
+                    data: {
+                        action: "updateUserHistoryAjax",
+                        promptId: null,
+                        customPrompt: selectedPromptText,
+                        cvInput: cvInputString,
+                        response: generatedResponse,
+                    },
+                    // Handle the response from the server.
+                    success: function (response) {
+                        console.log("response: " + JSON.stringify(response))
+                    },
+    
+                    error: function (xhr, textStatus, errorThrown) {
+                        console.log(
+                            "AJAX request failed: " + textStatus + ", " + errorThrown
+                        )
+                    },
+                })
+            },
+    
+            error: function (xhr, textStatus, errorThrown) {
+                // hides loading page
+                hideLoading()
+                console.log(
+                    "AJAX request failed: " + textStatus + ", " + errorThrown
+                )
+            },
+        })
+        
+    });
+});

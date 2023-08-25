@@ -54,43 +54,34 @@ if (empty($user_history_data)) : ?>
                     <?php echo $row['generated_response']; ?>
                 </td>
                 <td class="edit-button-cell">
-                    <button class="edit-button" data-text-id="<?php echo $text_id; ?>">Edit</button>
+                    <button class="edit-button" data-text-id="<?php echo $text_id; ?>">Reuse and Edit</button>
                 </td>
-                <!-- <td class="input">
-                    <div class="before_edit">
-                        <ul class="inputText">
-                            TEST
-                            <?php>
-                        // $text_id = 1; //$prompt_used; // should be prompt ids of the current user
-                            // $text = "prompt used";//$prompt_used; $wpdb->get_var($wpdb->prepare("SELECT prompt_id FROM wp_gig_user_history WHERE id = %d", $text_id));
-                            
-                            <?>
-                        </ul> 
-                    </div>
-                    <button class="edit-button" data-text-id="<?php /* echo $text_id; */ ?>">Edit</button>
-                    <form class="edit-form" data-text-id="<?php /* echo $text_id; */ ?>" method="post" style="display: none;">
-                    <?php /* wp_nonce_field('update_text_action', 'update_text_nonce'); */ ?>
-                    <textarea name="updated_text"><?php /* echo esc_textarea($text); */ ?></textarea>
-                    <input type="submit" name="submit" value="Update Text">
-                </form>
-
-                </td> -->
             </tr>
+            
             <tr class="editing-row">
                 <td class="date-created">
                 </td>
                 <td class="prompt-used">
                     <?php
-                        echo $row['custom_prompt'] ? $row['custom_prompt'] : $row['prompt'];
+                        $prompt_text = $row['custom_prompt'] ? $row['custom_prompt'] : $row['prompt'];
                     ?>
+                    <form method="post" class="edit-prompt-form">
+                        <?php wp_nonce_field('update_text_action', 'update_text_nonce'); ?>
+                        <textarea class="altered_prompt_text" name="updated_text"><?php echo esc_textarea($prompt_text); ?></textarea>
+                        <!-- <input type="submit" name="submit" value="Update Text"> -->
+                    </form>
                 </td>
                 <td class="cv-inputs-used">
-                    <?php echo $row['cv_inputs']; ?>
+                    <form method="post" class="edit-input-form">
+                        <?php wp_nonce_field('update_text_action', 'update_text_nonce'); ?>
+                        <textarea class="altered_cv_text" name="updated_text"><?php echo esc_textarea($row['cv_inputs']); ?></textarea>
+                        <!-- <input type="submit" name="submit" value="Update Text"> -->
+                    </form>
                 </td>
                 <td class="generated-response">
                 </td>
                 <td class="save-button-cell">
-                    <button class="save-button" data-text-id="<?php echo $text_id; ?>">Save Changes</button>
+                    <button class="new-generate-button" data-text-id="<?php echo $text_id; ?>">New Generation</button>
                 </td>
             </tr>
 
