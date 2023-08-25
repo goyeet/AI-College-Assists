@@ -106,17 +106,16 @@ if (empty($user_history_data)) : ?>
 
         <?php endforeach; ?>
     </table>
-
-    <h1>Generated Response</h1>
-    <div class="response-box">
-        <div class="text-box">
-            <div class="generated-response"></div>
-        </div>
-        <div class="button-cell">
-            <button class="generate-button cv-button">Generate</button>
-            <div class="loading-spinner hidden">
-                <div class="loader"></div>
-            </div>
+<?php endif; ?>
+<h1>Generated Response</h1>
+<div class="response-box">
+    <div class="text-box">
+        <div class="generated-response"></div>
+    </div>
+    <div class="button-cell">
+        <button class="generate-button cv-button">Generate</button>
+        <div class="loading-spinner hidden">
+            <div class="loader"></div>
         </div>
     </div>
-<?php endif; ?>
+</div>

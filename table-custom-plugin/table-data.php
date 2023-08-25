@@ -3,11 +3,33 @@
 include('ajax.php');
 
 // User Meta (Tokens) -----------------------------------------
-function incrementUsedCredits() {
-    global $wpdb;
-    $table_name = $wpdb->prefix . 'usermeta';
 
-    // $query = "SELECT prompt_id, prompt_type, prompt FROM $table_name";
+/* function initialize_existing_users_counters() {
+    $user_ids = get_users(array('fields' => 'ID'));
+    foreach ($user_ids as $user_id) {
+        $existing_value = get_user_meta($user_id, 'user_credits_used', true);
+        
+        // Only initialize the counter if it's not set for this user
+        if (empty($existing_value)) {
+            $result = update_user_meta($user_id, 'user_credits_used', 0);
+            $result ? print_r('Row added') : print_r('Row add failed');
+            
+        }
+    }
+} */
+
+function initialize_user_counter() {
+    $current_user_id = get_current_user_id();
+    update_user_meta($current_user_id, 'user_credits_used', 0);
+}
+add_action('user_register', 'initialize_user_counter');
+
+function increment_used_credits() {
+    $current_user_id = get_current_user_id();
+    $current_value = get_user_meta($current_user_id, 'user_credits_used', true);
+    $new_value = $current_value + 1;
+    $result = update_user_meta($current_user_id, 'user_credits_used', $new_value);
+    return $result;
 }
 
 // Prompt Table -----------------------------------------------
@@ -191,9 +213,12 @@ function set_user_history_table_data($promptId, $custom_prompt, $cvInput, $gener
         'generated_response' => $generatedResponse
     );
     $result = $wpdb->insert('wp_gig_user_history', $data);
+
+    $function_result = increment_used_credits();
    
     $return = array(
-        'Execution' => $result ? 'Success' : 'Failure'
+        'Execution' => $result ? 'Success' : 'Failure',
+        'Credits Incremented' => $function_result ? 'Success' : 'Failure'
     );
     
     wp_send_json($return);

@@ -12,7 +12,6 @@
 
         // Function call that sets table data
         set_user_history_table_data($promptId, $customPrompt, $cvInput, $generated_response);
-        incrementUsedCredits();
     }
     add_action('wp_ajax_nopriv_updateUserHistoryAjax', 'updateUserHistoryAjax'); // for non-logged in user
     add_action('wp_ajax_updateUserHistoryAjax', 'updateUserHistoryAjax');
