@@ -2,6 +2,14 @@
 
 include('ajax.php');
 
+// User Meta (Tokens) -----------------------------------------
+function incrementUsedCredits() {
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'usermeta';
+
+    // $query = "SELECT prompt_id, prompt_type, prompt FROM $table_name";
+}
+
 // Prompt Table -----------------------------------------------
 
 // Function to create custom table on plugin activation
@@ -35,6 +43,25 @@ function get_prompt_table_data() {
     $table_name = $wpdb->prefix . 'gig_prompts';
     $query = "SELECT prompt_id, prompt_type, prompt FROM $table_name";
     return $wpdb->get_results($query, ARRAY_A);
+}
+
+// Gets data from prompt table
+function searchForPrompt($promptToSearch) {
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'gig_prompts';
+    $query = "SELECT prompt_id
+              FROM $table_name
+              WHERE prompt = '$promptToSearch'";
+
+    // result will be an empty array if no matches
+    $result = $wpdb->get_results($query, ARRAY_A);
+
+    $return = array(
+        'Found' => !empty($result) ? 'Success' : 'Failure', //if the result is empty, then use the custom prompt, otherwise use the matching selected prompt id
+        'Found_Prompt_ID' => !empty($result) ? $result[0] : null
+    );
+    
+    wp_send_json($return);
 }
 
 // CV Table ------------------------------------------------------
@@ -145,7 +172,7 @@ function get_user_history_table_data() {
     global $wpdb;
     $history_table = $wpdb->prefix . 'gig_user_history';
     $prompt_table = $wpdb->prefix . 'gig_prompts';
-    $query = "SELECT h.`prompt_id`, p.`prompt_type`, p.`prompt`, h.`custom_prompt`, h.`cv_inputs`, h.`generated_response`, h.`created`
+    $query = "SELECT h.`prompt_id`, p.`prompt_id`, p.`prompt_type`, p.`prompt`, h.`custom_prompt`, h.`cv_inputs`, h.`generated_response`, h.`created`
               FROM $history_table AS h
               LEFT JOIN $prompt_table AS p ON h.`prompt_id` = p.`prompt_id`
               WHERE h.`user_id` = '$current_user_id'";

@@ -14,6 +14,10 @@
         100% { transform: rotate(360deg); }
     }
 
+    .hidden {
+        display: none; /** Loading Spinner hidden by default */
+    }
+
     .editing-row {
         display: none; 
     }
@@ -32,34 +36,45 @@ if (empty($user_history_data)) : ?>
 
         <tr>
             <th>Date Created</th>
+            <th>Prompt ID</th>
             <th>Prompt Used</th>
             <th>CV Inputs Selected</th>
             <th>Generated Response</th>
         </tr>
 
         <?php foreach ($user_history_data as $row) : ?>
+
             <tr class="data-row">
-                <td class="date-created">
+                <td class="stored-date-created">
                     <?php echo $row['created']; ?>
                 </td>
-                <td class="prompt-used">
+                <td class="stored-prompt-id">
+                    <?php 
+                        $promptID = $row['prompt_id'];
+                        echo $promptID ? $promptID : "Custom"; 
+                    ?>
+                </td>
+                <td class="stored-prompt">
                     <?php
                         echo $row['custom_prompt'] ? $row['custom_prompt'] : $row['prompt'];
                     ?>
                 </td>
-                <td class="cv-inputs-used">
+                <td class="stored-cv-inputs">
                     <?php echo $row['cv_inputs']; ?>
                 </td>
-                <td class="generated-response">
+                <td class="stored-response">
                     <?php echo $row['generated_response']; ?>
                 </td>
                 <td class="edit-button-cell">
-                    <button class="edit-button" data-text-id="<?php echo $text_id; ?>">Reuse and Edit</button>
+                    <button class="edit-button">Reuse and Edit</button>
                 </td>
             </tr>
             
             <tr class="editing-row">
                 <td class="date-created">
+                </td>
+                <td class="prompt-id">
+                    <?php echo $row['prompt_id']; ?>
                 </td>
                 <td class="prompt-used">
                     <?php
@@ -79,43 +94,18 @@ if (empty($user_history_data)) : ?>
                     </form>
                 </td>
                 <td class="generated-response">
+                    
                 </td>
                 <td class="save-button-cell">
-                    <button class="new-generate-button" data-text-id="<?php echo $text_id; ?>">New Generation</button>
+                    <button class="new-generate-button">New Generation</button>
+                    <div class="loading-spinner hidden">
+                        <div class="loader"></div>
+                    </div>         
                 </td>
             </tr>
 
         <?php endforeach; ?>
     </table>
-
-
-
-    <?php
-    
-    // if (isset($_POST['submit'])) {
-    //     if (isset($_POST['update_text_nonce']) && wp_verify_nonce($_POST['update_text_nonce'], 'update_text_action')) {
-    //         $updated_text = sanitize_textarea_field($_POST['updated_text']);
-            
-    //         // Update the database
-    //         $wpdb->update(
-    //             'wp_gig_user_history',
-    //             array(
-    //                 'custom_prompt' => $updated_text,
-    //                 'user_id' => get_current_user_id(),
-    //                 'prompt_id' => null,
-    //                 'cv_inputs' => $cvInput,
-    //                 'generated_response' => $generatedResponse
-    //             )
-    //         );
-            
-    //         echo "Text updated successfully!";
-    //     } else {
-    //         echo "Security check failed!";
-    //     }
-    // }
-    
-
-    ?>
 
     <h1>Generated Response</h1>
     <div class="response-box">

@@ -171,9 +171,15 @@ function showLoading() {
         }
     }
     let buttons = document.getElementsByClassName("generate-button")
+    let buttons2 = document.getElementsByClassName("new-generate-button")
     if (buttons.length > 0) {
         for (i = 0; i < buttons.length; i++) {
             buttons[i].style.display = "none"
+        }
+    }
+    if (buttons2.length > 0) {
+        for (i = 0; i < buttons2.length; i++) {
+            buttons2[i].style.display = "none"
         }
     }
 }
@@ -188,9 +194,15 @@ function hideLoading() {
         }
     }
     let buttons = document.getElementsByClassName("generate-button")
+    let buttons2 = document.getElementsByClassName("new-generate-button")
     if (buttons.length > 0) {
         for (i = 0; i < buttons.length; i++) {
             buttons[i].style.display = "block"
+        }
+    }
+    if (buttons2.length > 0) {
+        for (i = 0; i < buttons2.length; i++) {
+            buttons2[i].style.display = "block"
         }
     }
 }
@@ -273,17 +285,74 @@ jQuery(document).ready(function($) { //changes text to be an editable form
 jQuery(document).ready(function ($) {
     $(".new-generate-button").on("click", function (e) {
 
+        e.preventDefault()
+
         console.log('New generation button clicked')
 
         // Show loading spinner
         showLoading()
+
+        let initial_prompt_id = $(this).closest("tr").find(".prompt-id").text();
+        console.log('initial prompt id' + initial_prompt_id);
         
-        selectedPromptText = $(this).closest("tr").find(".altered_prompt_text").val();
+        let initial_prompt_text = $(this).closest("tr").prev().find(".stored-prompt").text();
+        console.log('initial prompt text: ' + initial_prompt_text);
+
+        let form_prompt_text = $(this).closest("tr").find(".altered_prompt_text").val();
+        selectedPromptText = form_prompt_text;
         console.log('edited prompt text: ' + selectedPromptText);
         cvInputString = $(this).closest("tr").find(".altered_cv_text").val();
-        console.log('edited input text: ' + cvInputString);
+        // console.log('edited input text: ' + cvInputString);
+
+        // check values to see if they were changed
+
+        let customPromptString = "";
+
+        // if prompt value is changed
+        if (form_prompt_text.replace(/\s/g, "") != initial_prompt_text.replace(/\s/g, "")) {
+            console.log('text was changed');
+            $.ajax({
+                type: "POST",
+                url: my_ajax_object.ajaxurl, // WordPress AJAX URL.
+                dataType: "json",
+                data: {
+                    action: "searchForPromptAjax",
+                    promptToSearch: form_prompt_text,
+                },
+                // Handle the response from the server.
+                success: function (response) {
+                    console.log("response: " + JSON.stringify(response))
+
+                    // if Found is success
+                    if (response.Found == 'Success') {
+                        console.log('function found match');
+                        prompt_id = response.Found_Prompt_ID;
+                        customPromptString = null;
+                    }
+                    else {
+                        console.log('function DIDNT find match');
+                        prompt_id = null;
+                        customPromptString = selectedPromptText;
+                        console.log('setting custom prompt to: ' + customPromptString);
+                    }
+                    
+                },
+
+                error: function (xhr, textStatus, errorThrown) {
+                    console.log(
+                        "AJAX request failed: " + textStatus + ", " + errorThrown
+                    )
+                },
+            })
+        } else {
+            console.log('text was NOT changed');
+            prompt_id = initial_prompt_id;
+            console.log('prompt id of new generation: ' + prompt_id);
+        }
         
-        // TODO: make the cue string using selected prompt and selected cv inputs
+        // if cvInput value is changed
+        
+        // make the cue string using selected prompt and selected cv inputs
         cueString =
             'I am a college applicant writing an essay trying to address the prompt: "' +
             selectedPromptText +
@@ -297,7 +366,6 @@ jQuery(document).ready(function ($) {
         let generatedResponseWrapper = $(".generated-response")
 
         // Make the API call using AJAX
-        e.preventDefault()
 
         $.ajax({
             type: "POST",
@@ -341,8 +409,8 @@ jQuery(document).ready(function ($) {
                     dataType: "json",
                     data: {
                         action: "updateUserHistoryAjax",
-                        promptId: null,
-                        customPrompt: selectedPromptText,
+                        promptId: prompt_id,
+                        customPrompt: customPromptString,
                         cvInput: cvInputString,
                         response: generatedResponse,
                     },
