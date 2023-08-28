@@ -1,3 +1,5 @@
-A custom plugin to install ai college assists api to your website
+# GIG College Essay Writer
 
-Co-Authored by Clarissa Chen and Gordon Yee
+Contributors: Clarissa Chen and Gordon Yee
+
+## Description
