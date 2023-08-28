@@ -1,5 +1,5 @@
 # GIG College Essay Writer
 
-Contributors: Clarissa Chen and Gordon Yee
+**Contributors:** Clarissa Chen and Gordon Yee
 
 ## Description

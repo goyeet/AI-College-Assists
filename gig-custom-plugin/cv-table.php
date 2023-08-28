@@ -65,7 +65,7 @@ if (empty($user_form_entries)) : ?>
 
             <tr>
                 <td>
-                    <span>Add any prompt specific or additional information you'd like to include in this generation (Optional)</span>
+                    <span>Additional information to include in generation (Optional)</span>
                 </td>
                 <td>
                     <form> 
