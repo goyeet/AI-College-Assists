@@ -21,10 +21,10 @@ if (empty($user_history_data)) : ?>
         <?php foreach ($user_history_data as $row) : ?>
 
             <tr class="data-row">
-                <td class="stored-date-created">
+                <td class="date-created">
                     <?php echo $row['created']; ?>
                 </td>
-                <td class="stored-prompt-id">
+                <td class="prompt-id">
                     <?php 
                         $promptID = $row['prompt_id'];
                         echo $promptID ? $promptID : "Custom"; 
@@ -36,7 +36,15 @@ if (empty($user_history_data)) : ?>
                     ?>
                 </td>
                 <td class="stored-cv-inputs">
-                    <?php echo $row['cv_inputs']; ?>
+                    <?php
+                    $cv_inputs_selected_string = $row['cv_inputs_selected'];
+                    $selected_inputs = explode('|', $cv_inputs_selected_string); // takes the string and turns it into an array
+                    ?>
+                    <ul>
+                        <?php foreach ($selected_inputs as $word) : ?>
+                            <li><strong><?php echo $word?></strong></li>
+                        <?php endforeach; ?>
+                    </ul
                 </td>
                 <td class="stored-response">
                     <?php echo $row['generated_response']; ?>
@@ -63,15 +71,25 @@ if (empty($user_history_data)) : ?>
                     </form>
                 </td>
                 <td class="cv-inputs-used">
-                    <input type="checkbox" class="cv-checkbox" value="Academic Accomplishments">Academics<br>
-                    <input type="checkbox" class="cv-checkbox" value="Athletic Accomplishments">Athletic Accomplishments<br>
-                    <input type="checkbox" class="cv-checkbox" value="Extracurricular Activities">Extracurricular Activities<br>
-                    <input type="checkbox" class="cv-checkbox" value="Passions">Passions<br>
+                    <?php
+
+                    $checked = in_array('Academic Accomplishments', $selected_inputs) ? 'checked' : '';
+                    echo "<input type='checkbox' class='cv-checkbox' value='Academic Accomplishments' $checked>Academics<br>";
+
+                    $checked = in_array('Athletic Accomplishments', $selected_inputs) ? 'checked' : '';
+                    echo "<input type='checkbox' class='cv-checkbox' value='Athletic Accomplishments' $checked>Athletic Accomplishments<br>";
+
+                    $checked = in_array('Extracurricular Activities', $selected_inputs) ? 'checked' : '';
+                    echo "<input type='checkbox' class='cv-checkbox' value='Extracurricular Activities' $checked>Extracurricular Activities<br>";
+
+                    $checked = in_array('Passions', $selected_inputs) ? 'checked' : '';
+                    echo "<input type='checkbox' class='cv-checkbox' value='Passions' $checked>Passions<br>";
+                    ?>
+
                     <!-- Only display additional text box -->
                     <form method="post" class="edit-input-form">
                         <?php wp_nonce_field('update_text_action', 'update_text_nonce'); ?>
                         <textarea class="edit-additional-info" name="updated_text"><?php echo esc_textarea($row['additional_info']); ?></textarea>
-                        <!-- <input type="submit" name="submit" value="Update Text"> -->
                     </form>
                 </td>
                 <td class="generated-response">

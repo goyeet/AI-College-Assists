@@ -62,7 +62,7 @@ function plugin_create_prompt_table() {
         dbDelta($sql);
     }
 }
-register_activation_hook(__DIR__.'/table-plugin.php', 'plugin_create_prompt_table');
+register_activation_hook(__DIR__.'/gig-plugin.php', 'plugin_create_prompt_table');
 
 // Gets data from prompt table
 function get_prompt_table_data() {
@@ -176,8 +176,9 @@ function plugin_create_user_history_table() { //creates a table for storing prev
             user_id BIGINT(20) NOT NULL,
             prompt_id INT(11),
             custom_prompt VARCHAR(500),
-            cv_inputs_selected VARCHAR(100) ARRAY[4] NOT NULL),
+            cv_inputs_selected VARCHAR(200),
             additional_info TEXT,
+            cue_string TEXT,
             generated_response TEXT NOT NULL,
             created DATETIME DEFAULT CURRENT_TIMESTAMP,
             PRIMARY KEY (id)
@@ -190,7 +191,7 @@ function plugin_create_user_history_table() { //creates a table for storing prev
         dbDelta($sql);
     }
 }
-register_activation_hook(__DIR__.'/table-plugin.php', 'plugin_create_user_history_table');
+register_activation_hook(__DIR__.'/gig-plugin.php', 'plugin_create_user_history_table');
 
 // Gets data from user_history table for logged in user
 function get_user_history_table_data() {
@@ -208,7 +209,7 @@ function get_user_history_table_data() {
 }
 
 // Stores generation results in gig_user_history table
-function set_user_history_table_data($promptId, $customPrompt, $cvInputsSelected, $additionalInfo, $generatedResponse) {
+function set_user_history_table_data($promptId, $customPrompt, $cvInputsSelected, $additionalInfo, $cueString, $generatedResponse) {
 
     global $wpdb;
     $data = array(
@@ -217,6 +218,7 @@ function set_user_history_table_data($promptId, $customPrompt, $cvInputsSelected
         'custom_prompt' => $customPrompt,
         'cv_inputs_selected' => $cvInputsSelected,
         'additional_info' => $additionalInfo,
+        'cue_string' => $cueString,
         'generated_response' => $generatedResponse
     );
     $result = $wpdb->insert('wp_gig_user_history', $data);

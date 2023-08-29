@@ -23,8 +23,24 @@
 
 /* Table  */
 td {
-    text-align: center;
+    text-align: left;
     overflow: auto;
+}
+
+.prompt-id {
+    text-align: center;
+}
+
+.entry-id {
+    text-align: center;
+}
+
+.date-created {
+    text-align: center;
+}
+
+.additional-info {
+    text-align: center;
 }
 
 .prompt-checkbox {
@@ -38,14 +54,6 @@ td {
     height: 20px;
     border-radius: 8px;
     margin-right: 5px;
-}
-
-.cv-selection {
-    text-align: left;
-}
-
-.input {
-    text-align: left;
 }
 
 .inputText {

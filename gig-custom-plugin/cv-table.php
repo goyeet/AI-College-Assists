@@ -64,8 +64,8 @@ if (empty($user_form_entries)) : ?>
             <?php endforeach; ?>
 
             <tr>
-                <td>
-                    <span>Additional information to include in generation (Optional)</span>
+                <td class="additional-info">
+                    <span>Additional Information(Optional)</span>
                 </td>
                 <td>
                     <form> 
@@ -75,16 +75,9 @@ if (empty($user_form_entries)) : ?>
             </tr>
 
         </table>
-
-        <!-- <h3>Additional Input</h3>
-        <span>Add any prompt specific or additional information you'd like to include in this generation below:</span>
-
-        <form> 
-            <span><input type="text" id="additional_cv_input" name="additional_cv_input" maxlength="300" /></span>
-        </form> -->
-        
     <?php endif; ?>
 <?php endif; ?>
+
 <h3>Generated Response</h3>
 <div class="response-box">
     <div class="text-box">

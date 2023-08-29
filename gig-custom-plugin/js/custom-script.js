@@ -14,7 +14,7 @@ var useCustomPrompt = false // Whether the user wants to use the custom prompt
 // Detects click on button and grabs prompt from the corresponding table row
 jQuery(document).ready(function ($) {
     $(".generate-button").on("click", function (e) {
-        console.log('regular generate button clicked');
+        // console.log('regular generate button clicked');
 
         if (useCustomPrompt) {
             // If using the user's inputted prompt, aka custom prompt is selected by user
@@ -22,8 +22,8 @@ jQuery(document).ready(function ($) {
         }
     
         // array to hold selected inputs that are checked
-        let selectedInputs = [] // Holds only 4 CV Categories
-        let selectedInputsForGenenerate = []
+        let selectedInputs = "" // Holds only 4 CV Categories
+        let selectedInputsForGenerate = []
 
         // selects all cv checkboxes on the page
         var cvCheckboxes = jQuery.makeArray($(".cv-checkbox"))
@@ -41,27 +41,27 @@ jQuery(document).ready(function ($) {
         })
 
         // Hardcoded other CV inputs
-        selectedInputsForGenenerate.push("Introduction")
+        selectedInputsForGenerate.push("Introduction")
 
         // loop through all checkboxes that are checked
-        checkedCheckboxes.forEach((checkbox) => {
-            selectedInputs.push(checkbox.value)
-            selectedInputsForGenenerate.push(checkbox.value)
+        checkedCheckboxes.forEach((checkbox, index) => {
+            selectedInputs = selectedInputs + (index === 0 ? '' : '|') + checkbox.value;
+            selectedInputsForGenerate.push(checkbox.value);
         });
 
-        selectedInputsForGenenerate.push("Key Moments")
-        selectedInputsForGenenerate.push("Challenges Overcome")
+        selectedInputsForGenerate.push("Key Moments")
+        selectedInputsForGenerate.push("Challenges Overcome")
 
-        console.log(selectedInputs)
+        // console.log('selected inputs string: ' + selectedInputs)
 
         cvInputString = ""
 
-        selectedInputsForGenenerate.forEach((sectionName) => {
+        selectedInputsForGenerate.forEach((sectionName) => {
             let inputStr = userInput.find("[data-label='" + sectionName + "']").text();
             cvInputString = cvInputString + sectionName + ": " + inputStr + "\n";
         });
 
-        console.log('cvInputString: ' + cvInputString);
+        // console.log('cvInputString: ' + cvInputString);
 
         // Show loading spinner
         showLoading()
@@ -69,7 +69,7 @@ jQuery(document).ready(function ($) {
         // Check if user had any additional input
         let additionalCVInfo = $("#additional_cv_input").val().trim()
         if (additionalCVInfo != "") {
-            console.log('additional input detected')
+            // console.log('additional input detected')
             cvInputString = cvInputString + "Additional Information: " + additionalCVInfo;
         }
 
@@ -81,7 +81,7 @@ jQuery(document).ready(function ($) {
             " \nWrite me an essay response using the information provided below, no more than 300 words please.\n" +
             cvInputString; // IMPORTANT: Hardcoded word count
 
-        console.log("cue: " + cueString);
+        // console.log("cue: " + cueString);
 
         // Target response box
         let generatedResponseWrapper = $(".generated-response")
@@ -113,7 +113,7 @@ jQuery(document).ready(function ($) {
     
                 // Store api call response in global var
                 generatedResponse = response.content
-                console.log("generated response: " + generatedResponse)
+                // console.log("generated response: " + generatedResponse)
     
                 // call function to display the generated content
                 // take response, iterate over content obj, and use JS to create HTML DOM elements to put them on page
@@ -135,6 +135,7 @@ jQuery(document).ready(function ($) {
                         customPrompt: useCustomPrompt ? selectedPromptText : null,
                         cvInputsSelected: selectedInputs,
                         additionalInfo: additionalCVInfo,
+                        cueString: cueString,
                         response: generatedResponse,
                     },
                     // Handle the response from the server.
@@ -225,13 +226,13 @@ jQuery(document).ready(function ($) {
         // finds selected prompt
         let promptBox = $(this).closest("tr").find(".input")
         prompt_id = $(this).closest("tr").find(".prompt-id").text()
-        console.log("selected prompt id: " + prompt_id)
+        // console.log("selected prompt id: " + prompt_id)
         prompt_type = $(this).closest("tr").find(".prompt-type").text()
         // console.log("selected prompt type: " + prompt_type)
 
         selectedPromptText = promptBox.find("span").text().trim()
 
-        console.log("selected prompt: " + selectedPromptText)
+        // console.log("selected prompt: " + selectedPromptText)
     })
 })
 
@@ -240,13 +241,13 @@ jQuery(document).ready(function ($) {
     $("#input_own_prompt_checkbox").on("change", function (e) {
         if (this.checked) {
             $(".prompt-checkbox").not(this).prop("checked", false)
-            console.log("checkbox is checked")
+            // console.log("checkbox is checked")
             selectedPromptText = $("#input_custom_prompt_text").val() //sends user's inputted prompt
-            console.log("custom prompt: " + selectedPromptText)
+            // console.log("custom prompt: " + selectedPromptText)
             useCustomPrompt = true //prompts cue to use this prompt
         } else {
             useCustomPrompt = false
-            console.log("changed to false")
+            // console.log("changed to false")
         }
     })
 })
@@ -286,22 +287,18 @@ jQuery(document).ready(function ($) {
 
         e.preventDefault()
 
-        console.log('New generation button clicked')
+        // console.log('New generation button clicked')
 
         // Show loading spinner
         showLoading()
 
-        let initial_prompt_id = $(this).closest("tr").find(".prompt-id").text();
-        console.log('initial prompt id' + initial_prompt_id);
+        let initial_prompt_id = $(this).closest("tr").find(".prompt-id").text().trim();
+        // console.log('initial prompt id: ' + initial_prompt_id);
         
-        let initial_prompt_text = $(this).closest("tr").prev().find(".stored-prompt").text();
+        let initial_prompt_text = $(this).closest("tr").prev().find(".stored-prompt").text().trim();
         console.log('initial prompt text: ' + initial_prompt_text);
 
-        let form_prompt_text = $(this).closest("tr").find(".altered_prompt_text").val();
-        selectedPromptText = form_prompt_text;
-        // console.log('edited prompt text: ' + selectedPromptText);
-
-        let customPromptString = "";
+        let form_prompt_text = $(this).closest("tr").find(".altered_prompt_text").val().trim();
 
         // if prompt value is changed
         if (form_prompt_text.replace(/\s/g, "") != initial_prompt_text.replace(/\s/g, "")) {
@@ -316,19 +313,20 @@ jQuery(document).ready(function ($) {
                 },
                 // Handle the response from the server.
                 success: function (response) {
-                    console.log("response: " + JSON.stringify(response))
+                    // console.log("response: " + JSON.stringify(response))
 
                     // if Found is success
                     if (response.Found == 'Success') {
-                        console.log('function found match');
+                        console.log('function found match in DB');
+                        useCustomPrompt = false;
                         prompt_id = response.Found_Prompt_ID;
-                        customPromptString = null;
                     }
                     else {
-                        console.log('function DIDNT find match');
+                        console.log('function DIDNT find match in DB');
+                        useCustomPrompt = true;
                         prompt_id = null;
-                        customPromptString = selectedPromptText;
-                        console.log('setting custom prompt to: ' + customPromptString);
+                        selectedPromptText = form_prompt_text;
+                        console.log('edited prompt text: ' + selectedPromptText);
                     }
                     
                 },
@@ -342,49 +340,51 @@ jQuery(document).ready(function ($) {
         } else {
             console.log('text was NOT changed');
             prompt_id = initial_prompt_id;
-            console.log('prompt id of new generation: ' + prompt_id);
+            selectedPromptText = initial_prompt_text;
+            console.log('New Generation prompt => ID: ' + prompt_id + "prompt: " + selectedPromptText);
         }
 
-        let selectedInputs = [] // Holds only 4 CV Categories
-        let selectedInputsForGenenerate = []
+        let selectedInputs = "" // Holds only 4 CV Categories
+        let selectedInputsForGenerate = []
 
-        // selects all cv checkboxes on the page
-        var cvCheckboxes = jQuery.makeArray($(".cv-inputs-used .cv-checkbox"))
+        // selects checkboxes in edit row
+        var cvCheckboxes = jQuery.makeArray($(this).closest("tr").find(".cv-inputs-used .cv-checkbox"));
 
         // Filter and get only the checked checkboxes
         var checkedCheckboxes = cvCheckboxes.filter((checkbox) => {
             return checkbox.checked;
         })
+        // console.log('checked checkboxes: ' + checkedCheckboxes)
 
         // Hardcoded other CV inputs
-        selectedInputsForGenenerate.push("Introduction")
+        selectedInputsForGenerate.push("Introduction")
 
         // loop through all checkboxes that are checked
-        checkedCheckboxes.forEach((checkbox) => {
-            selectedInputs.push(checkbox.value)
-            selectedInputsForGenenerate.push(checkbox.value)
+        checkedCheckboxes.forEach((checkbox, index) => {
+            selectedInputs = selectedInputs + (index === 0 ? '' : '|') + checkbox.value;
+            selectedInputsForGenerate.push(checkbox.value);
         });
 
-        selectedInputsForGenenerate.push("Key Moments")
-        selectedInputsForGenenerate.push("Challenges Overcome")
+        selectedInputsForGenerate.push("Key Moments")
+        selectedInputsForGenerate.push("Challenges Overcome")
 
-        console.log(selectedInputs)
+        // console.log('Selected Inputs: ' + selectedInputs)
 
         cvInputString = ""
 
         userInput = $("#cv-table").find(".input")
 
-        selectedInputsForGenenerate.forEach((sectionName) => {
+        selectedInputsForGenerate.forEach((sectionName) => {
             let inputStr = userInput.find("[data-label='" + sectionName + "']").text();
             cvInputString = cvInputString + sectionName + ": " + inputStr + "\n";
         });
 
-        console.log('cvInputString: ' + cvInputString);
+        // console.log('cvInputString: ' + cvInputString);
 
         // Check if user had any additional input
         let additionalCVInfo = $(".edit-additional-info").val().trim();
         if (additionalCVInfo != "") {
-            console.log('additional input detected')
+            // console.log('additional input detected')
             cvInputString = cvInputString + "Additional Information: " + additionalCVInfo;
         }
         
@@ -396,7 +396,7 @@ jQuery(document).ready(function ($) {
             " \nWrite me an essay response using the information provided below, no more than 300 words please.\n" +
             cvInputString;
 
-        console.log("cue: " + cueString);
+        // console.log("cue: " + cueString);
 
         // Target response box
         let generatedResponseWrapper = $(".generated-response")
@@ -427,7 +427,7 @@ jQuery(document).ready(function ($) {
     
                 // Store api call response in global var
                 generatedResponse = response.content
-                console.log("generated response: " + generatedResponse)
+                // console.log("generated response: " + generatedResponse)
     
                 // call function to display the generated content
                 // take response, iterate over content obj, and use JS to create HTML DOM elements to put them on page
@@ -449,11 +449,13 @@ jQuery(document).ready(function ($) {
                         customPrompt: useCustomPrompt ? selectedPromptText : null,
                         cvInputsSelected: selectedInputs,
                         additionalInfo: additionalCVInfo,
+                        cueString: cueString,
                         response: generatedResponse,
                     },
                     // Handle the response from the server.
                     success: function (response) {
                         console.log("response: " + JSON.stringify(response))
+                        // location.reload()
                     },
     
                     error: function (xhr, textStatus, errorThrown) {
