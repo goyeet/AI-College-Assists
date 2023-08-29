@@ -176,7 +176,8 @@ function plugin_create_user_history_table() { //creates a table for storing prev
             user_id BIGINT(20) NOT NULL,
             prompt_id INT(11),
             custom_prompt VARCHAR(500),
-            cv_inputs TEXT NOT NULL,
+            cv_inputs_selected VARCHAR(100) ARRAY[4] NOT NULL),
+            additional_info TEXT,
             generated_response TEXT NOT NULL,
             created DATETIME DEFAULT CURRENT_TIMESTAMP,
             PRIMARY KEY (id)
@@ -199,7 +200,7 @@ function get_user_history_table_data() {
     global $wpdb;
     $history_table = $wpdb->prefix . 'gig_user_history';
     $prompt_table = $wpdb->prefix . 'gig_prompts';
-    $query = "SELECT h.`prompt_id`, p.`prompt_id`, p.`prompt_type`, p.`prompt`, h.`custom_prompt`, h.`cv_inputs`, h.`generated_response`, h.`created`
+    $query = "SELECT h.`prompt_id`, p.`prompt_id`, p.`prompt_type`, p.`prompt`, h.`custom_prompt`, h.`cv_inputs_selected`, h.`additional_info`, h.`generated_response`, h.`created`
               FROM $history_table AS h
               LEFT JOIN $prompt_table AS p ON h.`prompt_id` = p.`prompt_id`
               WHERE h.`user_id` = '$current_user_id'";
@@ -207,14 +208,15 @@ function get_user_history_table_data() {
 }
 
 // Stores generation results in gig_user_history table
-function set_user_history_table_data($promptId, $custom_prompt, $cvInput, $generatedResponse) {
+function set_user_history_table_data($promptId, $customPrompt, $cvInputsSelected, $additionalInfo, $generatedResponse) {
 
     global $wpdb;
     $data = array(
         'user_id' => get_current_user_id(),
         'prompt_id' => $promptId,
-        'custom_prompt' => $custom_prompt,
-        'cv_inputs' => $cvInput,
+        'custom_prompt' => $customPrompt,
+        'cv_inputs_selected' => $cvInputsSelected,
+        'additional_info' => $additionalInfo,
         'generated_response' => $generatedResponse
     );
     $result = $wpdb->insert('wp_gig_user_history', $data);

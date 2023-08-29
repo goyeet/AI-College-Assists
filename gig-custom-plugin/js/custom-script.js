@@ -22,7 +22,8 @@ jQuery(document).ready(function ($) {
         }
     
         // array to hold selected inputs that are checked
-        const selectedInputs = []
+        let selectedInputs = [] // Holds only 4 CV Categories
+        let selectedInputsForGenenerate = []
 
         // selects all cv checkboxes on the page
         var cvCheckboxes = jQuery.makeArray($(".cv-checkbox"))
@@ -40,21 +41,22 @@ jQuery(document).ready(function ($) {
         })
 
         // Hardcoded other CV inputs
-        selectedInputs.push("Introduction")
+        selectedInputsForGenenerate.push("Introduction")
 
         // loop through all checkboxes that are checked
         checkedCheckboxes.forEach((checkbox) => {
             selectedInputs.push(checkbox.value)
+            selectedInputsForGenenerate.push(checkbox.value)
         });
 
-        selectedInputs.push("Key Moments")
-        selectedInputs.push("Challenges Overcome")
+        selectedInputsForGenenerate.push("Key Moments")
+        selectedInputsForGenenerate.push("Challenges Overcome")
 
         console.log(selectedInputs)
 
         cvInputString = ""
 
-        selectedInputs.forEach((sectionName) => {
+        selectedInputsForGenenerate.forEach((sectionName) => {
             let inputStr = userInput.find("[data-label='" + sectionName + "']").text();
             cvInputString = cvInputString + sectionName + ": " + inputStr + "\n";
         });
@@ -65,7 +67,7 @@ jQuery(document).ready(function ($) {
         showLoading()
     
         // Check if user had any additional input
-        let additionalCVInfo = $("#additional_cv_input").val()
+        let additionalCVInfo = $("#additional_cv_input").val().trim()
         if (additionalCVInfo != "") {
             console.log('additional input detected')
             cvInputString = cvInputString + "Additional Information: " + additionalCVInfo;
@@ -131,7 +133,8 @@ jQuery(document).ready(function ($) {
                         action: "updateUserHistoryAjax",
                         promptId: useCustomPrompt ? null : prompt_id,
                         customPrompt: useCustomPrompt ? selectedPromptText : null,
-                        cvInput: cvInputString,
+                        cvInputsSelected: selectedInputs,
+                        additionalInfo: additionalCVInfo,
                         response: generatedResponse,
                     },
                     // Handle the response from the server.
@@ -296,11 +299,7 @@ jQuery(document).ready(function ($) {
 
         let form_prompt_text = $(this).closest("tr").find(".altered_prompt_text").val();
         selectedPromptText = form_prompt_text;
-        console.log('edited prompt text: ' + selectedPromptText);
-        cvInputString = $(this).closest("tr").find(".altered_cv_text").val();
-        // console.log('edited input text: ' + cvInputString);
-
-        // check values to see if they were changed
+        // console.log('edited prompt text: ' + selectedPromptText);
 
         let customPromptString = "";
 
@@ -345,8 +344,49 @@ jQuery(document).ready(function ($) {
             prompt_id = initial_prompt_id;
             console.log('prompt id of new generation: ' + prompt_id);
         }
-        
-        // if cvInput value is changed
+
+        let selectedInputs = [] // Holds only 4 CV Categories
+        let selectedInputsForGenenerate = []
+
+        // selects all cv checkboxes on the page
+        var cvCheckboxes = jQuery.makeArray($(".cv-inputs-used .cv-checkbox"))
+
+        // Filter and get only the checked checkboxes
+        var checkedCheckboxes = cvCheckboxes.filter((checkbox) => {
+            return checkbox.checked;
+        })
+
+        // Hardcoded other CV inputs
+        selectedInputsForGenenerate.push("Introduction")
+
+        // loop through all checkboxes that are checked
+        checkedCheckboxes.forEach((checkbox) => {
+            selectedInputs.push(checkbox.value)
+            selectedInputsForGenenerate.push(checkbox.value)
+        });
+
+        selectedInputsForGenenerate.push("Key Moments")
+        selectedInputsForGenenerate.push("Challenges Overcome")
+
+        console.log(selectedInputs)
+
+        cvInputString = ""
+
+        userInput = $("#cv-table").find(".input")
+
+        selectedInputsForGenenerate.forEach((sectionName) => {
+            let inputStr = userInput.find("[data-label='" + sectionName + "']").text();
+            cvInputString = cvInputString + sectionName + ": " + inputStr + "\n";
+        });
+
+        console.log('cvInputString: ' + cvInputString);
+
+        // Check if user had any additional input
+        let additionalCVInfo = $(".edit-additional-info").val().trim();
+        if (additionalCVInfo != "") {
+            console.log('additional input detected')
+            cvInputString = cvInputString + "Additional Information: " + additionalCVInfo;
+        }
         
         // make the cue string using selected prompt and selected cv inputs
         cueString =
@@ -405,9 +445,10 @@ jQuery(document).ready(function ($) {
                     dataType: "json",
                     data: {
                         action: "updateUserHistoryAjax",
-                        promptId: prompt_id,
-                        customPrompt: customPromptString,
-                        cvInput: cvInputString,
+                        promptId: useCustomPrompt ? null : prompt_id,
+                        customPrompt: useCustomPrompt ? selectedPromptText : null,
+                        cvInputsSelected: selectedInputs,
+                        additionalInfo: additionalCVInfo,
                         response: generatedResponse,
                     },
                     // Handle the response from the server.

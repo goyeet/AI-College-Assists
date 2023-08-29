@@ -63,9 +63,14 @@ if (empty($user_history_data)) : ?>
                     </form>
                 </td>
                 <td class="cv-inputs-used">
+                    <input type="checkbox" class="cv-checkbox" value="Academic Accomplishments">Academics<br>
+                    <input type="checkbox" class="cv-checkbox" value="Athletic Accomplishments">Athletic Accomplishments<br>
+                    <input type="checkbox" class="cv-checkbox" value="Extracurricular Activities">Extracurricular Activities<br>
+                    <input type="checkbox" class="cv-checkbox" value="Passions">Passions<br>
+                    <!-- Only display additional text box -->
                     <form method="post" class="edit-input-form">
                         <?php wp_nonce_field('update_text_action', 'update_text_nonce'); ?>
-                        <textarea class="altered_cv_text" name="updated_text"><?php echo esc_textarea($row['cv_inputs']); ?></textarea>
+                        <textarea class="edit-additional-info" name="updated_text"><?php echo esc_textarea($row['additional_info']); ?></textarea>
                         <!-- <input type="submit" name="submit" value="Update Text"> -->
                     </form>
                 </td>
