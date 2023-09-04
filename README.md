@@ -69,7 +69,7 @@ Download `gig-custom-plugin.zip` and `generate-page-template.php` from this repo
 8. If you desire to edit and finetune a previous submission for re-generation, click the `Reuse and Edit` button on the right side. (This will eventually create a brand new response. Your original response will be saved.)
     > ![gig-edit-response-screenshot](screenshots/gig-edit-response.png)
     >
-    > 1. A new row will pop up for editing directly underneath the selected submission. Feel free to edit the content of the text boxes to whatever you desire.
+    > 1. A new row will pop up for editing directly underneath the selected submission. Edit the prompt/additional info text boxes and/or the checkboxes for the new submission.
     > 2. Click the `New Generation` button and wait for the AI to process your edited submission.
     > 3. The new response will appear in the empty cell under the `Generated Response` column in the table.
     >     > ![gig-new-generation-screenshot](screenshots/gig-new-generation.png)

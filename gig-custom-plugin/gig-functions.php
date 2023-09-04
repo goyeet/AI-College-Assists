@@ -98,7 +98,6 @@ function searchForPrompt($promptToSearch) {
 function get_user_cv_form_entries() {
 
     $current_user_id = get_current_user_id();
-    // $current_user_id = 5;
 
     global $wpdb;
     $table_name = $wpdb->prefix . 'gf_entry';
