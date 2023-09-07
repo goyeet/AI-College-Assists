@@ -9,10 +9,9 @@
     add_action('wp_ajax_generateEssayAjax', 'generateEssayAjax');
     
     function updateUserHistoryAjax() {
-        if ((isset($_POST['promptId']) || isset($_POST['customPrompt'])) && isset($_POST['cvInputsSelected'])
+        if (isset($_POST['promptUsed']) && isset($_POST['cvInputsSelected'])
              && isset($_POST['additionalInfo']) && isset($_POST['cueString']) && isset($_POST['response'])) {
-            $promptId = is_null($_POST['promptId']) ? null : (int) $_POST['promptId'];
-            $customPrompt = is_null($_POST['customPrompt']) ? null : sanitize_text_field($_POST['customPrompt']);
+            $promptUsed = sanitize_text_field($_POST['promptUsed']);
             $cvInputsSelected = sanitize_text_field($_POST['cvInputsSelected']);
             $additionalInfo = sanitize_text_field($_POST['additionalInfo']);
             $cueString = sanitize_text_field($_POST['cueString']);
@@ -23,7 +22,7 @@
         }
 
         // Function call that sets table data
-        set_user_history_table_data($promptId, $customPrompt, $cvInputsSelected, $additionalInfo, $cueString, $generated_response);
+        set_user_history_table_data($promptUsed, $cvInputsSelected, $additionalInfo, $cueString, $generated_response);
     }
     add_action('wp_ajax_nopriv_updateUserHistoryAjax', 'updateUserHistoryAjax'); // for non-logged in user
     add_action('wp_ajax_updateUserHistoryAjax', 'updateUserHistoryAjax');

@@ -39,38 +39,55 @@ function increment_used_credits() {
 
 // Prompt Table -----------------------------------------------
 
-// Function to create custom table on plugin activation
-function plugin_create_prompt_table() {
-    global $wpdb;
-    $table_name = $wpdb->prefix . 'gig_prompts'; // This will automatically add the WP prefix to your table name for security.
+function get_prompts_data() {
+    $args = array(
+        'post_type' => 'essay-prompt',
+        'post_status' => 'publish',
+        'posts_per_page' => -1, // Retrieve all published posts of this type
+    );
 
-    // Check if the table already exists
-    if ($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
-        // $charset = $wpdb->get_charset_collate();
-        // SQL query to create the table
-        $sql = "CREATE TABLE ".$table_name." (
-            prompt_id INT(11) NOT NULL AUTO_INCREMENT,
-            prompt_type VARCHAR(255) NOT NULL,
-            prompt VARCHAR(400) NOT NULL,
-            PRIMARY KEY (prompt_id)
-        )";
+    $essay_prompts = get_posts($args);
 
-        // Include the upgrade script
-        require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-
-        // Execute the query and create the table
-        dbDelta($sql);
+    if (empty($essay_prompts)) {
+        print_r('get_posts found nothing');
+        // print_r($essay_prompts);
     }
-}
-register_activation_hook(__DIR__.'/gig-plugin.php', 'plugin_create_prompt_table');
 
-// Gets data from prompt table
-function get_prompt_table_data() {
-    global $wpdb;
-    $table_name = $wpdb->prefix . 'gig_prompts';
-    $query = "SELECT prompt_id, prompt_type, prompt FROM $table_name";
-    return $wpdb->get_results($query, ARRAY_A);
+    return $essay_prompts;
 }
+
+// // Function to create custom table on plugin activation
+// function plugin_create_prompt_table() {
+//     global $wpdb;
+//     $table_name = $wpdb->prefix . 'gig_prompts'; // This will automatically add the WP prefix to your table name for security.
+
+//     // Check if the table already exists
+//     if ($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
+//         // $charset = $wpdb->get_charset_collate();
+//         // SQL query to create the table
+//         $sql = "CREATE TABLE ".$table_name." (
+//             prompt_id INT(11) NOT NULL AUTO_INCREMENT,
+//             prompt_type VARCHAR(255) NOT NULL,
+//             prompt VARCHAR(400) NOT NULL,
+//             PRIMARY KEY (prompt_id)
+//         )";
+
+//         // Include the upgrade script
+//         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+
+//         // Execute the query and create the table
+//         dbDelta($sql);
+//     }
+// }
+// register_activation_hook(__DIR__.'/gig-plugin.php', 'plugin_create_prompt_table');
+
+// // Gets data from prompt table
+// function get_prompt_table_data() {
+//     global $wpdb;
+//     $table_name = $wpdb->prefix . 'gig_prompts';
+//     $query = "SELECT prompt_id, prompt_type, prompt FROM $table_name";
+//     return $wpdb->get_results($query, ARRAY_A);
+// }
 
 // Gets data from prompt table
 function searchForPrompt($promptToSearch) {
@@ -173,8 +190,7 @@ function plugin_create_user_history_table() { //creates a table for storing prev
         $sql = "CREATE TABLE ".$table_name." (
             id INT(10) NOT NULL AUTO_INCREMENT,
             user_id BIGINT(20) NOT NULL,
-            prompt_id INT(11),
-            custom_prompt VARCHAR(500),
+            prompt_used VARCHAR(500),
             cv_inputs_selected VARCHAR(200),
             additional_info TEXT,
             cue_string TEXT,
@@ -199,22 +215,20 @@ function get_user_history_table_data() {
 
     global $wpdb;
     $history_table = $wpdb->prefix . 'gig_user_history';
-    $prompt_table = $wpdb->prefix . 'gig_prompts';
-    $query = "SELECT h.`prompt_id`, p.`prompt_id`, p.`prompt_type`, p.`prompt`, h.`custom_prompt`, h.`cv_inputs_selected`, h.`additional_info`, h.`generated_response`, h.`created`
+    $query = "SELECT h.`prompt_used`, h.`cv_inputs_selected`, h.`additional_info`, h.`generated_response`, h.`created`
               FROM $history_table AS h
-              LEFT JOIN $prompt_table AS p ON h.`prompt_id` = p.`prompt_id`
               WHERE h.`user_id` = '$current_user_id'";
     return $wpdb->get_results($query, ARRAY_A);
 }
 
 // Stores generation results in gig_user_history table
-function set_user_history_table_data($promptId, $customPrompt, $cvInputsSelected, $additionalInfo, $cueString, $generatedResponse) {
+function set_user_history_table_data($promptUsed, $cvInputsSelected, $additionalInfo, $cueString, $generatedResponse) {
 
     global $wpdb;
     $data = array(
         'user_id' => get_current_user_id(),
-        'prompt_id' => $promptId,
-        'custom_prompt' => $customPrompt,
+        // 'prompt_id' => $promptId,
+        'prompt_used' => $promptUsed,
         'cv_inputs_selected' => $cvInputsSelected,
         'additional_info' => $additionalInfo,
         'cue_string' => $cueString,

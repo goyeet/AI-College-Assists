@@ -1,24 +1,30 @@
-<?php if (empty($table_data)) : ?>
-    <p>No data available.</p>
+<?php
+$essay_prompts = array_reverse(get_prompts_data());
+
+if (empty($essay_prompts)) : ?>
+    <p>No essay prompts available.</p>
 <?php else : ?>
 
     <h3>Prompts</h3>
 
     <table id="prompt-table">
         <tr>
-            <th>Prompt ID</th>
+            <!-- <th>Prompt ID</th> -->
             <th>Prompt Type</th>
             <th>Prompt</th>
         </tr>
 
-        <?php foreach ($table_data as $row) : ?> 
+        <?php foreach ($essay_prompts as $prompt) : ?>
+            <?php 
+                $prompt_title = $prompt->post_title;
+                $prompt_type = strip_tags($prompt->post_content);
+            ?>
             <tr>
-                <td class="prompt-id"><?php echo esc_html($row['prompt_id']);?></td>
-                <td class="prompt-type"><?php echo esc_html($row['prompt_type']);?></td>
+                <td class="prompt-type"><?php echo esc_html($prompt_type); ?></td>
                 <!-- prompt -->
                 <td class="input">
                     <span>
-                        <?php echo esc_html($row['prompt']);?>
+                        <?php echo esc_html($prompt_title);?>
                     </span>
                 </td>
                 <td>
@@ -30,8 +36,7 @@
 
         <tr>
             <!--last table row for user to input their own prompt-->
-            <td class="prompt-id">Custom</td>
-            <td class="prompt-type">Custom Input Prompt</td>
+            <td class="prompt-type">Custom Prompt</td>
             <!-- prompt -->
             <td class="input">
                 

@@ -66,8 +66,6 @@ function gig_settings_page() {
 // Shortcode that formats data into prompt table
 function prompt_table_shortcode() {
 
-    $table_data = get_prompt_table_data();
-
     ob_start();
     include('prompt-table.php');
     return ob_get_clean();

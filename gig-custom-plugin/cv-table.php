@@ -65,7 +65,7 @@ if (empty($user_form_entries)) : ?>
 
             <tr>
                 <td class="additional-info">
-                    <span>Additional Information(Optional)</span>
+                    <span>Additional Information (Optional)</span>
                 </td>
                 <td>
                     <form> 

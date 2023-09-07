@@ -3,7 +3,7 @@ var cueString = ""
 
 var selectedPromptText = ""
 
-var prompt_id = ""
+// var prompt_id = ""
 
 var generatedResponse = ""
 
@@ -81,7 +81,7 @@ jQuery(document).ready(function ($) {
             " \nWrite me an essay response using the information provided below, no more than 300 words please.\n" +
             cvInputString; // IMPORTANT: Hardcoded word count
 
-        // console.log("cue: " + cueString);
+        console.log("cue: " + cueString);
 
         // Target response box
         let generatedResponseWrapper = $(".generated-response")
@@ -131,8 +131,8 @@ jQuery(document).ready(function ($) {
                     dataType: "json",
                     data: {
                         action: "updateUserHistoryAjax",
-                        promptId: useCustomPrompt ? null : prompt_id,
-                        customPrompt: useCustomPrompt ? selectedPromptText : null,
+                        // promptId: useCustomPrompt ? null : prompt_id,
+                        promptUsed: selectedPromptText,
                         cvInputsSelected: selectedInputs,
                         additionalInfo: additionalCVInfo,
                         cueString: cueString,
@@ -225,14 +225,14 @@ jQuery(document).ready(function ($) {
 
         // finds selected prompt
         let promptBox = $(this).closest("tr").find(".input")
-        prompt_id = $(this).closest("tr").find(".prompt-id").text()
+        // prompt_id = $(this).closest("tr").find(".prompt-id").text()
         // console.log("selected prompt id: " + prompt_id)
         prompt_type = $(this).closest("tr").find(".prompt-type").text()
         // console.log("selected prompt type: " + prompt_type)
 
         selectedPromptText = promptBox.find("span").text().trim()
 
-        // console.log("selected prompt: " + selectedPromptText)
+        console.log("selected prompt: " + selectedPromptText)
     })
 })
 
@@ -292,15 +292,16 @@ jQuery(document).ready(function ($) {
         // Show loading spinner
         showLoading()
 
-        let initial_prompt_id = $(this).closest("tr").find(".prompt-id").text().trim();
+        // let initial_prompt_id = $(this).closest("tr").find(".prompt-id").text().trim();
         // console.log('initial prompt id: ' + initial_prompt_id);
         
         let initial_prompt_text = $(this).closest("tr").prev().find(".stored-prompt").text().trim();
-        console.log('initial prompt text: ' + initial_prompt_text);
 
         let form_prompt_text = $(this).closest("tr").find(".altered_prompt_text").val().trim();
 
-        // if prompt value is changed
+        selectedPromptText = form_prompt_text;
+
+        /* // if prompt value is changed
         if (form_prompt_text.replace(/\s/g, "") != initial_prompt_text.replace(/\s/g, "")) {
             console.log('text was changed');
             $.ajax({
@@ -319,12 +320,12 @@ jQuery(document).ready(function ($) {
                     if (response.Found == 'Success') {
                         console.log('function found match in DB');
                         useCustomPrompt = false;
-                        prompt_id = response.Found_Prompt_ID;
+                        // prompt_id = response.Found_Prompt_ID;
                     }
                     else {
                         console.log('function DIDNT find match in DB');
                         useCustomPrompt = true;
-                        prompt_id = null;
+                        // prompt_id = null;
                         selectedPromptText = form_prompt_text;
                         console.log('edited prompt text: ' + selectedPromptText);
                     }
@@ -339,10 +340,10 @@ jQuery(document).ready(function ($) {
             })
         } else {
             console.log('text was NOT changed');
-            prompt_id = initial_prompt_id;
+            // prompt_id = initial_prompt_id;
             selectedPromptText = initial_prompt_text;
-            console.log('New Generation prompt => ID: ' + prompt_id + "prompt: " + selectedPromptText);
-        }
+            // console.log('New Generation prompt => ID: ' + prompt_id + "prompt: " + selectedPromptText);
+        } */
 
         let selectedInputs = "" // Holds only 4 CV Categories
         let selectedInputsForGenerate = []
@@ -396,7 +397,7 @@ jQuery(document).ready(function ($) {
             " \nWrite me an essay response using the information provided below, no more than 300 words please.\n" +
             cvInputString;
 
-        // console.log("cue: " + cueString);
+        console.log("cue: " + cueString);
 
         // Target response box
         let generatedResponseWrapper = $(".generated-response")
@@ -445,8 +446,8 @@ jQuery(document).ready(function ($) {
                     dataType: "json",
                     data: {
                         action: "updateUserHistoryAjax",
-                        promptId: useCustomPrompt ? null : prompt_id,
-                        customPrompt: useCustomPrompt ? selectedPromptText : null,
+                        // promptId: useCustomPrompt ? null : prompt_id,
+                        promptUsed: selectedPromptText,
                         cvInputsSelected: selectedInputs,
                         additionalInfo: additionalCVInfo,
                         cueString: cueString,

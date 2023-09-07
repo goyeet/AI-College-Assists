@@ -83,9 +83,9 @@ These data tables can be found in the WordPress database.
 
 > Stores all user generation activity. (Prompt used, user inputs selected, generated response, etc.)
 
-**wp_gig_prompts**
+**wp_posts**
 
-> Stores common College application prompts that are sent to be displayed on the page. Will be empty upon plugin activation so needs to be populated. (ex. UC Insight Questions, Common App, etc.)
+> Use the Advanced Custom Fields (ACF) plugin to create these (Install ACF if not already done). The field group should be named `Essay Prompts` or the post_type must be `essay-prompt`. When creating a new prompt (post), make the post `title` the actual prompt you want to display (ex. What would you say is your greatest talent or skill?) and the post `content` the type of prompt or where it came from (ex. UC Insight Question 2023-24, Common App 2023-24, etc.). When viewing the `wp_posts` data table, filter posts with post_type of `essay-prompt` to see the prompts that have been created by admins.
 
 **wp_usermeta**
 

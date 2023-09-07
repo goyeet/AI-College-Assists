@@ -12,7 +12,6 @@ if (empty($user_history_data)) : ?>
 
         <tr>
             <th>Date Created</th>
-            <th>Prompt ID</th>
             <th>Prompt Used</th>
             <th>CV Inputs Selected</th>
             <th>Generated Response</th>
@@ -24,15 +23,9 @@ if (empty($user_history_data)) : ?>
                 <td class="date-created">
                     <?php echo $row['created']; ?>
                 </td>
-                <td class="prompt-id">
-                    <?php 
-                        $promptID = $row['prompt_id'];
-                        echo $promptID ? $promptID : "Custom"; 
-                    ?>
-                </td>
                 <td class="stored-prompt">
                     <?php
-                        echo $row['custom_prompt'] ? $row['custom_prompt'] : $row['prompt'];
+                        echo $row['prompt_used'];
                     ?>
                 </td>
                 <td class="stored-cv-inputs">
@@ -57,12 +50,9 @@ if (empty($user_history_data)) : ?>
             <tr class="editing-row">
                 <td class="date-created">
                 </td>
-                <td class="prompt-id">
-                    <?php echo $row['prompt_id']; ?>
-                </td>
                 <td class="prompt-used">
                     <?php
-                        $prompt_text = $row['custom_prompt'] ? $row['custom_prompt'] : $row['prompt'];
+                        $prompt_text = $row['prompt_used'];
                     ?>
                     <form method="post" class="edit-prompt-form">
                         <?php wp_nonce_field('update_text_action', 'update_text_nonce'); ?>
