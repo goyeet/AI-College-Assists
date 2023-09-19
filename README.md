@@ -29,7 +29,7 @@ Download `gig-custom-plugin.zip` and `generate-page-template.php` from this repo
 
 1. Upon plugin activation, a new tab titled `GIG` will be added to WP admin dashboard `Settings`. Select this page by clicking "Settings" and selecting `GIG`.
     > ![gig-settings-screenshot](screenshots/gig-settings.png)
-2. Enter your API `User ID` and `User Key` in the respective fields.
+2. Enter your API `User ID`, API `User Key`, and `Input Form ID` (ID of the form you want users to use as input for their generations) in the respective fields.
 3. Click `Save Changes`. Your API ID and Key will now be stored in the WordPress Database for future use.
     > ![gig-settings-save-changes-screenshot](screenshots/gig-settings-save-changes.png)
 
