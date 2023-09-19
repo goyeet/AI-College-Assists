@@ -1,7 +1,6 @@
 <h3>CV Inputs</h3>
 
 <?php
-
 $user_form_entries = get_user_cv_form_entries(); // array of user's entry ids
 
 if (empty($user_form_entries)) : ?>
@@ -23,7 +22,8 @@ if (empty($user_form_entries)) : ?>
         </script>
 
         <?php
-        $form_data = get_cv_form_data(1); // NOTE: Hardcoded form ID
+        $form_id = get_option('gig_form_id'); // desired form to use
+        $form_data = get_cv_form_data($form_id);
         $form_fields = json_decode($form_data[0]['display_meta'], true);
         ?>
 

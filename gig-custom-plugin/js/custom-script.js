@@ -3,8 +3,6 @@ var cueString = ""
 
 var selectedPromptText = ""
 
-// var prompt_id = ""
-
 var generatedResponse = ""
 
 var cvInputString = ""
@@ -301,49 +299,6 @@ jQuery(document).ready(function ($) {
 
         selectedPromptText = form_prompt_text;
 
-        /* // if prompt value is changed
-        if (form_prompt_text.replace(/\s/g, "") != initial_prompt_text.replace(/\s/g, "")) {
-            console.log('text was changed');
-            $.ajax({
-                type: "POST",
-                url: my_ajax_object.ajaxurl, // WordPress AJAX URL.
-                dataType: "json",
-                data: {
-                    action: "searchForPromptAjax",
-                    promptToSearch: form_prompt_text,
-                },
-                // Handle the response from the server.
-                success: function (response) {
-                    // console.log("response: " + JSON.stringify(response))
-
-                    // if Found is success
-                    if (response.Found == 'Success') {
-                        console.log('function found match in DB');
-                        useCustomPrompt = false;
-                        // prompt_id = response.Found_Prompt_ID;
-                    }
-                    else {
-                        console.log('function DIDNT find match in DB');
-                        useCustomPrompt = true;
-                        // prompt_id = null;
-                        selectedPromptText = form_prompt_text;
-                        console.log('edited prompt text: ' + selectedPromptText);
-                    }
-                    
-                },
-
-                error: function (xhr, textStatus, errorThrown) {
-                    console.log(
-                        "AJAX request failed: " + textStatus + ", " + errorThrown
-                    )
-                },
-            })
-        } else {
-            console.log('text was NOT changed');
-            // prompt_id = initial_prompt_id;
-            selectedPromptText = initial_prompt_text;
-            // console.log('New Generation prompt => ID: ' + prompt_id + "prompt: " + selectedPromptText);
-        } */
 
         let selectedInputs = "" // Holds only 4 CV Categories
         let selectedInputsForGenerate = []

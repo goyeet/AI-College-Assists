@@ -56,71 +56,20 @@ function get_prompts_data() {
     return $essay_prompts;
 }
 
-// // Function to create custom table on plugin activation
-// function plugin_create_prompt_table() {
-//     global $wpdb;
-//     $table_name = $wpdb->prefix . 'gig_prompts'; // This will automatically add the WP prefix to your table name for security.
-
-//     // Check if the table already exists
-//     if ($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
-//         // $charset = $wpdb->get_charset_collate();
-//         // SQL query to create the table
-//         $sql = "CREATE TABLE ".$table_name." (
-//             prompt_id INT(11) NOT NULL AUTO_INCREMENT,
-//             prompt_type VARCHAR(255) NOT NULL,
-//             prompt VARCHAR(400) NOT NULL,
-//             PRIMARY KEY (prompt_id)
-//         )";
-
-//         // Include the upgrade script
-//         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-
-//         // Execute the query and create the table
-//         dbDelta($sql);
-//     }
-// }
-// register_activation_hook(__DIR__.'/gig-plugin.php', 'plugin_create_prompt_table');
-
-// // Gets data from prompt table
-// function get_prompt_table_data() {
-//     global $wpdb;
-//     $table_name = $wpdb->prefix . 'gig_prompts';
-//     $query = "SELECT prompt_id, prompt_type, prompt FROM $table_name";
-//     return $wpdb->get_results($query, ARRAY_A);
-// }
-
-// Gets data from prompt table
-function searchForPrompt($promptToSearch) {
-    global $wpdb;
-    $table_name = $wpdb->prefix . 'gig_prompts';
-    $query = "SELECT prompt_id
-              FROM $table_name
-              WHERE prompt = '$promptToSearch'";
-
-    // result will be an empty array if no matches
-    $result = $wpdb->get_results($query, ARRAY_A);
-
-    $return = array(
-        'Found' => !empty($result) ? 'Success' : 'Failure', //if the result is empty, then use the custom prompt, otherwise use the matching selected prompt id
-        'Found_Prompt_ID' => !empty($result) ? $result[0] : null
-    );
-    
-    wp_send_json($return);
-}
-
 // CV Table ------------------------------------------------------
 
 // Gets data from wp_gf_entry that has a created_by value matching logged in user_id AND
 // Return: array contains all entry_id's that belong to logged in user
 function get_user_cv_form_entries() {
 
+    $form_id = get_option('gig_form_id'); // desired form to use
     $current_user_id = get_current_user_id();
 
     global $wpdb;
     $table_name = $wpdb->prefix . 'gf_entry';
     $query = "SELECT `id`, form_id, created_by
               FROM $table_name
-              WHERE created_by = '$current_user_id' AND form_id = 1";
+              WHERE created_by = '$current_user_id' AND form_id = '$form_id'";
 
     $result = $wpdb->get_results($query, ARRAY_A);
 
@@ -133,7 +82,7 @@ function get_user_cv_form_entries() {
         }
     }
     else {
-        echo "No results found.";
+        echo "No results found for form.";
     }
 
     return $user_entry_ids;

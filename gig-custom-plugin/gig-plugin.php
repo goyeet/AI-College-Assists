@@ -25,6 +25,8 @@ function gig_register_settings() {
     register_setting( 'gig_settings', 'gig_user_key' );
 	add_option( 'gig_user_id', '' ); // Initialize the option with an empty value
     register_setting( 'gig_settings', 'gig_user_id' );
+    add_option( 'gig_form_id', '' ); // Initialize the option with an empty value
+    register_setting( 'gig_settings', 'gig_form_id' );
 }
 add_action( 'admin_init', 'gig_register_settings' );
 
@@ -53,6 +55,12 @@ function gig_settings_page() {
                     <th scope="row">User Key</th>
                     <td>
                         <input type="text" name="gig_user_key" value="<?php echo esc_attr( get_option( 'gig_user_key' ) ); ?>" />
+                    </td>
+                </tr>
+                <tr valign="top">
+                    <th scope="row">Input Form ID</th>
+                    <td>
+                        <input type="text" name="gig_form_id" value="<?php echo esc_attr( get_option( 'gig_form_id' ) ); ?>" />
                     </td>
                 </tr>
             </table>
